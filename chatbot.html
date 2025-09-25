@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot - Kodyan HQ</title>
+    <link rel="stylesheet" href="css/chatbot.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Botón flotante para abrir chat -->
+    <div class="chatbot-toggle" id="chatbotToggle">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <!-- Contenedor principal del chatbot -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <!-- Header del chat -->
+        <div class="chatbot-header">
+            <div class="chatbot-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="chatbot-info">
+                <h3>Kodyan Assistant</h3>
+                <span class="status">En línea</span>
+            </div>
+            <button class="chatbot-close" id="chatbotClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Área de mensajes -->
+        <div class="chatbot-messages" id="chatbotMessages">
+            <!-- Mensaje de bienvenida -->
+            <div class="message bot-message">
+                <div class="message-content">
+                    <p>¡Hola! Soy el asistente de Kodyan HQ. ¿En qué puedo ayudarte hoy?</p>
+                </div>
+                <div class="message-time">Ahora</div>
+            </div>
+
+            <!-- Opciones rápidas -->
+            <div class="quick-options">
+                <button class="quick-option" data-topic="operations">🚀 Kodyan Operations</button>
+                <button class="quick-option" data-topic="commerce">🛒 Kodyan Commerce</button>
+                <button class="quick-option" data-topic="juri">⚖️ Kodyan Juri</button>
+                <button class="quick-option" data-topic="med">🏥 Kodyan Med</button>
+                <button class="quick-option" data-topic="eco">🌱 Kodyan Eco</button>
+                <button class="quick-option" data-topic="care">❤️ Kodyan Care</button>
+            </div>
+        </div>
+
+        <!-- Área de entrada -->
+        <div class="chatbot-input">
+            <div class="input-container">
+                <input type="text" id="chatbotInput" placeholder="Escribe tu pregunta...">
+                <button id="chatbotSend">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="input-hint">
+                <small>Pregunta sobre nuestros servicios, productos o proyectos comunitarios</small>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/chatbot/chatbot.js"></script>
+</body>
+</html>
