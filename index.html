@@ -393,112 +393,109 @@
 
  <script src="js/script.js"></script>
 
-<div class="chatbot-toggle" id="chatbotToggle">
+<script src="js/script.js"></script>
+
+<!-- === CHATBOT KODYAN HQ === -->
+<div class="chatbot-toggle" id="chatbotToggle" title="Chat de Kodyan HQ">
     <i class="fas fa-robot"></i>
+    <span class="notification-dot"></span>
 </div>
 
 <div class="chatbot-container" id="chatbotContainer">
-     <!-- Botón flotante para abrir chat -->
-    <div class="chatbot-toggle" id="chatbotToggle" title="Chat de Kodyan HQ">
-        <i class="fas fa-robot"></i>
-        <span class="notification-dot"></span>
+    <!-- Header del chat -->
+    <div class="chatbot-header">
+        <div class="chatbot-avatar">
+            <i class="fas fa-code"></i>
+        </div>
+        <div class="chatbot-info">
+            <h3>Kodyan Assistant</h3>
+            <span class="status">
+                <i class="fas fa-circle"></i> En línea
+            </span>
+        </div>
+        <div class="chatbot-actions">
+            <button class="chatbot-minimize" id="chatbotMinimize" title="Minimizar">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button class="chatbot-close" id="chatbotClose" title="Cerrar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
     </div>
 
-    <!-- Contenedor principal del chatbot -->
-    <div class="chatbot-container" id="chatbotContainer">
-        <!-- Header del chat -->
-        <div class="chatbot-header">
-            <div class="chatbot-avatar">
+    <!-- Área de mensajes -->
+    <div class="chatbot-messages" id="chatbotMessages">
+        <!-- Mensaje de bienvenida -->
+        <div class="message bot-message">
+            <div class="message-avatar">
                 <i class="fas fa-code"></i>
             </div>
-            <div class="chatbot-info">
-                <h3>Kodyan Assistant</h3>
-                <span class="status">
-                    <i class="fas fa-circle"></i> En línea
-                </span>
-            </div>
-            <div class="chatbot-actions">
-                <button class="chatbot-minimize" id="chatbotMinimize" title="Minimizar">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="chatbot-close" id="chatbotClose" title="Cerrar">
-                    <i class="fas fa-times"></i>
-                </button>
+            <div class="message-content">
+                <p>¡Hola! Soy el asistente de <strong>Kodyan HQ</strong>. ¿En qué puedo ayudarte hoy?</p>
+                <div class="message-time">16:20</div>
             </div>
         </div>
 
-        <!-- Área de mensajes -->
-        <div class="chatbot-messages" id="chatbotMessages">
-            <!-- Mensaje de bienvenida -->
-            <div class="message bot-message">
-                <div class="message-avatar">
-                    <i class="fas fa-code"></i>
-                </div>
-                <div class="message-content">
-                    <p>¡Hola! Soy el asistente de <strong>Kodyan HQ</strong>. ¿En qué puedo ayudarte hoy?</p>
-                    <div class="message-time">16:20</div>
-                </div>
-            </div>
-
-            <!-- Opciones rápidas -->
-            <div class="quick-options">
-                <div class="quick-options-title">¿Qué te interesa conocer?</div>
-                <div class="quick-options-grid">
-                    <button class="quick-option" data-topic="operations">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Kodyan Operations</span>
-                    </button>
-                    <button class="quick-option" data-topic="commerce">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>Kodyan Commerce</span>
-                    </button>
-                    <button class="quick-option" data-topic="juri">
-                        <i class="fas fa-gavel"></i>
-                        <span>Kodyan Juri</span>
-                    </button>
-                    <button class="quick-option" data-topic="med">
-                        <i class="fas fa-stethoscope"></i>
-                        <span>Kodyan Med</span>
-                    </button>
-                    <button class="quick-option" data-topic="eco">
-                        <i class="fas fa-leaf"></i>
-                        <span>Kodyan Eco</span>
-                    </button>
-                    <button class="quick-option" data-topic="care">
-                        <i class="fas fa-heart"></i>
-                        <span>Kodyan Care</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Área de entrada -->
-        <div class="chatbot-input">
-            <div class="input-container">
-                <button class="input-action" id="chatbotClear" title="Limpiar conversación">
-                    <i class="fas fa-trash"></i>
+        <!-- Opciones rápidas -->
+        <div class="quick-options">
+            <div class="quick-options-title">¿Qué te interesa conocer?</div>
+            <div class="quick-options-grid">
+                <button class="quick-option" data-topic="operations">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Kodyan Operations</span>
                 </button>
-                <input type="text" id="chatbotInput" placeholder="Escribe tu pregunta sobre Kodyan HQ..." maxlength="500">
-                <button id="chatbotSend" class="send-button">
-                    <i class="fas fa-paper-plane"></i>
+                <button class="quick-option" data-topic="commerce">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Kodyan Commerce</span>
+                </button>
+                <button class="quick-option" data-topic="juri">
+                    <i class="fas fa-gavel"></i>
+                    <span>Kodyan Juri</span>
+                </button>
+                <button class="quick-option" data-topic="med">
+                    <i class="fas fa-stethoscope"></i>
+                    <span>Kodyan Med</span>
+                </button>
+                <button class="quick-option" data-topic="eco">
+                    <i class="fas fa-leaf"></i>
+                    <span>Kodyan Eco</span>
+                </button>
+                <button class="quick-option" data-topic="care">
+                    <i class="fas fa-heart"></i>
+                    <span>Kodyan Care</span>
                 </button>
             </div>
-            <div class="input-hint">
-                <small>Presiona Enter para enviar • Escribe "ayuda" para ver opciones</small>
-            </div>
-        </div>
-
-        <!-- Footer del chat -->
-        <div class="chatbot-footer">
-            <small>Powered by Kodyan HQ • <span id="chatbotTime">Conectado</span></small>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="js/chatbot/chatbot-config.js"></script>
-    <script src="js/chatbot/chatbot-data.js"></script>
-    <script src="js/chatbot/chatbot-engine.js"></script>
-    <script src="js/chatbot/chatbot-ui.js"></script>
-    <script src="js/chatbot/chatbot.js"></script>
+    <!-- Área de entrada -->
+    <div class="chatbot-input">
+        <div class="input-container">
+            <button class="input-action" id="chatbotClear" title="Limpiar conversación">
+                <i class="fas fa-trash"></i>
+            </button>
+            <input type="text" id="chatbotInput" placeholder="Escribe tu pregunta sobre Kodyan HQ..." maxlength="500">
+            <button id="chatbotSend" class="send-button">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+        <div class="input-hint">
+            <small>Presiona Enter para enviar • Escribe "ayuda" para ver opciones</small>
+        </div>
+    </div>
+
+    <!-- Footer del chat -->
+    <div class="chatbot-footer">
+        <small>Powered by Kodyan HQ • <span id="chatbotTime">Conectado</span></small>
+    </div>
+</div>
+
+<!-- Scripts del Chatbot -->
+<script src="js/chatbot/chatbot-config.js"></script>
+<script src="js/chatbot/chatbot-data.js"></script>
+<script src="js/chatbot/chatbot-engine.js"></script>
+<script src="js/chatbot/chatbot-ui.js"></script>
+<script src="js/chatbot/chatbot.js"></script>
+
 </body>
 </html>
