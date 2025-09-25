@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Huella de Carbono para Jóvenes - San Luis</title>
+    <meta name="description" content="Calculá tu impacto ambiental y descubrí cómo reducir tu huella de carbono siendo joven en San Luis">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1d5f5a;
+            --secondary-color: #38b2ac;
+            --text-color: #0f172a;
+            --background-color: #f8fafc;
+            --white: #ffffff;
+            --light-bg: #f8fafc;
+            --border-radius: 5px;
+            --box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            --error-color: #ff6b6b;
+            --success-color: #4CAF50;
+            --warning-color: #FFC107;
+        }
+        
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .calculator-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: var(--border-radius);
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 16px;
+            font-weight: normal;
+            margin-top: 5px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        /* Barra de progreso */
+        .progress-container {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        .progress-bar {
+            width: 8px;
+            height: 300px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #formProgress {
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            transition: height 0.3s ease;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .progress-text {
+            font-size: 0.9em;
+            color: var(--primary-color);
+            font-weight: bold;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            margin-top: 10px;
+        }
+
+        .progress-steps {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            position: absolute;
+            left: 20px;
+            height: 300px;
+            justify-content: space-between;
+        }
+
+        .progress-step {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            border: 2px solid #fff;
+            transition: background-color 0.3s;
+        }
+
+        .progress-step.active {
+            background-color: var(--primary-color);
+        }
+
+        /* Secciones */
+        section {
+            border: 2px solid var(--secondary-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        section h2 {
+            font-size: 1.2em;
+            padding: 0 10px;
+            background: var(--white);
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        .checkbox-group {
+            margin: 15px 0;
+        }
+
+        .checkbox-group div {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Resultados */
+        #results {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            border-left: 5px solid var(--secondary-color);
+            display: none;
+        }
+
+        .result-box {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .profile-description {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .skill-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .skill-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .skill-bar {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: var(--white);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .recommendations {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+        }
+
+        .recommendations h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .recommendations li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        @media (max-width: 768px) {
+            .progress-container {
+                position: static;
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                margin-bottom: 20px;
+            }
+            
+            .progress-bar {
+                width: 100%;
+                height: 8px;
+            }
+            
+            .progress-text {
+                writing-mode: horizontal-tb;
+                transform: none;
+                min-width: 70px;
+            }
+            
+            .progress-steps {
+                display: none;
+            }
+            
+            #formProgress {
+                width: 0%;
+                height: 100%;
+            }
+            
+            .calculator-container {
+                padding: 15px;
+            }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div id="formProgress"></div>
+        </div>
+        <div class="progress-text" id="progressText">Paso 1/5</div>
+        <div class="progress-steps">
+            <div class="progress-step" data-step="1"></div>
+            <div class="progress-step" data-step="2"></div>
+            <div class="progress-step" data-step="3"></div>
+            <div class="progress-step" data-step="4"></div>
+            <div class="progress-step" data-step="5"></div>
+        </div>
+    </div>
+    
+    <div class="calculator-container">
+        <div class="header">
+            <div class="logo">Kodyan HQ <span>Calculadora de Huella de Carbono para Jóvenes</span></div>
+        </div>
+        
+        <h1>Descubrí Tu Potencial Ambiental</h1>
+        <p class="intro-text">No solo calculamos tu huella, te mostramos el camino para convertirte en agente de cambio</p>
+        
+        <form id="carbonForm">
+            <!-- Sección 1: Tecnología & Redes -->
+            <section>
+                <h2>📱 Tecnología & Redes</h2>
+                <div class="form-group">
+                    <label>1. ¿Cuántos chats/grupos inactivos tenés en WhatsApp?</label>
+                    <select id="whatsapp_groups" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="many">+10 grupos muertos</option>
+                        <option value="some">5-10 grupos inactivos</option>
+                        <option value="few">1-4 grupos que no uso</option>
+                        <option value="none">Ninguno, los limpio seguido</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>2. ¿Dejás redes sociales en segundo plano sin usar?</label>
+                    <select id="background_streaming" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="always">Sí, que pasen solos los videos</option>
+                        <option value="sometimes">A veces se me olvida</option>
+                        <option value="rarely">Casi nunca</option>
+                        <option value="never">No, siempre las cierro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>3. ¿Descargás memes/videos que después no ves?</label>
+                    <select id="memes_storage" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="many">Tengo 500+ en la galería</option>
+                        <option value="some">Algunos que luego borro</option>
+                        <option value="few">Solo guardo lo esencial</option>
+                        <option value="none">Nada, solo veo en línea</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>4. ¿Cuántas horas al día usás tus dispositivos?</label>
+                    <select id="device_usage" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="high">+6 horas diarias</option>
+                        <option value="medium">4-6 horas diarias</option>
+                        <option value="low">2-4 horas diarias</option>
+                        <option value="very_low">Menos de 2 horas</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Sección 2: Consumo & Hábitos -->
+            <section>
+                <h2>👗 Consumo & Hábitos</h2>
+                <div class="form-group">
+                    <label>5. Cuando la ropa ya no te gusta...</label>
+                    <select id="clothing_repair" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="throw">La tiro</option>
+                        <option value="give">La paso a alguien</option>
+                        <option value="repair">La arreglo/transformo</option>
+                        <option value="reuse">La uso para otra cosa</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>6. Tus hábitos alimenticios son más...</label>
+                    <select id="food_choices" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="conscious">Conscientes y saludables</option>
+                        <option value="homemade">Caseros y tradicionales</option>
+                        <option value="practical">Prácticos y rápidos</option>
+                        <option value="processed">Basados en snacks y paquetes</option>
+                        <option value="varied">Varían según la semana</option>
+                        <option value="influenced">Lo que haya en casa</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>7. ¿Usás bolsas de plástico cuando comprás algo?</label>
+                    <select id="plastic_bags" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="always">Sí, siempre</option>
+                        <option value="sometimes">A veces, si no llevo reutilizable</option>
+                        <option value="rarely">Casi nunca</option>
+                        <option value="never">No, siempre llevo mi bolsa</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Sección 3: Hogar & Familia -->
+            <section>
+                <h2>🏠 Hogar & Familia</h2>
+                
+                <div class="form-group">
+                    <label>8. ¿Cómo aprovechás al máximo lo que tenés?</label>
+                    <select id="resourcefulness" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="use_until_end">Uso las cosas hasta que ya no dan más</option>
+                        <option value="share_swap">Comparto/intercambio con familia/amigos</option>
+                        <option value="multiple_uses">Le doy múltiples usos a cada objeto</option>
+                        <option value="repair_learn">Aprendo a reparar lo que se rompe</option>
+                        <option value="minimal_consumption">Reduzco el consumo al mínimo indispensable</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>9. ¿Qué skill/habilidad ecológica te gustaría aprender?</label>
+                    <select id="desired_skill" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="repair_electronics">Reparar objetos electrónicos</option>
+                        <option value="composting">Hacer compost con restos de comida</option>
+                        <option value="urban_gardening">Cultivar alimentos en espacios chicos</option>
+                        <option value="clothing_upcycling">Transformar ropa vieja en nueva</option>
+                        <option value="meal_prepping">Preparar comidas que duren varios días</option>
+                        <option value="none">Ninguna, no me interesa aprender esto</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>10. El mayor derroche en tu casa es...</label>
+                    <select id="home_waste" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="lights">Luces prendidas sin necesidad</option>
+                        <option value="water">Canilla que gotea</option>
+                        <option value="delivery">Paquetes de delivery y bolsas</option>
+                        <option value="food">Comida que se tira</option>
+                        <option value="none">No hay mucho derroche</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>11. ¿Cómo almacenás las sobras de comida?</label>
+                    <select id="leftovers" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="containers">Las guardo en tuppers o frascos</option>
+                        <option value="fridge">A veces se pierden en la heladera</option>
+                        <option value="portions">No sobra comida, ajusto porciones</option>
+                        <option value="freeze">Las freezamos para después</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Sección 4: Movilidad & Actividad -->
+            <section>
+                <h2>🚲 Movilidad & Actividad</h2>
+                <div class="form-group">
+                    <label>12. ¿Cómo vas a la escuela/actividades?</label>
+                    <select id="school_transport" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="walk">Caminando/bicicleta</option>
+                        <option value="bus">Colectivo/transporte público</option>
+                        <option value="car">Auto (que manejan mis padres)</option>
+                        <option value="mixed">Combinación de varios</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>13. ¿Cuánto tiempo tarda tu viaje a la escuela?</label>
+                    <select id="transport_distance" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="short">Menos de 15 min</option>
+                        <option value="medium">15-30 min</option>
+                        <option value="long">30-60 min</option>
+                        <option value="very_long">Más de 1 hora</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>14. ¿Cómo te mantenés activo los fines de semana?</label>
+                    <select id="weekend_movement" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="sports_team">Juego en equipos deportivos</option>
+                        <option value="friends_active">Salgo con amigos a hacer actividad</option>
+                        <option value="family_active">Hago actividades con mi familia</option>
+                        <option value="alone_active">Hago ejercicio por mi cuenta</option>
+                        <option value="digital_active">Uso apps o videos para ejercitarme</option>
+                        <option value="little_active">Me muevo poco, soy más tranquilo</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Sección 5: Intereses y Conocimientos -->
+            <section>
+                <h2>🎯 Tus Intereses y Conocimientos</h2>
+                
+                <div class="form-group">
+                    <label>15. ¿Cuánto crees que sabés actualmente sobre ambiente?</label>
+                    <select id="knowledge_level" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="beginner">Principiante total - recién empiezo</option>
+                        <option value="basic">Sé lo básico - identifico problemas simples</option>
+                        <option value="intermediate">Intermedio - entiendo causas y soluciones</option>
+                        <option value="advanced">Avanzado - explico conceptos complejos</option>
+                        <option value="expert">Experto - podría enseñar a otros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>16. ¿Sobre qué te gustaría aprender? (podés elegir varios)</label>
+                    <div class="checkbox-group">
+                        <div><input type="checkbox" id="learn_climate" name="learning_interests" value="climate"><label for="learn_climate">Cambio climático y sus efectos</label></div>
+                        <div><input type="checkbox" id="learn_tech" name="learning_interests" value="tech"><label for="learn_tech">Tecnologías verdes y energías renovables</label></div>
+                        <div><input type="checkbox" id="learn_recycle" name="learning_interests" value="recycle"><label for="learn_recycle">Reciclaje y economía circular</label></div>
+                        <div><input type="checkbox" id="learn_biodiversity" name="learning_interests" value="biodiversity"><label for="learn_biodiversity">Biodiversidad y protección de especies</label></div>
+                        <div><input type="checkbox" id="learn_food" name="learning_interests" value="food"><label for="learn_food">Agricultura sostenible y alimentación</label></div>
+                        <div><input type="checkbox" id="learn_pollution" name="learning_interests" value="pollution"><label for="learn_pollution">Contaminación de aire/agua/suelo</label></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>17. ¿Compartirías tus conocimientos con otros?</label>
+                    <select id="knowledge_sharing" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="never">Nunca, lo guardo para mí</option>
+                        <option value="family">Una vez con mi familia</option>
+                        <option value="friends">Algunas veces con amigos</option>
+                        <option value="often">Varias veces con diferentes personas</option>
+                        <option value="always">Siempre que aprendo algo nuevo</option>
+                        <option value="teaching">Hasta he enseñado en mi escuela</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>18. Comparado con el año pasado, ¿has mejorado tus hábitos?</label>
+                    <select id="habits_improvement" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="worse">Mucho peores</option>
+                        <option value="little_worse">Un poco peores</option>
+                        <option value="same">Iguales</option>
+                        <option value="little_better">Un poco mejores</option>
+                        <option value="much_better">Mucho mejores</option>
+                        <option value="first_year">Es mi primer año intentándolo</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>19. ¿En qué acción te gustaría involucrarte? (podés elegir varios)</label>
+                    <div class="checkbox-group">
+                        <div><input type="checkbox" id="action_education" name="action_interests" value="education"><label for="action_education">Educación - enseñar a otros</label></div>
+                        <div><input type="checkbox" id="action_tech" name="action_interests" value="tech"><label for="action_tech">Tecnología - soluciones innovadoras</label></div>
+                        <div><input type="checkbox" id="action_community" name="action_interests" value="community"><label for="action_community">Comunidad - actividades grupales</label></div>
+                        <div><input type="checkbox" id="action_art" name="action_interests" value="art"><label for="action_art">Arte - comunicar mediante creatividad</label></div>
+                        <div><input type="checkbox" id="action_research" name="action_interests" value="research"><label for="action_research">Investigación - estudiar problemas</label></div>
+                        <div><input type="checkbox" id="action_entrepreneurship" name="action_interests" value="entrepreneurship"><label for="action_entrepreneurship">Emprendimiento - negocios sostenibles</label></div>
+                    </div>
+                </div>
+            </section>
+
+            <button type="button" id="calculateBtn" class="btn-primary">DESCUBRÍ TU POTENCIAL AMBIENTAL</button>
+        </form>
+        
+        <div id="results">
+            <!-- Resultados se generan dinámicamente -->
+        </div>
+    </div>
+
+    <script>
+        class YouthCarbonCalculator {
+            constructor() {
+                this.cacheDOM();
+                this.initEvents();
+                this.completedSections = new Set();
+                this.updateProgress();
+            }
+
+            cacheDOM() {
+                this.$ = {
+                    form: document.getElementById('carbonForm'),
+                    results: document.getElementById('results'),
+                    calculateBtn: document.getElementById('calculateBtn'),
+                    formProgress: document.getElementById('formProgress'),
+                    progressText: document.getElementById('progressText'),
+                    progressSteps: document.querySelectorAll('.progress-step')
+                };
+                this.$.requiredFields = this.$.form.querySelectorAll('[required]');
+            }
+
+            initEvents() {
+                this.$.calculateBtn.addEventListener('click', () => this.calculatePotential());
+                this.$.form.addEventListener('change', (e) => {
+                    const section = e.target.closest('section');
+                    if (section) this.validateSection(section);
+                });
+            }
+
+            validateSection(section) {
+                const sectionId = section.id || section.querySelector('h2').textContent;
+                const inputs = section.querySelectorAll('select, input[type="checkbox"]');
+                let allValid = true;
+                
+                inputs.forEach(input => {
+                    if (input.type === 'checkbox') {
+                        const groupName = input.name;
+                        const isChecked = document.querySelector(`input[name="${groupName}"]:checked`);
+                        if (!isChecked) allValid = false;
+                    } else if (!input.value) {
+                        allValid = false;
+                    }
+                });
+
+                if (allValid) this.completedSections.add(sectionId);
+                else this.completedSections.delete(sectionId);
+                
+                this.updateProgress();
+            }
+
+            updateProgress() {
+                const sections = document.querySelectorAll('section');
+                const completedCount = this.completedSections.size;
+                const progressPercentage = (completedCount / sections.length) * 100;
+                
+                this.$.formProgress.style.height = `${progressPercentage}%`;
+                this.$.progressText.textContent = `Paso ${completedCount}/${sections.length}`;
+                
+                this.$.progressSteps.forEach((step, index) => {
+                    step.classList.toggle('active', index < completedCount);
+                });
+            }
+
+            calculatePotential() {
+    if (!this.validateAllFields()) {
+        alert('Por favor completá todas las preguntas antes de continuar');
+        return;
+    }
+
+    const profile = this.generateProfile();
+    this.displayResults(profile);
+    this.$.results.style.display = 'block';
+    this.$.results.scrollIntoView({ behavior: 'smooth' });
+    
+    // GUARDAR EN SUPABASE DESPUÉS DE MOSTRAR RESULTADOS
+    setTimeout(() => {
+        guardarRespuestasJovenes(profile);
+    }, 1000);
+}
+
+            validateAllFields() {
+                let isValid = true;
+                this.$.requiredFields.forEach(field => {
+                    if (!field.value) {
+                        field.style.borderColor = 'var(--error-color)';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '';
+                    }
+                });
+
+                // Validar checkboxes
+                const checkboxGroups = ['learning_interests', 'action_interests'];
+                checkboxGroups.forEach(group => {
+                    const checked = document.querySelectorAll(`input[name="${group}"]:checked`);
+                    if (checked.length === 0) isValid = false;
+                });
+
+                return isValid;
+            }
+
+            generateProfile() {
+                const knowledge = document.getElementById('knowledge_level').value;
+                const sharing = document.getElementById('knowledge_sharing').value;
+                const improvement = document.getElementById('habits_improvement').value;
+                const resourcefulness = document.getElementById('resourcefulness').value;
+                const desiredSkill = document.getElementById('desired_skill').value;
+                
+                // Obtener intereses seleccionados
+                const learningInterests = Array.from(document.querySelectorAll('input[name="learning_interests"]:checked')).map(cb => cb.value);
+                const actionInterests = Array.from(document.querySelectorAll('input[name="action_interests"]:checked')).map(cb => cb.value);
+
+                // Generar perfil basado en combinaciones
+                let profileType = 'Explorador Ambiental';
+                let description = 'Estás comenzando tu camino con mucha curiosidad y ganas de aprender.';
+                
+                if (actionInterests.includes('tech') && learningInterests.includes('tech')) {
+                    profileType = 'Innovador Tecnológico';
+                    description = 'Tu pasión por la tecnología puede transformarse en soluciones ambientales revolucionarias.';
+                } else if (actionInterests.includes('education') && sharing.includes('teaching')) {
+                    profileType = 'Educador Natural';
+                    description = 'Tienes el don de enseñar y inspirar a otros sobre el cuidado ambiental.';
+                } else if (actionInterests.includes('community') && improvement.includes('much_better')) {
+                    profileType = 'Activista Comunitario';
+                    description = 'Tu compromiso con la mejora personal se extiende naturalmente a tu comunidad.';
+                } else if (resourcefulness.includes('repair_learn') && desiredSkill !== 'none') {
+                    profileType = 'Solucionador Creativo';
+                    description = 'Tu habilidad para reparar y aprender te convierte en un agente de cambio práctico.';
+                }
+
+                // Calcular habilidades (ahora incluye las nuevas preguntas)
+                const skills = {
+                    'Conciencia Digital': this.calculateDigitalAwareness(),
+                    'Creatividad Anti-Crisis': this.calculateResourcefulness(resourcefulness),
+                    'Visión de Futuro': this.calculateFutureVision(knowledge, learningInterests.length, desiredSkill),
+                    'Potencial de Impacto': this.calculateImpactPotential(sharing, actionInterests.length, improvement)
+                };
+
+                // Generar recomendaciones (ahora incluye skills deseadas)
+                const recommendations = this.generateRecommendations(learningInterests, actionInterests, profileType, desiredSkill, resourcefulness);
+
+                return { profileType, description, skills, recommendations };
+            }
+
+            calculateDigitalAwareness() {
+                const groups = document.getElementById('whatsapp_groups').value;
+                const streaming = document.getElementById('background_streaming').value;
+                const storage = document.getElementById('memes_storage').value;
+                
+                let score = 70;
+                if (groups === 'none') score += 10;
+                if (streaming === 'never') score += 10;
+                if (storage === 'none') score += 10;
+                
+                return Math.min(score, 100);
+            }
+
+            calculateResourcefulness(resourcefulness) {
+                let score = 60;
+                if (resourcefulness.includes('repair_learn')) score += 20;
+                if (resourcefulness.includes('multiple_uses')) score += 15;
+                if (resourcefulness.includes('share_swap')) score += 10;
+                if (resourcefulness.includes('minimal_consumption')) score += 15;
+                
+                return Math.min(score, 100);
+            }
+
+            calculateFutureVision(knowledge, learningCount, desiredSkill) {
+                let score = knowledge === 'beginner' ? 30 : 
+                           knowledge === 'basic' ? 50 :
+                           knowledge === 'intermediate' ? 70 :
+                           knowledge === 'advanced' ? 85 : 95;
+                
+                score += learningCount * 5;
+                if (desiredSkill !== 'none') score += 10;
+                
+                return Math.min(score, 100);
+            }
+
+            calculateImpactPotential(sharing, actionCount, improvement) {
+                let score = sharing === 'never' ? 20 :
+                           sharing === 'family' ? 40 :
+                           sharing === 'friends' ? 60 :
+                           sharing === 'often' ? 75 :
+                           sharing === 'always' ? 90 : 95;
+                
+                score += actionCount * 3;
+                if (improvement.includes('better')) score += 10;
+                
+                return Math.min(score, 100);
+            }
+
+            generateRecommendations(learning, actions, profileType, desiredSkill, resourcefulness) {
+                const recs = [];
+                
+                // Recomendaciones basadas en skills deseadas
+                if (desiredSkill === 'urban_gardening') {
+                    recs.push('Empezá con una huerta en macetas: tomates cherry y lechuga crecen fácil en balcones');
+                }
+                if (desiredSkill === 'clothing_upcycling') {
+                    recs.push('Taller de upcycling: transformá remeras viejas en bolsas o accesorios');
+                }
+                if (desiredSkill === 'composting') {
+                    recs.push('Compostaje de balcón: con una caja y restos de cocina podés hacer abono');
+                }
+                
+                // Recomendaciones basadas en creatividad
+                if (resourcefulness.includes('repair_learn')) {
+                    recs.push('Unite al Club de Reparadores de tu barrio - aprendé arreglando cosas de verdad');
+                }
+                if (resourcefulness.includes('share_swap')) {
+                    recs.push('Organizá una feria de intercambio de ropa/libros en tu escuela');
+                }
+                
+                // Recomendaciones generales
+                if (learning.includes('tech')) {
+                    recs.push('Taller de Tecnologías Verdes en el Polo Tecnológico de San Luis');
+                }
+                if (actions.includes('community')) {
+                    recs.push('Unite a las jornadas de limpieza comunitaria que organiza tu municipio');
+                }
+
+                return recs.length > 0 ? recs : ['Empezá por compartir con tu familia un hábito nuevo que aprendiste'];
+            }
+
+            displayResults(profile) {
+                const skillsHTML = Object.entries(profile.skills).map(([skill, value]) => `
+                    <div class="skill-item">
+                        <div class="skill-name">${skill}</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: ${value}%"></div>
+                        </div>
+                        <div>${value}%</div>
+                    </div>
+                `).join('');
+
+                const recommendationsHTML = profile.recommendations.map(rec => 
+                    `<li>${rec}</li>`
+                ).join('');
+
+                this.$.results.innerHTML = `
+                    <div class="result-box">
+                        <div class="profile-title">¡Eres un ${profile.profileType}!</div>
+                        <div class="profile-description">${profile.description}</div>
+                        
+                        <div class="skills-container">
+                            ${skillsHTML}
+                        </div>
+                    </div>
+
+                    <div class="recommendations">
+                        <h3>🎯 Tu Plan de Acción Personalizado</h3>
+                        <ul>${recommendationsHTML}</ul>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 20px;">
+                        <p><strong>Recordá:</strong> El viaje ambiental es personal y cada paso cuenta. ¡Celebrá tus progresos!</p>
+                    </div>
+                `;
+            }
+        }
+  // =============================================
+        // INTEGRACIÓN SUPABASE - JOVENES.HTML
+        // =============================================
+        const SUPABASE_CONFIG = {
+            url: 'https://rrbzechsvaadttqslwed.supabase.co',
+            key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyYnplY2hzdmFhZHR0cXNsd2VkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg1NjQ3MDMsImV4cCI6MjA3NDE0MDcwM30.2qXULldBwTwHDnmGsd4veG5C6TMHSECNnPbPc_zRJ5A'
+        };
+
+        // Función para guardar respuestas de jóvenes
+        async function guardarRespuestasJovenes(profile) {
+            try {
+                const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key);
+                
+                // Obtener ubicación del localStorage
+                const ubicacionGuardada = JSON.parse(localStorage.getItem('ubicacion') || '{}');
+                
+                // Obtener checkboxes seleccionados
+                const learningInterests = Array.from(document.querySelectorAll('input[name="learning_interests"]:checked'))
+                    .map(cb => cb.value);
+                const actionInterests = Array.from(document.querySelectorAll('input[name="action_interests"]:checked'))
+                    .map(cb => cb.value);
+
+                // Preparar datos
+                const datos = {
+                    provincia: ubicacionGuardada.provincia || 'No especificada',
+                    departamento: ubicacionGuardada.departamento || 'No especificado',
+                    localidad: ubicacionGuardada.localidad || '',
+                    escuela: '',
+                    
+                    // SECCIÓN 1: Tecnología & Redes
+                    whatsapp_groups: document.getElementById('whatsapp_groups').value,
+                    background_streaming: document.getElementById('background_streaming').value,
+                    memes_storage: document.getElementById('memes_storage').value,
+                    device_usage: document.getElementById('device_usage').value,
+                    
+                    // SECCIÓN 2: Consumo & Hábitos
+                    clothing_repair: document.getElementById('clothing_repair').value,
+                    food_choices: document.getElementById('food_choices').value,
+                    plastic_bags: document.getElementById('plastic_bags').value,
+                    
+                    // SECCIÓN 3: Hogar & Familia
+                    resourcefulness: document.getElementById('resourcefulness').value,
+                    desired_skill: document.getElementById('desired_skill').value,
+                    home_waste: document.getElementById('home_waste').value,
+                    leftovers: document.getElementById('leftovers').value,
+                    
+                    // SECCIÓN 4: Movilidad & Actividad
+                    school_transport: document.getElementById('school_transport').value,
+                    transport_distance: document.getElementById('transport_distance').value,
+                    weekend_movement: document.getElementById('weekend_movement').value,
+                    
+                    // SECCIÓN 5: Intereses y Conocimientos
+                    knowledge_level: document.getElementById('knowledge_level').value,
+                    knowledge_sharing: document.getElementById('knowledge_sharing').value,
+                    habits_improvement: document.getElementById('habits_improvement').value,
+                    learning_interests: learningInterests,
+                    action_interests: actionInterests,
+                    
+                    // Resultados del perfil
+                    profile_type: profile.profileType,
+                    skills: profile.skills,
+                    recomendaciones: profile.recommendations
+                };
+
+                // Guardar en Supabase
+                const { data, error } = await supabase
+                    .from('calculadora_jovenes')
+                    .insert([datos]);
+
+                if (error) {
+                    console.error('Error guardando datos jóvenes:', error);
+                } else {
+                    console.log('Datos jóvenes guardados:', data);
+                }
+                
+            } catch (error) {
+                console.error('Error inesperado jóvenes:', error);
+            }
+        }
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            new YouthCarbonCalculator();
+        });
+    </script>
+</body>
+</html>
