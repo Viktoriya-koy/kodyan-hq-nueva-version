@@ -391,7 +391,44 @@
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
-    
+ <script src="js/script.js"></script>
+
+    <!-- === CHATBOT KODYAN HQ === -->
+    <div class="chatbot-toggle" id="chatbotToggle">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <div class="chatbot-avatar">
+                <i class="fas fa-code"></i>
+            </div>
+            <div class="chatbot-info">
+                <h3>Kodyan Assistant</h3>
+                <span class="status">En línea</span>
+            </div>
+            <button class="chatbot-close" id="chatbotClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="chatbot-messages" id="chatbotMessages"></div>
+
+        <div class="chatbot-input">
+            <div class="input-container">
+                <input type="text" id="chatbotInput" placeholder="Escribe tu pregunta...">
+                <button id="chatbotSend">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts del Chatbot -->
+    <script src="js/chatbot/chatbot-config.js"></script>
+    <script src="js/chatbot/chatbot-data.js"></script>
+    <script src="js/chatbot/chatbot-engine.js"></script>
+    <script src="js/chatbot/chatbot-ui.js"></script>
+    <script src="js/chatbot/chatbot.js"></script>
 </body>
 </html>
