@@ -1,16 +1,4 @@
-/* ===== CHATBOT KODYAN HQ - ESTILOS AISLADOS ===== */
-
-/* Reset específico para el chatbot */
-.chatbot-toggle,
-.chatbot-container,
-.chatbot-container * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto Mono', monospace;
-}
-
-/* Variables del chatbot */
+/* Variables consistentes con tu tema */
 :root {
     --bg-chat-primary: #1C2129;
     --bg-chat-secondary: #161B22;
@@ -20,6 +8,8 @@
     --accent-secondary: #38B2AC;
     --bot-message-bg: rgba(40, 115, 110, 0.3);
     --user-message-bg: rgba(33, 76, 79, 0.3);
+    --success-color: #00FFD1;
+    --warning-color: #FFB300;
 }
 
 /* Botón flotante */
@@ -94,6 +84,11 @@
     opacity: 1;
 }
 
+.chatbot-container.minimized {
+    height: 60px;
+    width: 300px;
+}
+
 /* Header del chat */
 .chatbot-header {
     background: var(--bg-chat-secondary);
@@ -101,6 +96,8 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid rgba(0, 255, 209, 0.1);
+    cursor: move;
+    user-select: none;
 }
 
 .chatbot-avatar {
@@ -112,11 +109,16 @@
     align-items: center;
     justify-content: center;
     margin-right: 1rem;
+    flex-shrink: 0;
 }
 
 .chatbot-avatar i {
     color: white;
     font-size: 1.2rem;
+}
+
+.chatbot-info {
+    flex: 1;
 }
 
 .chatbot-info h3 {
@@ -147,7 +149,6 @@
 .chatbot-actions {
     display: flex;
     gap: 0.5rem;
-    margin-left: auto;
 }
 
 .chatbot-minimize,
@@ -180,8 +181,10 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    scroll-behavior: smooth;
 }
 
+/* Scrollbar personalizado */
 .chatbot-messages::-webkit-scrollbar {
     width: 6px;
 }
@@ -195,7 +198,6 @@
     border-radius: 3px;
 }
 
-/* Mensajes */
 .message {
     display: flex;
     gap: 0.8rem;
@@ -230,8 +232,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
     flex-shrink: 0;
+    font-size: 0.8rem;
 }
 
 .bot-message .message-avatar {
@@ -255,14 +257,11 @@
     border-bottom-right-radius: 5px;
 }
 
-/* TEXTO DE MENSAJES - ESTO ES CLAVE */
 .message-content p {
     margin: 0;
     color: var(--text-chat-primary);
     line-height: 1.4;
     font-size: 0.9rem;
-    font-weight: normal;
-    font-family: 'Roboto Mono', monospace;
 }
 
 .message-time {
@@ -308,7 +307,6 @@
     gap: 0.4rem;
     text-align: left;
     font-family: 'Roboto Mono', monospace;
-    font-weight: normal;
 }
 
 .quick-option:hover {
@@ -319,9 +317,10 @@
 
 .quick-option i {
     font-size: 0.9rem;
+    flex-shrink: 0;
 }
 
-/* Área de entrada - TEXTO PEQUEÑO Y LEGIBLE */
+/* Área de entrada */
 .chatbot-input {
     padding: 1rem;
     background: var(--bg-chat-secondary);
@@ -346,14 +345,14 @@
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .input-action:hover {
-    background: #FFB300;
+    background: var(--warning-color);
     color: white;
 }
 
-/* INPUT - TEXTO PEQUEÑO */
 #chatbotInput {
     flex: 1;
     padding: 0.8rem 1.2rem;
@@ -363,19 +362,17 @@
     color: var(--text-chat-primary);
     font-family: 'Roboto Mono', monospace;
     font-size: 0.9rem;
-    font-weight: normal;
     transition: all 0.3s ease;
 }
 
 #chatbotInput:focus {
     outline: none;
     border-color: var(--accent-chat);
+    box-shadow: 0 0 0 2px rgba(0, 255, 209, 0.1);
 }
 
 #chatbotInput::placeholder {
     color: var(--text-chat-secondary);
-    font-size: 0.9rem;
-    opacity: 0.8;
 }
 
 .send-button {
@@ -386,15 +383,21 @@
     border-radius: 50%;
     color: var(--bg-chat-primary);
     cursor: pointer;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
-.send-button:hover {
+.send-button:hover:not(:disabled) {
     background: var(--accent-secondary);
     transform: scale(1.1);
+}
+
+.send-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .input-hint {
@@ -420,7 +423,7 @@
     font-size: 0.7rem;
 }
 
-/* Typing indicator */
+/* Estados del chat */
 .typing-indicator {
     display: flex;
     gap: 0.3rem;
@@ -461,6 +464,10 @@
     .quick-options-grid {
         grid-template-columns: 1fr;
     }
+    
+    .message {
+        max-width: 95%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -469,11 +476,11 @@
         bottom: 70px;
     }
     
-    .message-content p {
-        font-size: 0.8rem;
+    .chatbot-header {
+        padding: 0.8rem;
     }
     
-    #chatbotInput {
-        font-size: 0.8rem;
+    .chatbot-messages {
+        padding: 0.8rem;
     }
 }
