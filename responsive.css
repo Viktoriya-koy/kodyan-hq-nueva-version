@@ -1,0 +1,164 @@
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1600px) {
+    .hero h1 {
+        font-size: 3.2rem;
+    }
+}
+
+@media (max-width: 1400px) {
+    .hero {
+        padding: 12rem 0 8rem;
+    }
+    
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .section-title h2 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .portfolio-item {
+        grid-template-columns: 1fr;
+    }
+    
+    .portfolio-img {
+        min-height: 300px;
+        order: -1;
+    }
+    
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+}
+@media (max-width: 992px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .contact-info {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablet */
+    }
+}
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--bg-card);
+        flex-direction: column;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        gap: 1rem;
+        border-top: 1px solid rgba(56, 178, 172, 0.1);
+    }
+    @media (max-width: 576px) {
+    .contact-info {
+        grid-template-columns: 1fr; /* 1 columna en móvil */
+    }
+    
+    .contact-form {
+        padding: 1.5rem;
+    }
+}
+    .nav-links.active {
+        display: flex;
+    }
+    
+    .hamburger {
+        display: block;
+    }
+    
+    .hero {
+        padding: 10rem 0 6rem;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1.1rem;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-title h2 {
+        font-size: 2rem;
+    }
+    
+    .process-steps {
+        grid-template-columns: 1fr;
+    }
+    
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-links h4:after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .shape-1, .shape-2 {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 0.8rem 1.5rem;
+    }
+    
+    .service-card,
+    .contact-form {
+        padding: 2rem;
+    }
+    
+    .portfolio-content {
+        padding: 2rem;
+    }
+    
+    .section-title h2 {
+        font-size: 1.8rem;
+    }
+}
