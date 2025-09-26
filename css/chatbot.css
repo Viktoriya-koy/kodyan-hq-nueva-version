@@ -484,3 +484,53 @@
         padding: 0.8rem;
     }
 }
+/* ===== ARREGLOS DE TAMAÑO DE TEXTO ===== */
+
+/* Input del usuario - texto más pequeño */
+#chatbotInput {
+    font-size: 14px !important;
+    padding: 12px 15px !important;
+}
+
+/* Mensajes del bot - texto más legible */
+.message-content p {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 5px !important;
+}
+
+/* Mensajes del usuario */
+.user-message .message-content p {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+}
+
+/* Área de mensajes - mejor scroll */
+.chatbot-messages {
+    font-size: 14px !important;
+}
+
+/* Opciones rápidas - texto más compacto */
+.quick-option span {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+}
+
+/* Input hint (texto pequeño de ayuda) */
+.input-hint small {
+    font-size: 11px !important;
+}
+
+/* Tiempo de los mensajes */
+.message-time {
+    font-size: 11px !important;
+}
+
+/* Header del chatbot */
+.chatbot-info h3 {
+    font-size: 16px !important;
+}
+
+.chatbot-info .status {
+    font-size: 12px !important;
+}
