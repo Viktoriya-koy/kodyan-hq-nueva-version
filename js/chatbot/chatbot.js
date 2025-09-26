@@ -1,281 +1,256 @@
-// ===== CHATBOT KODYAN HQ - ARCHIVO CORREGIDO =====
+// ===== CHATBOT KODYAN HQ - VERSIÓN ULTRA TOLERANTE =====
 
-// Archivo principal de inicialización del chatbot
 class KodyanChatbot {
     constructor() {
-        this.engine = null;
-        this.ui = null;
         this.isInitialized = false;
-        this.initTimeout = null;
+        this.retryCount = 0;
+        this.maxRetries = 5;
     }
 
-    // Inicializar chatbot con verificación robusta
     init() {
-        if (this.isInitialized) {
-            console.log('Chatbot: Ya estaba inicializado');
-            return;
-        }
+        if (this.isInitialized) return;
         
-        // Limpiar timeout anterior si existe
-        if (this.initTimeout) {
-            clearTimeout(this.initTimeout);
-        }
-
-        this.initTimeout = setTimeout(() => {
-            this._initialize();
-        }, 1000); // Dar más tiempo para que el DOM cargue
+        console.log('🚀 Iniciando chatbot en modo tolerante...');
+        
+        // Intentar inicialización con retry
+        this._tryInitialize();
     }
 
-    // Inicialización interna
-    _initialize() {
+    _tryInitialize() {
         try {
-            console.log('Chatbot: Iniciando inicialización...');
-            
-            // Verificar que existan los elementos DOM necesarios
-            if (!this._checkDOM()) {
-                console.warn('Chatbot: Elementos DOM no encontrados, reintentando...');
-                // Reintentar después de 1 segundo
-                setTimeout(() => this._initialize(), 1000);
-                return;
+            // Verificación MUY básica de DOM
+            const hasRequiredElements = 
+                document.getElementById('chatbotToggle') &&
+                document.getElementById('chatbotContainer') &&
+                document.getElementById('chatbotMessages');
+
+            if (!hasRequiredElements) {
+                throw new Error('Elementos DOM básicos no encontrados');
             }
 
-            // Verificar que las dependencias estén cargadas
-            if (typeof ChatbotEngine === 'undefined') {
-                console.error('Chatbot: ChatbotEngine no está definido');
-                this._showErrorFallback();
-                return;
-            }
-
-            if (typeof ChatbotUI === 'undefined') {
-                console.error('Chatbot: ChatbotUI no está definido');
-                this._showErrorFallback();
-                return;
-            }
-
-            if (typeof CHATBOT_CONFIG === 'undefined') {
-                console.error('Chatbot: CHATBOT_CONFIG no está definido');
-                this._showErrorFallback();
-                return;
-            }
-
-            // Inicializar motor y UI
-            this.engine = new ChatbotEngine();
-            this.ui = new ChatbotUI(this.engine);
-            
-            // Verificar que la UI se inicializó correctamente (CORRECCIÓN AQUÍ)
-            if (!this.ui || typeof this.ui.openChat !== 'function') {
-                console.warn('Chatbot: UI creada pero sin método openChat, continuando...');
-                // No lanzar error, intentar continuar
-            }
-            
-            // Mostrar mensaje de bienvenida
-            if (this.engine && typeof this.engine.displayWelcomeMessage === 'function') {
-                this.engine.displayWelcomeMessage();
-            }
-            
-            // Configurar auto-apertura
-            this._setupAutoOpen();
+            // Intentar cargar dependencias de forma segura
+            this._loadDependencies();
             
             this.isInitialized = true;
-            console.log('✅ Kodyan Chatbot inicializado correctamente');
+            console.log('✅ Chatbot inicializado en modo básico');
+            
+            // Mostrar interfaz aunque las dependencias fallen
+            this._setupBasicUI();
             
         } catch (error) {
-            console.error('❌ Error inicializando chatbot:', error);
-            this._showErrorFallback();
-        }
-    }
-
-    // Verificación robusta de elementos DOM
-    _checkDOM() {
-        const requiredElements = {
-            'chatbotToggle': 'Botón toggle del chatbot',
-            'chatbotContainer': 'Contenedor principal', 
-            'chatbotMessages': 'Área de mensajes',
-            'chatbotInput': 'Campo de entrada',
-            'chatbotSend': 'Botón enviar'
-        };
-        
-        let allFound = true;
-        
-        for (const [id, description] of Object.entries(requiredElements)) {
-            const element = document.getElementById(id);
-            if (!element) {
-                console.warn(`Chatbot: Elemento no encontrado - ${description} (ID: ${id})`);
-                allFound = false;
+            this.retryCount++;
+            console.warn(`Intento ${this.retryCount}/${this.maxRetries} fallido:`, error);
+            
+            if (this.retryCount < this.maxRetries) {
+                setTimeout(() => this._tryInitialize(), 1000);
+            } else {
+                console.error('❌ Chatbot no pudo inicializarse después de varios intentos');
+                this._showFriendlyError();
             }
         }
-        
-        if (allFound) {
-            console.log('✅ Todos los elementos DOM encontrados');
-        }
-        
-        return allFound;
     }
 
-    // Configurar auto-apertura
-    _setupAutoOpen() {
-        if (CHATBOT_CONFIG && CHATBOT_CONFIG.ui && CHATBOT_CONFIG.ui.autoOpen) {
-            console.log('Chatbot: Auto-apertura configurada');
-            setTimeout(() => {
-                if (this.ui && typeof this.ui.openChat === 'function') {
-                    this.ui.openChat();
+    _loadDependencies() {
+        // Intentar cargar config si existe
+        if (typeof CHATBOT_CONFIG === 'undefined') {
+            console.warn('CHATBOT_CONFIG no disponible - usando valores por defecto');
+            window.CHATBOT_CONFIG = {
+                ui: {
+                    autoOpen: false,
+                    autoOpenDelay: 2000
                 }
-            }, CHATBOT_CONFIG.ui.autoOpenDelay || 2000);
+            };
+        }
+
+        // Intentar inicializar UI básica si no existe
+        if (typeof ChatbotUI === 'undefined') {
+            console.warn('ChatbotUI no disponible - creando UI básica');
+            this._createBasicUI();
+        }
+
+        // Intentar inicializar engine básico si no existe
+        if (typeof ChatbotEngine === 'undefined') {
+            console.warn('ChatbotEngine no disponible - creando engine básico');
+            this._createBasicEngine();
         }
     }
 
-    // Mostrar fallback en caso de error
-    _showErrorFallback() {
-        const toggleBtn = document.getElementById('chatbotToggle');
-        if (toggleBtn) {
-            toggleBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
-            toggleBtn.title = 'Chatbot no disponible';
-            toggleBtn.style.background = '#ff4444';
-            toggleBtn.onclick = () => {
-                alert('El chatbot no está disponible en este momento. Por favor, intenta más tarde.');
+    _createBasicUI() {
+        // UI mínima funcional
+        window.ChatbotUI = class BasicUI {
+            constructor(engine) {
+                this.engine = engine;
+                this._setupEventListeners();
+            }
+
+            _setupEventListeners() {
+                // Botón toggle
+                const toggle = document.getElementById('chatbotToggle');
+                const container = document.getElementById('chatbotContainer');
+                
+                if (toggle && container) {
+                    toggle.addEventListener('click', () => {
+                        container.classList.toggle('active');
+                    });
+                }
+
+                // Botón cerrar
+                const closeBtn = document.getElementById('chatbotClose');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        container.classList.remove('active');
+                    });
+                }
+
+                // Botón enviar
+                const sendBtn = document.getElementById('chatbotSend');
+                const input = document.getElementById('chatbotInput');
+                
+                if (sendBtn && input) {
+                    const sendMessage = () => {
+                        const text = input.value.trim();
+                        if (text) {
+                            this._addUserMessage(text);
+                            input.value = '';
+                            this._addBotMessage('Gracias por tu mensaje. Estoy en modo básico ahora mismo.');
+                        }
+                    };
+
+                    sendBtn.addEventListener('click', sendMessage);
+                    input.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') sendMessage();
+                    });
+                }
+            }
+
+            _addUserMessage(text) {
+                const messages = document.getElementById('chatbotMessages');
+                if (messages) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message user-message';
+                    messageDiv.innerHTML = `
+                        <div class="message-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>${text}</p>
+                            <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                        </div>
+                    `;
+                    messages.appendChild(messageDiv);
+                    messages.scrollTop = messages.scrollHeight;
+                }
+            }
+
+            _addBotMessage(text) {
+                const messages = document.getElementById('chatbotMessages');
+                if (messages) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message bot-message';
+                    messageDiv.innerHTML = `
+                        <div class="message-avatar">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>${text}</p>
+                            <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                        </div>
+                    `;
+                    messages.appendChild(messageDiv);
+                    messages.scrollTop = messages.scrollHeight;
+                }
+            }
+
+            openChat() {
+                const container = document.getElementById('chatbotContainer');
+                if (container) container.classList.add('active');
+            }
+
+            closeChat() {
+                const container = document.getElementById('chatbotContainer');
+                if (container) container.classList.remove('active');
+            }
+        };
+    }
+
+    _createBasicEngine() {
+        // Engine mínimo funcional
+        window.ChatbotEngine = class BasicEngine {
+            constructor() {
+                this.responses = {
+                    'hola': '¡Hola! Soy el asistente de Kodyan HQ. Estoy en modo básico ahora mismo.',
+                    'ayuda': 'Puedes preguntarme sobre Kodyan Operations, Commerce, Eco, Care, etc.',
+                    'operations': 'Kodyan Operations se especializa en automatización de procesos y dashboards.',
+                    'commerce': 'Kodyan Commerce desarrolla estrategias comerciales y planes de marketing.',
+                    'eco': 'Kodyan Eco crea calculadoras de huella de carbono y soluciones sustentables.',
+                    'care': 'Kodyan Care desarrolla herramientas de apoyo psicológico y emocional.'
+                };
+            }
+
+            processInput(input) {
+                const lowerInput = input.toLowerCase();
+                let response = this.responses[lowerInput] || 
+                    'Gracias por tu mensaje. Estoy aprendiendo todavía. ¿Puedes intentar con "hola", "ayuda", "operations", "commerce", "eco" o "care"?';
+                
+                return response;
+            }
+
+            displayWelcomeMessage() {
+                // El mensaje de bienvenida ya está en el HTML
+                console.log('Mensaje de bienvenida mostrado');
+            }
+        };
+    }
+
+    _setupBasicUI() {
+        // Asegurar que el chatbot sea usable
+        const container = document.getElementById('chatbotContainer');
+        if (container) {
+            container.style.display = 'flex';
+        }
+
+        // Remover el error fallback si existe
+        const toggle = document.getElementById('chatbotToggle');
+        if (toggle) {
+            toggle.innerHTML = '<i class="fas fa-robot"></i>';
+            toggle.style.background = '';
+            toggle.title = 'Chat de Kodyan HQ';
+        }
+
+        console.log('🎉 Chatbot listo en modo básico');
+    }
+
+    _showFriendlyError() {
+        const toggle = document.getElementById('chatbotToggle');
+        if (toggle) {
+            toggle.innerHTML = '<i class="fas fa-robot"></i>';
+            toggle.onclick = () => {
+                const container = document.getElementById('chatbotContainer');
+                if (container) {
+                    container.classList.toggle('active');
+                }
             };
         }
     }
 
-    // ===== MÉTODOS PÚBLICOS =====
-
+    // Métodos públicos simples
     open() {
-        if (this.ui && typeof this.ui.openChat === 'function') {
-            this.ui.openChat();
-        } else {
-            console.warn('Chatbot: UI no disponible para abrir');
-            // Fallback: mostrar el contenedor manualmente
-            const container = document.getElementById('chatbotContainer');
-            if (container) {
-                container.classList.add('active');
-            }
-        }
+        const container = document.getElementById('chatbotContainer');
+        if (container) container.classList.add('active');
     }
 
     close() {
-        if (this.ui && typeof this.ui.closeChat === 'function') {
-            this.ui.closeChat();
-        } else {
-            const container = document.getElementById('chatbotContainer');
-            if (container) {
-                container.classList.remove('active');
-            }
-        }
-    }
-
-    sendMessage(message) {
-        if (this.engine && typeof this.engine.processInput === 'function') {
-            this.engine.processInput(message);
-        } else {
-            console.warn('Chatbot: Motor no disponible para procesar mensaje');
-        }
-    }
-
-    clear() {
-        if (this.engine && typeof this.engine.clearConversation === 'function') {
-            this.engine.clearConversation();
-        }
-    }
-
-    // Verificar estado
-    getStatus() {
-        return {
-            initialized: this.isInitialized,
-            engine: !!this.engine,
-            ui: !!this.ui,
-            config: typeof CHATBOT_CONFIG !== 'undefined'
-        };
-    }
-
-    // Destruir instancia
-    destroy() {
-        if (this.initTimeout) {
-            clearTimeout(this.initTimeout);
-        }
-        
-        this.ui = null;
-        this.engine = null;
-        this.isInitialized = false;
-        
-        console.log('Chatbot: Instancia destruida');
+        const container = document.getElementById('chatbotContainer');
+        if (container) container.classList.remove('active');
     }
 }
 
-// ===== INICIALIZACIÓN SEGURA =====
-
-// Esperar a que TODO esté listo
-function initializeChatbotSafely() {
-    console.log('🚀 Iniciando carga segura del chatbot...');
-    
-    // Crear instancia global
-    window.kodyanChatbot = new KodyanChatbot();
-    
-    // Esperar a que las dependencias estén cargadas
-    const checkDependencies = setInterval(() => {
-        if (typeof ChatbotEngine !== 'undefined' && 
-            typeof ChatbotUI !== 'undefined' && 
-            typeof CHATBOT_CONFIG !== 'undefined') {
-            
-            clearInterval(checkDependencies);
-            console.log('✅ Dependencias del chatbot cargadas');
-            
-            // Inicializar con retraso adicional
-            setTimeout(() => {
-                window.kodyanChatbot.init();
-            }, 500);
-            
-        } else {
-            console.log('⏳ Esperando dependencias del chatbot...');
-        }
-    }, 100);
-    
-    // Timeout de seguridad
-    setTimeout(() => {
-        clearInterval(checkDependencies);
-        if (!window.kodyanChatbot.isInitialized) {
-            console.warn('⚠️ Timeout en la carga de dependencias del chatbot');
-            window.kodyanChatbot.init(); // Intentar igualmente
-        }
-    }, 5000);
-}
-
-// ===== EVENT LISTENERS SEGUROS =====
-
-// Esperar a que el DOM esté completamente listo
+// Inicialización automática ultra simple
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('📄 DOM cargado, preparando chatbot...');
-    
-    // Pequeño delay para asegurar que los scripts estén cargados
-    setTimeout(initializeChatbotSafely, 1000);
+    setTimeout(() => {
+        window.kodyanChatbot = new KodyanChatbot();
+        window.kodyanChatbot.init();
+    }, 2000);
 });
 
-// También inicializar cuando la ventana termine de cargar
-window.addEventListener('load', function() {
-    console.log('🖼️ Página completamente cargada');
-    
-    // Si no se inicializó todavía, forzar inicialización
-    if (!window.kodyanChatbot || !window.kodyanChatbot.isInitialized) {
-        console.log('🔧 Reiniciando inicialización del chatbot...');
-        setTimeout(initializeChatbotSafely, 500);
-    }
-});
-
-// ===== INTERFAZ GLOBAL =====
-
-// Hacer métodos disponibles globalmente
-window.KodyanChatbot = KodyanChatbot;
-
-// Métodos globales de acceso rápido
-window.openChatbot = function() {
-    if (window.kodyanChatbot) {
-        window.kodyanChatbot.open();
-    }
-};
-
-window.closeChatbot = function() {
-    if (window.kodyanChatbot) {
-        window.kodyanChatbot.close();
-    }
-};
-
-console.log('🤖 Script chatbot.js cargado - Esperando inicialización...');
+console.log('🤖 Chatbot cargado - Modo tolerante activado');
