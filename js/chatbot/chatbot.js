@@ -1,256 +1,178 @@
-// ===== CHATBOT KODYAN HQ - VERSIÓN ULTRA TOLERANTE =====
+// ===== CHATBOT KODYAN HQ - VERSIÓN MINIMALISTA FUNCIONAL =====
 
 class KodyanChatbot {
     constructor() {
-        this.isInitialized = false;
-        this.retryCount = 0;
-        this.maxRetries = 5;
+        this.isOpen = false;
     }
 
     init() {
-        if (this.isInitialized) return;
+        console.log('🚀 Iniciando chatbot minimalista...');
         
-        console.log('🚀 Iniciando chatbot en modo tolerante...');
+        // Configuración básica
+        this._setupConfig();
         
-        // Intentar inicialización con retry
-        this._tryInitialize();
+        // Event listeners simples
+        this._setupEvents();
+        
+        console.log('✅ Chatbot minimalista listo');
     }
 
-    _tryInitialize() {
-        try {
-            // Verificación MUY básica de DOM
-            const hasRequiredElements = 
-                document.getElementById('chatbotToggle') &&
-                document.getElementById('chatbotContainer') &&
-                document.getElementById('chatbotMessages');
-
-            if (!hasRequiredElements) {
-                throw new Error('Elementos DOM básicos no encontrados');
-            }
-
-            // Intentar cargar dependencias de forma segura
-            this._loadDependencies();
-            
-            this.isInitialized = true;
-            console.log('✅ Chatbot inicializado en modo básico');
-            
-            // Mostrar interfaz aunque las dependencias fallen
-            this._setupBasicUI();
-            
-        } catch (error) {
-            this.retryCount++;
-            console.warn(`Intento ${this.retryCount}/${this.maxRetries} fallido:`, error);
-            
-            if (this.retryCount < this.maxRetries) {
-                setTimeout(() => this._tryInitialize(), 1000);
-            } else {
-                console.error('❌ Chatbot no pudo inicializarse después de varios intentos');
-                this._showFriendlyError();
-            }
-        }
-    }
-
-    _loadDependencies() {
-        // Intentar cargar config si existe
-        if (typeof CHATBOT_CONFIG === 'undefined') {
-            console.warn('CHATBOT_CONFIG no disponible - usando valores por defecto');
-            window.CHATBOT_CONFIG = {
-                ui: {
-                    autoOpen: false,
-                    autoOpenDelay: 2000
-                }
-            };
-        }
-
-        // Intentar inicializar UI básica si no existe
-        if (typeof ChatbotUI === 'undefined') {
-            console.warn('ChatbotUI no disponible - creando UI básica');
-            this._createBasicUI();
-        }
-
-        // Intentar inicializar engine básico si no existe
-        if (typeof ChatbotEngine === 'undefined') {
-            console.warn('ChatbotEngine no disponible - creando engine básico');
-            this._createBasicEngine();
-        }
-    }
-
-    _createBasicUI() {
-        // UI mínima funcional
-        window.ChatbotUI = class BasicUI {
-            constructor(engine) {
-                this.engine = engine;
-                this._setupEventListeners();
-            }
-
-            _setupEventListeners() {
-                // Botón toggle
-                const toggle = document.getElementById('chatbotToggle');
-                const container = document.getElementById('chatbotContainer');
-                
-                if (toggle && container) {
-                    toggle.addEventListener('click', () => {
-                        container.classList.toggle('active');
-                    });
-                }
-
-                // Botón cerrar
-                const closeBtn = document.getElementById('chatbotClose');
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', () => {
-                        container.classList.remove('active');
-                    });
-                }
-
-                // Botón enviar
-                const sendBtn = document.getElementById('chatbotSend');
-                const input = document.getElementById('chatbotInput');
-                
-                if (sendBtn && input) {
-                    const sendMessage = () => {
-                        const text = input.value.trim();
-                        if (text) {
-                            this._addUserMessage(text);
-                            input.value = '';
-                            this._addBotMessage('Gracias por tu mensaje. Estoy en modo básico ahora mismo.');
-                        }
-                    };
-
-                    sendBtn.addEventListener('click', sendMessage);
-                    input.addEventListener('keypress', (e) => {
-                        if (e.key === 'Enter') sendMessage();
-                    });
-                }
-            }
-
-            _addUserMessage(text) {
-                const messages = document.getElementById('chatbotMessages');
-                if (messages) {
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = 'message user-message';
-                    messageDiv.innerHTML = `
-                        <div class="message-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="message-content">
-                            <p>${text}</p>
-                            <div class="message-time">${new Date().toLocaleTimeString()}</div>
-                        </div>
-                    `;
-                    messages.appendChild(messageDiv);
-                    messages.scrollTop = messages.scrollHeight;
-                }
-            }
-
-            _addBotMessage(text) {
-                const messages = document.getElementById('chatbotMessages');
-                if (messages) {
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = 'message bot-message';
-                    messageDiv.innerHTML = `
-                        <div class="message-avatar">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <div class="message-content">
-                            <p>${text}</p>
-                            <div class="message-time">${new Date().toLocaleTimeString()}</div>
-                        </div>
-                    `;
-                    messages.appendChild(messageDiv);
-                    messages.scrollTop = messages.scrollHeight;
-                }
-            }
-
-            openChat() {
-                const container = document.getElementById('chatbotContainer');
-                if (container) container.classList.add('active');
-            }
-
-            closeChat() {
-                const container = document.getElementById('chatbotContainer');
-                if (container) container.classList.remove('active');
+    _setupConfig() {
+        // Configuración mínima
+        window.CHATBOT_CONFIG = {
+            ui: {
+                autoOpen: false,
+                autoOpenDelay: 2000
             }
         };
     }
 
-    _createBasicEngine() {
-        // Engine mínimo funcional
-        window.ChatbotEngine = class BasicEngine {
-            constructor() {
-                this.responses = {
-                    'hola': '¡Hola! Soy el asistente de Kodyan HQ. Estoy en modo básico ahora mismo.',
-                    'ayuda': 'Puedes preguntarme sobre Kodyan Operations, Commerce, Eco, Care, etc.',
-                    'operations': 'Kodyan Operations se especializa en automatización de procesos y dashboards.',
-                    'commerce': 'Kodyan Commerce desarrolla estrategias comerciales y planes de marketing.',
-                    'eco': 'Kodyan Eco crea calculadoras de huella de carbono y soluciones sustentables.',
-                    'care': 'Kodyan Care desarrolla herramientas de apoyo psicológico y emocional.'
-                };
-            }
-
-            processInput(input) {
-                const lowerInput = input.toLowerCase();
-                let response = this.responses[lowerInput] || 
-                    'Gracias por tu mensaje. Estoy aprendiendo todavía. ¿Puedes intentar con "hola", "ayuda", "operations", "commerce", "eco" o "care"?';
-                
-                return response;
-            }
-
-            displayWelcomeMessage() {
-                // El mensaje de bienvenida ya está en el HTML
-                console.log('Mensaje de bienvenida mostrado');
-            }
-        };
-    }
-
-    _setupBasicUI() {
-        // Asegurar que el chatbot sea usable
+    _setupEvents() {
+        const toggle = document.getElementById('chatbotToggle');
         const container = document.getElementById('chatbotContainer');
-        if (container) {
-            container.style.display = 'flex';
+        const closeBtn = document.getElementById('chatbotClose');
+        const sendBtn = document.getElementById('chatbotSend');
+        const input = document.getElementById('chatbotInput');
+
+        // Abrir/cerrar chat
+        if (toggle && container) {
+            toggle.addEventListener('click', () => {
+                this.isOpen = !this.isOpen;
+                container.classList.toggle('active');
+            });
         }
 
-        // Remover el error fallback si existe
-        const toggle = document.getElementById('chatbotToggle');
-        if (toggle) {
-            toggle.innerHTML = '<i class="fas fa-robot"></i>';
-            toggle.style.background = '';
-            toggle.title = 'Chat de Kodyan HQ';
+        // Botón cerrar
+        if (closeBtn && container) {
+            closeBtn.addEventListener('click', () => {
+                this.isOpen = false;
+                container.classList.remove('active');
+            });
         }
 
-        console.log('🎉 Chatbot listo en modo básico');
-    }
-
-    _showFriendlyError() {
-        const toggle = document.getElementById('chatbotToggle');
-        if (toggle) {
-            toggle.innerHTML = '<i class="fas fa-robot"></i>';
-            toggle.onclick = () => {
-                const container = document.getElementById('chatbotContainer');
-                if (container) {
-                    container.classList.toggle('active');
+        // Enviar mensaje
+        if (sendBtn && input) {
+            const sendMessage = () => {
+                const text = input.value.trim();
+                if (text) {
+                    this._addMessage('user', text);
+                    input.value = '';
+                    
+                    // Respuesta automática simple
+                    setTimeout(() => {
+                        this._addMessage('bot', this._getResponse(text));
+                    }, 500);
                 }
             };
+
+            sendBtn.addEventListener('click', sendMessage);
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+        }
+
+        // Botones de opciones rápidas
+        document.querySelectorAll('.quick-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const topic = btn.getAttribute('data-topic');
+                this._addMessage('user', `Me interesa ${topic}`);
+                setTimeout(() => {
+                    this._addMessage('bot', this._getQuickResponse(topic));
+                }, 500);
+            });
+        });
+    }
+
+    _addMessage(type, text) {
+        const messages = document.getElementById('chatbotMessages');
+        if (!messages) return;
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}-message`;
+        
+        const avatar = type === 'user' ? 
+            '<i class="fas fa-user"></i>' : 
+            '<i class="fas fa-code"></i>';
+            
+        const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+        messageDiv.innerHTML = `
+            <div class="message-avatar">${avatar}</div>
+            <div class="message-content">
+                <p>${text}</p>
+                <div class="message-time">${time}</div>
+            </div>
+        `;
+
+        messages.appendChild(messageDiv);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    _getResponse(input) {
+        const lowerInput = input.toLowerCase();
+        
+        if (lowerInput.includes('hola') || lowerInput.includes('holis')) {
+            return '¡Hola! Soy el asistente de Kodyan HQ. ¿En qué puedo ayudarte?';
+        }
+        else if (lowerInput.includes('operat')) {
+            return 'Kodyan Operations se especializa en automatización de procesos, dashboards y sistemas inteligentes.';
+        }
+        else if (lowerInput.includes('commer')) {
+            return 'Kodyan Commerce desarrolla estrategias comerciales, planes de marketing y bundles ganadores.';
+        }
+        else if (lowerInput.includes('eco')) {
+            return 'Kodyan Eco crea calculadoras de huella de carbono y soluciones sustentables.';
+        }
+        else if (lowerInput.includes('care')) {
+            return 'Kodyan Care desarrolla herramientas de apoyo psicológico y emocional.';
+        }
+        else if (lowerInput.includes('ayuda')) {
+            return 'Puedes preguntarme sobre: Operations, Commerce, Eco, Care, Juri, Med. También usar los botones de abajo.';
+        }
+        else {
+            return 'Gracias por tu mensaje. ¿Te interesa saber sobre Operations, Commerce, Eco o Care?';
         }
     }
 
-    // Métodos públicos simples
+    _getQuickResponse(topic) {
+        const responses = {
+            'operations': 'Kodyan Operations transforma datos en decisiones claras con automatización y dashboards en tiempo real.',
+            'commerce': 'Kodyan Commerce activa tu potencial de crecimiento con estrategias comerciales innovadoras.',
+            'juri': 'Kodyan Juri desarrolla soluciones legales inteligentes (próximamente).',
+            'med': 'Kodyan Med crea herramientas para el sector salud (próximamente).',
+            'eco': 'Kodyan Eco diseña calculadoras de huella de carbono y soluciones ambientales.',
+            'care': 'Kodyan Care desarrolla plataformas de apoyo psicológico accesibles.'
+        };
+        
+        return responses[topic] || '¡Interesante tema! Pronto tendré más información sobre esto.';
+    }
+
+    // Métodos públicos
     open() {
         const container = document.getElementById('chatbotContainer');
-        if (container) container.classList.add('active');
+        if (container) {
+            this.isOpen = true;
+            container.classList.add('active');
+        }
     }
 
     close() {
         const container = document.getElementById('chatbotContainer');
-        if (container) container.classList.remove('active');
+        if (container) {
+            this.isOpen = false;
+            container.classList.remove('active');
+        }
     }
 }
 
-// Inicialización automática ultra simple
+// Inicialización simple
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
-        window.kodyanChatbot = new KodyanChatbot();
-        window.kodyanChatbot.init();
-    }, 2000);
+        if (!window.kodyanChatbot) {
+            window.kodyanChatbot = new KodyanChatbot();
+            window.kodyanChatbot.init();
+        }
+    }, 1000);
 });
 
-console.log('🤖 Chatbot cargado - Modo tolerante activado');
+console.log('🤖 Chatbot minimalista cargado');
