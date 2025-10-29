@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KodyanMED - Demo Preview</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --violeta-primario: #7E57C2;
+      --violeta-secundario: #D1C4E9;
+      --violeta-acento: #5E35B1;
+      --violeta-claro: #EDE7F6;
+      --blanco: #FFFFFF;
+      --texto: #2D3748;
+      --texto-claro: #718096;
+      --exito: #48BB78;
+      --alerta: #ED8936;
+      --peligro: #F56565;
+      --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --sombra-fuerte: 0 8px 25px rgba(0, 0, 0, 0.15);
+      --transicion: all 0.3s ease;
+      --border-radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);
+      color: var(--texto);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* NAVBAR MEJORADA */
+    .navbar {
+      width: 280px;
+      background: linear-gradient(180deg, var(--violeta-primario) 0%, var(--violeta-acento) 100%);
+      padding: 30px 0;
+      box-shadow: var(--sombra-fuerte);
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      z-index: 1000;
+      transition: var(--transicion);
+    }
+
+    .navbar-brand {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 0 20px;
+    }
+
+    .navbar-brand h1 {
+      font-size: 1.8rem;
+      color: var(--blanco);
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .navbar-brand .tagline {
+      color: var(--violeta-claro);
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .navbar-menu {
+      list-style: none;
+    }
+
+    .navbar-item {
+      margin: 8px 15px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .navbar-item a {
+      color: var(--blanco);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 20px;
+      transition: var(--transicion);
+      font-weight: 500;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .navbar-item a.demo-active {
+      opacity: 1;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .navbar-item a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-item i {
+      font-size: 1.3rem;
+      width: 25px;
+      text-align: center;
+    }
+
+    /* CONTENIDO PRINCIPAL */
+    .main-content {
+      margin-left: 280px;
+      width: calc(100% - 280px);
+      padding: 40px;
+      min-height: 100vh;
+    }
+
+    /* HEADER MEJORADO - COMO JURI */
+    .header {
+      background: linear-gradient(135deg, var(--violeta-primario), var(--violeta-acento));
+      color: var(--blanco);
+      padding: 35px;
+      border-radius: var(--border-radius);
+      margin-bottom: 35px;
+      box-shadow: var(--sombra-fuerte);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .header h2 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      position: relative;
+      font-style: italic;
+    }
+
+    /* GRID MEJORADO */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    /* CARDS MEJORADAS */
+    .card {
+      background: var(--blanco);
+      padding: 25px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--sombra-suave);
+      border-left: 6px solid var(--violeta-acento);
+      transition: var(--transicion);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--sombra-fuerte);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--violeta-primario), var(--violeta-acento));
+    }
+
+    .card h3 {
+      color: var(--violeta-acento);
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h3 i {
+      font-size: 1.2rem;
+    }
+
+    /* BOTONES DE DEMO */
+    .btn {
+      background: linear-gradient(135deg, var(--violeta-primario), var(--violeta-acento));
+      color: var(--blanco);
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transicion);
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(94, 53, 177, 0.4);
+    }
+
+    .btn-block {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-demo {
+      background: var(--violeta-secundario);
+      color: var(--texto);
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .btn-demo:hover {
+      transform: none;
+      box-shadow: none;
+      background: var(--violeta-secundario);
+    }
+
+    /* SCROLL CONTAINER */
+    .scroll-container {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 10px;
+      padding-right: 5px;
+    }
+
+    .scroll-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .scroll-container::-webkit-scrollbar-track {
+      background: var(--violeta-claro);
+      border-radius: 10px;
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: var(--violeta-acento);
+      border-radius: 10px;
+    }
+
+    /* TURNO ITEM MEJORADO */
+    .turno-item {
+      padding: 12px;
+      margin: 8px 0;
+      background: var(--violeta-claro);
+      border-radius: 10px;
+      border-left: 4px solid var(--violeta-acento);
+      font-size: 13px;
+      transition: var(--transicion);
+      cursor: pointer;
+    }
+
+    .turno-item:hover {
+      background: var(--violeta-secundario);
+      transform: translateX(5px);
+    }
+
+    .turno-item.urgente {
+      border-left-color: var(--peligro);
+      background: #FED7D7;
+    }
+
+    .turno-item.proximo {
+      border-left-color: var(--alerta);
+      background: #FEEBC8;
+    }
+
+    /* ESTADÍSTICAS MEJORADAS */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 15px;
+      background: var(--violeta-claro);
+      border-radius: 10px;
+      transition: var(--transicion);
+    }
+
+    .stat-card:hover {
+      transform: scale(1.05);
+    }
+
+    .stat-number {
+      color: var(--violeta-acento);
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 5px 0;
+    }
+
+    .stat-label {
+      color: var(--texto-claro);
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* FORMULARIOS DE DEMO */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--texto);
+    }
+
+    .demo-input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid var(--violeta-claro);
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      background: var(--violeta-claro);
+      color: var(--texto-claro);
+      cursor: not-allowed;
+    }
+
+    /* BADGE DE DEMO */
+    .demo-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--alerta);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .navbar {
+        width: 250px;
+      }
+      .main-content {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+        padding: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 20px 0;
+      }
+      
+      .navbar-menu {
+        display: flex;
+        overflow-x: auto;
+        padding: 0 15px;
+      }
+      
+      .navbar-item {
+        flex-shrink: 0;
+      }
+      
+      .navbar-item a {
+        padding: 10px 15px;
+        white-space: nowrap;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+      }
+      
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .header {
+        padding: 25px;
+        margin-bottom: 25px;
+      }
+      
+      .header h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Barra lateral - SOLO DEMO -->
+<nav class="navbar">
+  <div class="navbar-brand">
+    <h1>KodyanMED</h1>
+    <div class="tagline">Demo Preview</div>
+  </div>
+  <ul class="navbar-menu">
+    <li class="navbar-item"><a href="#" class="demo-active"><i class="fas fa-home"></i> Inicio</a></li>
+    <li class="navbar-item"><a href="#"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+    <li class="navbar-item"><a href="#"><i class="fas fa-user-injured"></i> Pacientes</a></li>
+    <li class="navbar-item"><a href="#"><i class="fas fa-file-medical"></i> Historiales</a></li>
+    <li class="navbar-item"><a href="#"><i class="fas fa-chart-line"></i> Finanzas</a></li>
+    <li class="navbar-item"><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+  </ul>
+</nav>
+
+<!-- Contenido principal - SOLO DEMO -->
+<main class="main-content">
+  <div class="header">
+    <h2>Bienvenida, Dra. Violeta</h2>
+    <p id="fecha-actual"></p>
+  </div>
+
+  <!-- FILA 1: 3 TARJETAS PRINCIPALES -->
+  <div class="grid">
+    <!-- Agenda de Hoy -->
+    <div class="card">
+      <div class="demo-badge">DEMO</div>
+      <h3><i class="fas fa-calendar-day"></i> Agenda de Hoy</h3>
+      <div class="scroll-container">
+        <div class="turno-item">
+          <strong>⏰ 09:00</strong> - María González
+          <br><small>📋 Control rutina</small>
+          <br><small>✅ Confirmado</small>
+        </div>
+        <div class="turno-item urgente">
+          <strong>⏰ 10:30</strong> - Carlos López
+          <br><small>📋 Consulta urgente</small>
+          <br><small>⚠️ Pendiente</small>
+        </div>
+        <div class="turno-item">
+          <strong>⏰ 14:00</strong> - Ana Martínez
+          <br><small>📋 Seguimiento</small>
+          <br><small>✅ Confirmado</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Próximos Turnos -->
+    <div class="card">
+      <div class="demo-badge">DEMO</div>
+      <h3><i class="fas fa-clock"></i> Próximos Turnos</h3>
+      <div class="scroll-container">
+        <div class="turno-item proximo">
+          <strong>📅 Mañana - ⏰ 11:00</strong>
+          <br>👤 Laura Fernández
+          <br><small>📋 Primera consulta</small>
+        </div>
+        <div class="turno-item proximo">
+          <strong>📅 15/03 - ⏰ 09:30</strong>
+          <br>👤 Miguel Ángel
+          <br><small>📋 Control</small>
+        </div>
+        <div class="turno-item proximo">
+          <strong>📅 16/03 - ⏰ 15:00</strong>
+          <br>👤 Sofía Ramirez
+          <br><small>📋 Especialista</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estadísticas del Día -->
+    <div class="card">
+      <div class="demo-badge">DEMO</div>
+      <h3><i class="fas fa-chart-pie"></i> Estadísticas Hoy</h3>
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-number">8</div>
+          <div class="stat-label">Total Turnos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">6</div>
+          <div class="stat-label">Confirmados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">2</div>
+          <div class="stat-label">Pendientes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILA 2: 3 TARJETAS SECUNDARIAS -->
+  <div class="grid">
+    <!-- Nuevo Turno -->
+    <div class="card">
+      <div class="demo-badge">DEMO</div>
+      <h3><i class="fas fa-plus-circle"></i> Nuevo Turno</h3>
+      <form id="form-turno-demo">
+        <div class="form-group">
+          <label for="fecha-turno"><i class="far fa-calendar"></i> Fecha</label>
+          <input type="date" class="demo-input" value="2024-03-20" disabled>
+        </div>
+        <div class="form-group">
+          <label for="hora-turno"><i class="far fa-clock"></i> Hora</label>
+          <input type="time" class="demo-input" value="11:00" disabled>
+        </div>
+        <div class="form-group">
+          <label for="dni-paciente"><i class="far fa-id-card"></i> DNI del Paciente</label>
+          <input type="text" class="demo-input" value="35123456" placeholder="Ej: 12345678" disabled>
+        </div>
+        <button type="button" class="btn btn-block btn-demo" onclick="mostrarDemoMessage('Esta funcionalidad estará disponible en la versión completa')">
+          <i class="fas fa-save"></i> Guardar Turno
+        </button>
+      </form>
+    </div>
+
+    <!-- Buscar Paciente -->
+    <div class="card">
+      <div class="demo-badge">DEMO</div>
+      <h3><i class="fas fa-search"></i> Buscar Paciente</h3>
+      <div class="form-group">
+        <input type="text" class="demo-input" value="María González" placeholder="Nombre, DNI o teléfono..." disabled>
+      </div>
+      <button class="btn btn-block btn-demo" onclick="mostrarDemoMessage('Sistema de búsqueda - Próximamente')">
+        <i class="fas fa-search"></i> Buscar Paciente
+      </button>
+      <div class="search-results" style="margin-top: 15px;">
+        <div class="turno-item">
+          <strong>👤 María González</strong>
+          <br><small>📄 DNI: 35123456</small>
+          <br><small>📞 11-1234-5678</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acciones Rápidas -->
+    <div class="card">
+      <div class="demo-badge">DEMO</div>
+      <h3><i class="fas fa-bolt"></i> Acciones Rápidas</h3>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+        <button class="btn btn-block btn-demo" onclick="mostrarDemoMessage('Formulario de nuevo paciente - Próximamente')">
+          <i class="fas fa-user-plus"></i> Nuevo Paciente
+        </button>
+        <button class="btn btn-block btn-demo" onclick="mostrarDemoMessage('Vista completa de agenda - Próximamente')">
+          <i class="fas fa-calendar-plus"></i> Ver Agenda Completa
+        </button>
+        <button class="btn btn-block btn-demo" onclick="mostrarDemoMessage('Sistema de alertas inteligentes - Próximamente')">
+          <i class="fas fa-bell"></i> Sistema de Alertas
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ===== FUNCIONES DE DEMO =====
+function mostrarDemoMessage(mensaje) {
+  alert(`🚧 DEMO PREVIEW\n\n${mensaje}\n\nEsta es una versión de demostración. Todas las funcionalidades estarán disponibles en la versión completa.`);
+}
+
+// ===== FECHA ACTUAL - COMO JURI =====
+function actualizarFecha() {
+  const ahora = new Date();
+  const opciones = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  };
+  
+  const fechaFormateada = ahora.toLocaleDateString('es-AR', opciones);
+  document.getElementById('fecha-actual').textContent = fechaFormateada;
+}
+
+// ===== INICIALIZACIÓN =====
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🏥 KodyanMED Demo Preview iniciado');
+  actualizarFecha();
+  
+  // Mostrar mensaje de bienvenida
+  setTimeout(() => {
+    mostrarDemoMessage('Bienvenida a la demo de KodyanMED\n\nEste es un preview de cómo se verá y funcionará tu sistema de gestión médica.');
+  }, 1000);
+});
+
+// Prevenir envío de formularios
+document.addEventListener('submit', function(e) {
+  e.preventDefault();
+  mostrarDemoMessage('Formulario de demo - Los datos no se guardarán');
+});
+
+// Prevenir clicks en enlaces no funcionales
+document.addEventListener('click', function(e) {
+  if (e.target.tagName === 'A' && !e.target.classList.contains('demo-active')) {
+    e.preventDefault();
+    mostrarDemoMessage('Esta sección estará disponible en la versión completa');
+  }
+});
+</script>
+</body>
+</html>
