@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Criteria Analyzer | by Vico</title>
+    <style>
+        :root {
+            --color-primary: #1E40AF;
+            --color-primary-dark: #1E3A8A;
+            --color-secondary: #475569;
+            --color-accent: #059669;
+            --color-warning: #D97706;
+            --color-background: #F8FAFC;
+            --color-card: #FFFFFF;
+            --color-border: #E2E8F0;
+            --color-text: #1E293B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--color-card);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--color-primary);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            color: var(--color-secondary);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-secondary);
+            font-size: 0.95rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--color-border);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        .btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.2);
+        }
+
+        .btn-secondary {
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary:hover {
+            background: #374151;
+        }
+
+        /* Estilos para criterios dinámicos */
+        .criterio-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+        }
+
+        .peso-slider {
+            width: 100%;
+        }
+
+        .peso-valor {
+            font-weight: 600;
+            color: var(--color-primary);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .btn-remove {
+            background: #EF4444;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-remove:hover {
+            background: #DC2626;
+        }
+
+        /* Estilos para matriz de evaluación */
+        .matriz-evaluacion {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .matriz-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .matriz-table th,
+        .matriz-table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--color-border);
+        }
+
+        .matriz-table th {
+            background: var(--color-primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .matriz-table input {
+            width: 80px;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+        }
+
+        /* Estilos para criterios predefinidos */
+        .categoria-title {
+            font-size: 1.1rem;
+            color: var(--color-primary);
+            margin: 25px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--color-border);
+            font-weight: 600;
+        }
+
+        .categoria-title:first-child {
+            margin-top: 0;
+        }
+
+        .criterio-preset {
+            background: white;
+            border: 2px solid var(--color-border);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .criterio-preset:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.1);
+        }
+
+        .criterio-preset.activo {
+            border-color: var(--color-accent);
+            background: #F0FDF4;
+        }
+
+        .preset-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .preset-nombre {
+            font-weight: 600;
+            color: var(--color-primary);
+            flex: 1;
+        }
+
+        .preset-descripcion {
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .preset-peso {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .btn-add-preset {
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .btn-add-preset:hover {
+            background: #047857;
+        }
+
+        .criterios-seleccionados {
+            margin-top: 20px;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+            border: 2px dashed var(--color-border);
+        }
+
+        .seleccionados-title {
+            font-size: 1rem;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Resultados */
+        .resultados {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+            border-radius: 16px;
+            border: 2px dashed var(--color-primary);
+            display: none;
+        }
+
+        .resultados.activo {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .resultado-final {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .opcion-ganadora {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--color-accent);
+            margin: 10px 0;
+            line-height: 1.2;
+        }
+
+        .leyenda {
+            color: var(--color-secondary);
+            font-size: 1.1rem;
+        }
+
+        .resultado-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .resultado-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .resultado-item h4 {
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .resultado-item p {
+            color: var(--color-primary);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .breakdown {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .breakdown-category {
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-top: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .criterio-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .opcion-ganadora {
+                font-size: 2.2rem;
+            }
+            
+            .matriz-table {
+                font-size: 0.9rem;
+            }
+            
+            .preset-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .btn-add-preset {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Multi-Criteria Analyzer</h1>
+            <p class="subtitle">Herramienta profesional de análisis multicriterio para decisiones estratégicas basadas en datos</p>
+        </header>
+
+        <form id="analyzerForm">
+            <!-- Sección 1: Opciones a Comparar -->
+            <div class="form-section">
+                <h3 class="section-title">Opciones a Evaluar</h3>
+                <div class="form-grid" id="opciones-container">
+                    <div class="form-group">
+                        <label for="opcion1">Opción 1</label>
+                        <input type="text" id="opcion1" placeholder="Ej: Invertir en Marketing" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="opcion2">Opción 2</label>
+                        <input type="text" id="opcion2" placeholder="Ej: Invertir en Desarrollo" required>
+                    </div>
+                </div>
+                <button type="button" class="btn-secondary" onclick="agregarOpcion()">+ Agregar Opción</button>
+            </div>
+
+            <!-- Sección 2: Criterios Predefinidos -->
+            <div class="form-section">
+                <h3 class="section-title">Criterios de Decisión Predefinidos</h3>
+                <p style="color: var(--color-secondary); margin-bottom: 20px; font-size: 0.95rem;">
+                    Selecciona los criterios relevantes para tu análisis. Puedes ajustar los pesos según su importancia.
+                </p>
+
+                <!-- Categoría: Financiera -->
+                <div class="categoria-title">📊 Criterios Financieros</div>
+                <div class="criterios-preset-container">
+                    <div class="criterio-preset" data-criterio="ROI" data-peso="9" data-descripcion="Retorno esperado de la inversión">
+                        <div class="preset-header">
+                            <div class="preset-nombre">ROI (Retorno de Inversión)</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Retorno esperado de la inversión a corto y largo plazo</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>9/10</strong>
+                        </div>
+                    </div>
+
+                    <div class="criterio-preset" data-criterio="Costo Inicial" data-peso="7" data-descripcion="Inversión requerida para implementar">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Costo Inicial</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Inversión requerida para implementar la opción</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>7/10</strong>
+                        </div>
+                    </div>
+
+                    <div class="criterio-preset" data-criterio="Tiempo ROI" data-peso="8" data-descripcion="Tiempo para recuperar la inversión">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Tiempo de Retorno (Payback)</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Tiempo estimado para recuperar la inversión inicial</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>8/10</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categoría: Riesgo -->
+                <div class="categoria-title">⚠️ Criterios de Riesgo</div>
+                <div class="criterios-preset-container">
+                    <div class="criterio-preset" data-criterio="Riesgo Técnico" data-peso="6" data-descripcion="Riesgos asociados a la implementación técnica">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Riesgo Técnico</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Riesgos asociados a la implementación técnica y tecnológica</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>6/10</strong>
+                        </div>
+                    </div>
+
+                    <div class="criterio-preset" data-criterio="Riesgo Mercado" data-peso="7" data-descripcion="Riesgos relacionados con condiciones del mercado">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Riesgo de Mercado</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Riesgos relacionados con condiciones del mercado y competencia</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>7/10</strong>
+                        </div>
+                    </div>
+
+                    <div class="criterio-preset" data-criterio="Riesgo Operacional" data-peso="5" data-descripcion="Riesgos en la operación diaria">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Riesgo Operacional</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Riesgos en la operación diaria y procesos internos</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>5/10</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categoría: Estratégica -->
+                <div class="categoria-title">🎯 Criterios Estratégicos</div>
+                <div class="criterios-preset-container">
+                    <div class="criterio-preset" data-criterio="Alineación Estratégica" data-peso="8" data-descripcion="Alineación con objetivos estratégicos del negocio">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Alineación Estratégica</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Grado de alineación con los objetivos estratégicos del negocio</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>8/10</strong>
+                        </div>
+                    </div>
+
+                    <div class="criterio-preset" data-criterio="Ventaja Competitiva" data-peso="7" data-descripcion="Potencial para generar ventaja competitiva">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Ventaja Competitiva</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Potencial para generar ventaja competitiva sostenible</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>7/10</strong>
+                        </div>
+                    </div>
+
+                    <div class="criterio-preset" data-criterio="Escalabilidad" data-peso="6" data-descripcion="Capacidad de crecimiento futuro">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Escalabilidad</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Capacidad de crecimiento y adaptación futura</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>6/10</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categoría: Operacional -->
+                <div class="categoria-title">⚙️ Criterios Operacionales</div>
+                <div class="criterios-preset-container">
+                    <div class="criterio-preset" data-criterio="Tiempo Implementación" data-peso="6" data-descripcion="Tiempo requerido para implementar">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Tiempo de Implementación</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Tiempo requerido para implementar completamente</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>6/10</strong>
+                        </div>
+                    </div>
+
+                    <div class="criterio-preset" data-criterio="Complejidad" data-peso="5" data-descripcion="Nivel de complejidad en la implementación">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Complejidad de Implementación</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Nivel de complejidad técnica y organizacional</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>5/10</strong>
+                        </div>
+                    </div>
+
+                    <div class="criterio-preset" data-criterio="Recursos Requeridos" data-peso="6" data-descripcion="Recursos humanos y técnicos necesarios">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Recursos Requeridos</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Recursos humanos, técnicos y financieros necesarios</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>6/10</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categoría: Impacto Organizacional -->
+                <div class="categoria-title">🏢 Criterios de Impacto Organizacional</div>
+                <div class="criterios-preset-container">
+                    <div class="criterio-preset" data-criterio="Impacto Cultural" data-peso="5" data-descripcion="Impacto en la cultura organizacional">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Impacto Cultural</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Impacto en la cultura y clima organizacional</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>5/10</strong>
+                        </div>
+                    </div>
+
+                    <div class="criterio-preset" data-criterio="Capacitación Requerida" data-peso="4" data-descripcion="Necesidad de capacitación del equipo">
+                        <div class="preset-header">
+                            <div class="preset-nombre">Capacitación Requerida</div>
+                            <button type="button" class="btn-add-preset" onclick="agregarCriterioPreset(this)">Agregar</button>
+                        </div>
+                        <div class="preset-descripcion">Necesidad de capacitación y desarrollo del equipo</div>
+                        <div class="preset-peso">
+                            <span>Peso recomendado:</span>
+                            <strong>4/10</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 3: Criterios Seleccionados -->
+            <div class="form-section">
+                <h3 class="section-title">Tus Criterios de Evaluación</h3>
+                <div class="criterios-seleccionados">
+                    <div class="seleccionados-title">Criterios Activos para el Análisis</div>
+                    <div id="criterios-container">
+                        <!-- Los criterios seleccionados aparecen aquí -->
+                        <div class="criterio-item">
+                            <input type="text" class="criterio-nombre" value="ROI" required>
+                            <input type="range" class="peso-slider" min="1" max="10" value="9">
+                            <span class="peso-valor">9</span>
+                            <button type="button" class="btn-remove" onclick="removerCriterio(this)">×</button>
+                        </div>
+                        <div class="criterio-item">
+                            <input type="text" class="criterio-nombre" value="Riesgo" required>
+                            <input type="range" class="peso-slider" min="1" max="10" value="6">
+                            <span class="peso-valor">6</span>
+                            <button type="button" class="btn-remove" onclick="removerCriterio(this)">×</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-secondary" onclick="agregarCriterioPersonalizado()">+ Agregar Criterio Personalizado</button>
+                </div>
+            </div>
+
+            <!-- Sección 4: Matriz de Evaluación -->
+            <div class="form-section">
+                <h3 class="section-title">Matriz de Evaluación</h3>
+                <p style="color: var(--color-secondary); margin-bottom: 15px; font-size: 0.95rem;">
+                    Evalúa cada opción en una escala del 1 al 10 para cada criterio (1 = muy bajo, 10 = excelente)
+                </p>
+                <div class="matriz-evaluacion" id="matriz-container">
+                    <p>Complete las opciones y criterios para generar la matriz</p>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Analizar Decisiones</button>
+        </form>
+
+        <!-- Resultados -->
+        <div id="resultados" class="resultados">
+            <div class="resultado-final">
+                <p class="leyenda">Análisis Multicriterio Completo</p>
+                <div class="opcion-ganadora" id="mejorOpcion">-</div>
+                <p class="leyenda">Puntuación total: <span id="puntuacionGanadora">0</span> puntos</p>
+            </div>
+
+            <div class="resultado-grid">
+                <div class="resultado-item">
+                    <h4>Nivel de Confianza</h4>
+                    <p id="resConfianza">-</p>
+                </div>
+                <div class="resultado-item">
+                    <h4>Ventaja Competitiva</h4>
+                    <p id="resVentaja">-</p>
+                </div>
+                <div class="resultado-item">
+                    <h4>Criterios Clave</h4>
+                    <p id="resCriteriosClave">-</p>
+                </div>
+            </div>
+
+            <div class="breakdown">
+                <h4>Desglose de Puntuaciones por Criterio:</h4>
+                <div id="breakdownPuntuaciones">
+                    <!-- Generado dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            actualizarMatriz();
+            actualizarSliders();
+        });
+
+        // Configurar event listeners para sliders
+        function actualizarSliders() {
+            document.querySelectorAll('.peso-slider').forEach(slider => {
+                slider.addEventListener('input', function() {
+                    this.nextElementSibling.textContent = this.value;
+                });
+            });
+        }
+
+        // Funciones para gestión dinámica de opciones
+        function agregarOpcion() {
+            const container = document.getElementById('opciones-container');
+            const opcionCount = container.children.length + 1;
+            
+            const opcionHTML = `
+                <div class="form-group">
+                    <label for="opcion${opcionCount}">Opción ${opcionCount}</label>
+                    <input type="text" id="opcion${opcionCount}" placeholder="Ej: Contratar equipo interno" required>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', opcionHTML);
+            actualizarMatriz();
+        }
+
+        // Función para agregar criterios predefinidos
+        function agregarCriterioPreset(button) {
+            const preset = button.closest('.criterio-preset');
+            const nombre = preset.dataset.criterio;
+            const peso = preset.dataset.peso;
+            const descripcion = preset.dataset.descripcion;
+
+            // Verificar si ya existe
+            const criteriosExistentes = Array.from(document.querySelectorAll('.criterio-nombre'))
+                .map(input => input.value.trim());
+            
+            if (criteriosExistentes.includes(nombre)) {
+                alert('Este criterio ya ha sido agregado.');
+                return;
+            }
+
+            // Agregar al contenedor de criterios
+            const container = document.getElementById('criterios-container');
+            const criterioHTML = `
+                <div class="criterio-item">
+                    <input type="text" class="criterio-nombre" value="${nombre}" required>
+                    <input type="range" class="peso-slider" min="1" max="10" value="${peso}">
+                    <span class="peso-valor">${peso}</span>
+                    <button type="button" class="btn-remove" onclick="removerCriterio(this)">×</button>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', criterioHTML);
+            actualizarSliders();
+            actualizarMatriz();
+
+            // Marcar como activo visualmente
+            preset.classList.add('activo');
+            setTimeout(() => preset.classList.remove('activo'), 2000);
+        }
+
+        // Función para criterios personalizados
+        function agregarCriterioPersonalizado() {
+            const nombre = prompt('Nombre del criterio personalizado:');
+            if (nombre && nombre.trim()) {
+                const container = document.getElementById('criterios-container');
+                const criterioHTML = `
+                    <div class="criterio-item">
+                        <input type="text" class="criterio-nombre" value="${nombre.trim()}" required>
+                        <input type="range" class="peso-slider" min="1" max="10" value="5">
+                        <span class="peso-valor">5</span>
+                        <button type="button" class="btn-remove" onclick="removerCriterio(this)">×</button>
+                    </div>
+                `;
+                
+                container.insertAdjacentHTML('beforeend', criterioHTML);
+                actualizarSliders();
+                actualizarMatriz();
+            }
+        }
+
+        function removerCriterio(button) {
+            if (document.querySelectorAll('.criterio-item').length > 1) {
+                button.closest('.criterio-item').remove();
+                actualizarMatriz();
+            } else {
+                alert('Debe haber al menos un criterio de evaluación.');
+            }
+        }
+
+        // Función para actualizar matriz de evaluación
+        function actualizarMatriz() {
+            const matrizContainer = document.getElementById('matriz-container');
+            const opciones = obtenerOpciones();
+            const criterios = obtenerCriterios();
+
+            if (opciones.length < 2 || criterios.length === 0) {
+                matrizContainer.innerHTML = '<p>Complete al menos 2 opciones y 1 criterio para generar la matriz</p>';
+                return;
+            }
+
+            let matrizHTML = `
+                <table class="matriz-table">
+                    <thead>
+                        <tr>
+                            <th>Opciones / Criterios</th>
+            `;
+
+            // Encabezados de criterios
+            criterios.forEach((criterio, index) => {
+                matrizHTML += `<th>${criterio.nombre} (Peso: ${criterio.peso})</th>`;
+            });
+
+            matrizHTML += `</tr></thead><tbody>`;
+
+            // Filas de opciones
+            opciones.forEach((opcion, opcionIndex) => {
+                matrizHTML += `<tr><td><strong>${opcion}</strong></td>`;
+                
+                criterios.forEach((criterio, criterioIndex) => {
+                    matrizHTML += `
+                        <td>
+                            <input type="number" 
+                                   min="1" 
+                                   max="10" 
+                                   value="5"
+                                   data-opcion="${opcionIndex}" 
+                                   data-criterio="${criterioIndex}"
+                                   placeholder="1-10">
+                        </td>
+                    `;
+                });
+
+                matrizHTML += `</tr>`;
+            });
+
+            matrizHTML += `</tbody></table>`;
+            matrizContainer.innerHTML = matrizHTML;
+        }
+
+        // Funciones auxiliares
+        function obtenerOpciones() {
+            const opciones = [];
+            document.querySelectorAll('#opciones-container input[type="text"]').forEach(input => {
+                if (input.value.trim()) opciones.push(input.value.trim());
+            });
+            return opciones;
+        }
+
+        function obtenerCriterios() {
+            const criterios = [];
+            document.querySelectorAll('.criterio-item').forEach(item => {
+                const nombre = item.querySelector('.criterio-nombre').value.trim();
+                const peso = parseInt(item.querySelector('.peso-slider').value);
+                if (nombre) criterios.push({ nombre, peso });
+            });
+            return criterios;
+        }
+
+        function obtenerEvaluaciones() {
+            const evaluaciones = [];
+            const inputs = document.querySelectorAll('.matriz-table input[type="number"]');
+            
+            inputs.forEach(input => {
+                const opcionIndex = parseInt(input.dataset.opcion);
+                const criterioIndex = parseInt(input.dataset.criterio);
+                const valor = parseInt(input.value) || 5;
+                
+                if (!evaluaciones[opcionIndex]) evaluaciones[opcionIndex] = [];
+                evaluaciones[opcionIndex][criterioIndex] = Math.min(10, Math.max(1, valor));
+            });
+
+            return evaluaciones;
+        }
+
+        // Análisis principal
+        document.getElementById('analyzerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            analizarDecisiones();
+        });
+
+        function analizarDecisiones() {
+            const opciones = obtenerOpciones();
+            const criterios = obtenerCriterios();
+            const evaluaciones = obtenerEvaluaciones();
+
+            if (opciones.length < 2) {
+                alert('Debe haber al menos 2 opciones para comparar.');
+                return;
+            }
+
+            if (criterios.length === 0) {
+                alert('Debe haber al menos 1 criterio de evaluación.');
+                return;
+            }
+
+            // Calcular puntuaciones
+            const puntuaciones = opciones.map((opcion, opcionIndex) => {
+                let puntuacionTotal = 0;
+                let breakdown = [];
+
+                criterios.forEach((criterio, criterioIndex) => {
+                    const evaluacion = evaluaciones[opcionIndex]?.[criterioIndex] || 5;
+                    const puntuacionPonderada = evaluacion * criterio.peso;
+                    puntuacionTotal += puntuacionPonderada;
+                    
+                    breakdown.push({
+                        criterio: criterio.nombre,
+                        evaluacion: evaluacion,
+                        peso: criterio.peso,
+                        puntuacion: puntuacionPonderada
+                    });
+                });
+
+                return {
+                    nombre: opcion,
+                    puntuacionTotal: puntuacionTotal,
+                    breakdown: breakdown
+                };
+            });
+
+            // Ordenar por puntuación
+            puntuaciones.sort((a, b) => b.puntuacionTotal - a.puntuacionTotal);
+            const mejorOpcion = puntuaciones[0];
+            const segundaOpcion = puntuaciones[1];
+
+            // Calcular métricas
+            const ventaja = segundaOpcion ? 
+                ((mejorOpcion.puntuacionTotal - segundaOpcion.puntuacionTotal) / segundaOpcion.puntuacionTotal * 100).toFixed(1) : 
+                100;
+
+            const confianza = ventaja > 20 ? 'Alto' : ventaja > 10 ? 'Medio' : 'Bajo';
+            const criteriosClave = mejorOpcion.breakdown
+                .sort((a, b) => b.puntuacion - a.puntuacion)
+                .slice(0, 2)
+                .map(item => item.criterio)
+                .join(', ');
+
+            // Mostrar resultados
+            document.getElementById('mejorOpcion').textContent = mejorOpcion.nombre;
+            document.getElementById('puntuacionGanadora').textContent = Math.round(mejorOpcion.puntuacionTotal);
+            document.getElementById('resConfianza').textContent = confianza;
+            document.getElementById('resVentaja').textContent = `${ventaja}%`;
+            document.getElementById('resCriteriosClave').textContent = criteriosClave || '-';
+
+            // Generar breakdown
+            const breakdownContainer = document.getElementById('breakdownPuntuaciones');
+            breakdownContainer.innerHTML = '';
+
+            mejorOpcion.breakdown.forEach(item => {
+                const breakdownItem = document.createElement('div');
+                breakdownItem.className = 'breakdown-item';
+                breakdownItem.innerHTML = `
+                    <span>${item.criterio} (eval: ${item.evaluacion} × peso: ${item.peso})</span>
+                    <span>${item.puntuacion} pts</span>
+                `;
+                breakdownContainer.appendChild(breakdownItem);
+            });
+
+            // Total
+            const totalItem = document.createElement('div');
+            totalItem.className = 'breakdown-item';
+            totalItem.innerHTML = `
+                <span><strong>Puntuación Total</strong></span>
+                <span><strong>${Math.round(mejorOpcion.puntuacionTotal)} pts</strong></span>
+            `;
+            breakdownContainer.appendChild(totalItem);
+
+            // Mostrar resultados
+            document.getElementById('resultados').classList.add('activo');
+            
+            // Scroll suave a los resultados
+            document.getElementById('resultados').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+    </script>
+</body>
+</html>
