@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kodyan JURI - Demo Preview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --azul-marina: #1A365D;
+            --azul-profundo: #2D3748;
+            --azul-celeste: #4299E1;
+            --gris-carbón: #4A5568;
+            --gris-plata: #A0AEC0;
+            --gris-humo: #EDF2F7;
+            --blanco: #FFFFFF;
+            --dorado-balanza: #D4AF37;
+            --urgente: #E53E3E;
+            --alerta: #DD6B20;
+            --ok: #38A169;
+            --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --sombra-fuerte: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --transicion: all 0.3s ease;
+            --border-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gris-humo);
+            color: var(--azul-profundo);
+            line-height: 1.6;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, var(--azul-marina) 0%, var(--azul-profundo) 100%);
+            color: var(--blanco);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 2rem 1rem;
+            box-shadow: var(--sombra-fuerte);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--azul-celeste);
+        }
+
+        .logo-icon {
+            color: var(--dorado-balanza);
+            font-size: 2rem;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .demo-tagline {
+            color: var(--gris-plata);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            margin: 8px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .menu-link {
+            color: var(--blanco);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            transition: var(--transicion);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .menu-link.demo-active {
+            opacity: 1;
+            cursor: pointer;
+            background: rgba(66, 153, 225, 0.2);
+        }
+
+        .menu-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--azul-marina), var(--azul-celeste));
+            color: var(--blanco);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--sombra-fuerte);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--blanco);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--sombra-suave);
+            border-left: 6px solid var(--azul-celeste);
+            transition: var(--transicion);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-fuerte);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--azul-marina), var(--azul-celeste));
+        }
+
+        .demo-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--alerta);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            color: var(--azul-marina);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .see-all {
+            color: var(--azul-celeste);
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .alert-item, .agenda-item, .expediente-item, .cliente-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gris-humo);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            transition: var(--transicion);
+            cursor: pointer;
+        }
+
+        .alert-item:last-child, .agenda-item:last-child, .expediente-item:last-child, .cliente-item:last-child {
+            border-bottom: none;
+        }
+
+        .alert-item:hover, .agenda-item:hover, .expediente-item:hover, .cliente-item:hover {
+            background: var(--gris-humo);
+            border-radius: 8px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .alert-icon {
+            color: var(--urgente);
+            width: 20px;
+            text-align: center;
+        }
+
+        .agenda-time {
+            background: var(--azul-celeste);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .expediente-estado {
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .estado-urgente { background: var(--urgente); color: white; }
+        .estado-alerta { background: var(--alerta); color: white; }
+        .estado-ok { background: var(--ok); color: white; }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 1rem;
+            background: var(--gris-humo);
+            border-radius: 8px;
+            transition: var(--transicion);
+        }
+
+        .metric-card:hover {
+            transform: scale(1.05);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--azul-marina);
+        }
+
+        .metric-label {
+            color: var(--gris-carbón);
+            font-size: 0.9rem;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--azul-celeste);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .notification-badge {
+            background: var(--urgente);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .loading {
+            color: var(--gris-plata);
+            font-style: italic;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR - SOLO DEMO -->
+    <nav class="sidebar">
+        <div class="logo">
+            <span class="logo-icon">⚖️</span>
+            <div>
+                <div class="logo-text">Kodyan JURI</div>
+                <div class="demo-tagline">Demo Preview</div>
+            </div>
+        </div>
+        
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#" class="menu-link demo-active">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-folder"></i> Expedientes
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-users"></i> Clientes
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-calendar"></i> Agenda
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-chart-line"></i> Finanzas
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL - SOLO DEMO -->
+    <main class="main-content">
+        <header class="header">
+            <div class="welcome">
+                <h1 id="bienvenida-usuario">Buenos días, Dr. Guillermo</h1>
+                <p id="fecha-actual"></p>
+            </div>
+            <div class="user-menu">
+                <span class="notification-badge">3</span>
+                <div class="user-avatar">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- ALERTAS URGENTES -->
+        <section class="card">
+            <div class="demo-badge">DEMO</div>
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-exclamation-triangle"></i> Alertas Urgentes</h2>
+            </div>
+            <div id="alertas-container">
+                <div class="alert-item" onclick="mostrarDemoMessage('Sistema de alertas inteligentes - Próximamente')">
+                    <i class="fas fa-clock alert-icon"></i>
+                    <div>
+                        <strong>Vencimiento de Plazo</strong>
+                        <br><small>Caso #12345 - Respuesta a demanda - Vence hoy</small>
+                    </div>
+                </div>
+                <div class="alert-item" onclick="mostrarDemoMessage('Recordatorios automáticos - Próximamente')">
+                    <i class="fas fa-balance-scale alert-icon"></i>
+                    <div>
+                        <strong>Audiencia Inminente</strong>
+                        <br><small>Caso #12346 - Mediación - Mañana 10:00 hs</small>
+                    </div>
+                </div>
+                <div class="alert-item" onclick="mostrarDemoMessage('Gestión documental - Próximamente')">
+                    <i class="fas fa-file-signature alert-icon"></i>
+                    <div>
+                        <strong>Documento Pendiente</strong>
+                        <br><small>Falta firmar poder especial caso #12347</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD GRID -->
+        <div class="dashboard-grid">
+            <!-- AGENDA DEL DÍA -->
+            <section class="card">
+                <div class="demo-badge">DEMO</div>
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-calendar-day"></i> Agenda de Hoy</h2>
+                    <a href="#" class="see-all" onclick="mostrarDemoMessage('Vista completa de agenda - Próximamente')">Ver toda</a>
+                </div>
+                <div id="agenda-hoy-container">
+                    <div class="agenda-item" onclick="mostrarDemoMessage('Gestión de reuniones - Próximamente')">
+                        <span class="agenda-time">09:30</span>
+                        <div class="agenda-details">
+                            <strong>Consulta - María González</strong>
+                            <br><small>Asesoramiento sucesiones</small>
+                        </div>
+                    </div>
+                    <div class="agenda-item" onclick="mostrarDemoMessage('Coordinación de equipos - Próximamente')">
+                        <span class="agenda-time">11:00</span>
+                        <div class="agenda-details">
+                            <strong>Reunión equipo</strong>
+                            <br><small>Análisis caso corporativo</small>
+                        </div>
+                    </div>
+                    <div class="agenda-item" onclick="mostrarDemoMessage('Sistema de videollamadas - Próximamente')">
+                        <span class="agenda-time">15:30</span>
+                        <div class="agenda-details">
+                            <strong>Audiencia virtual</strong>
+                            <br><small>Caso #12348 - Juicio laboral</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EXPEDIENTES ACTIVOS -->
+            <section class="card">
+                <div class="demo-badge">DEMO</div>
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-folder-open"></i> Expedientes Activos</h2>
+                    <a href="#" class="see-all" onclick="mostrarDemoMessage('Panel completo de expedientes - Próximamente')">Ver todos</a>
+                </div>
+                <div id="expedientes-container">
+                    <div class="expediente-item" onclick="mostrarDemoMessage('Detalle completo del expediente - Próximamente')">
+                        <div style="flex: 1;">
+                            <strong>Exp. 12345</strong>
+                            <br><small>Pérez S.A.</small>
+                            <br><small>Demanda comercial</small>
+                        </div>
+                        <span class="expediente-estado estado-urgente">
+                            URGENTE
+                        </span>
+                    </div>
+                    <div class="expediente-item" onclick="mostrarDemoMessage('Seguimiento de casos - Próximamente')">
+                        <div style="flex: 1;">
+                            <strong>Exp. 12346</strong>
+                            <br><small>Rodríguez Juan</small>
+                            <br><small>Divorcio contencioso</small>
+                        </div>
+                        <span class="expediente-estado estado-alerta">
+                            ALERTA
+                        </span>
+                    </div>
+                    <div class="expediente-item" onclick="mostrarDemoMessage('Archivo digital - Próximamente')">
+                        <div style="flex: 1;">
+                            <strong>Exp. 12347</strong>
+                            <br><small>López María</small>
+                            <br><small>Sucesión</small>
+                        </div>
+                        <span class="expediente-estado estado-ok">
+                            OK
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MÉTRICAS -->
+            <section class="card">
+                <div class="demo-badge">DEMO</div>
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-chart-bar"></i> Resumen del Mes</h2>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card" onclick="mostrarDemoMessage('Análisis de carga de trabajo - Próximamente')">
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">Casos Activos</div>
+                    </div>
+                    <div class="metric-card" onclick="mostrarDemoMessage('Control financiero - Próximamente')">
+                        <div class="metric-value">$85.240</div>
+                        <div class="metric-label">Facturación</div>
+                    </div>
+                    <div class="metric-card" onclick="mostrarDemoMessage('Calendarización - Próximamente')">
+                        <div class="metric-value">5</div>
+                        <div class="metric-label">Audiencias</div>
+                    </div>
+                    <div class="metric-card" onclick="mostrarDemoMessage('CRM jurídico - Próximamente')">
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">Clientes Nuevos</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CLIENTES RECIENTES -->
+            <section class="card">
+                <div class="demo-badge">DEMO</div>
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-user-plus"></i> Clientes Recientes</h2>
+                    <a href="#" class="see-all" onclick="mostrarDemoMessage('Base de datos de clientes - Próximamente')">Ver todos</a>
+                </div>
+                <div id="clientes-container">
+                    <div class="cliente-item" onclick="mostrarDemoMessage('Ficha completa del cliente - Próximamente')">
+                        <i class="fas fa-user"></i>
+                        <div style="flex: 1;">
+                            <strong>García Carlos</strong>
+                            <br><small>Ingreso: 15/03/2024</small>
+                        </div>
+                        <span style="color: var(--azul-celeste); font-size: 0.8rem;">
+                            Nuevo
+                        </span>
+                    </div>
+                    <div class="cliente-item" onclick="mostrarDemoMessage('Gestión corporativa - Próximamente')">
+                        <i class="fas fa-building"></i>
+                        <div style="flex: 1;">
+                            <strong>Empresa XYZ S.R.L.</strong>
+                            <br><small>Ingreso: 14/03/2024</small>
+                        </div>
+                        <span style="color: var(--azul-celeste); font-size: 0.8rem;">
+                            Corporativo
+                        </span>
+                    </div>
+                    <div class="cliente-item" onclick="mostrarDemoMessage('Sistema de referidos - Próximamente')">
+                        <i class="fas fa-handshake"></i>
+                        <div style="flex: 1;">
+                            <strong>Fernández Ana</strong>
+                            <br><small>Ingreso: 12/03/2024</small>
+                        </div>
+                        <span style="color: var(--azul-celeste); font-size: 0.8rem;">
+                            Referido
+                        </span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // ===== FUNCIONES DE DEMO =====
+        function mostrarDemoMessage(mensaje) {
+            alert(`⚖️ DEMO PREVIEW - Kodyan JURI\n\n${mensaje}\n\nEsta es una versión de demostración. Todas las funcionalidades estarán disponibles en la versión completa.`);
+        }
+
+        // ===== FECHA ACTUAL =====
+        function actualizarFecha() {
+            const ahora = new Date();
+            const opciones = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            
+            const fechaFormateada = ahora.toLocaleDateString('es-AR', opciones);
+            document.getElementById('fecha-actual').textContent = fechaFormateada;
+        }
+
+        // ===== INICIALIZACIÓN =====
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('⚖️ Kodyan JURI Demo Preview iniciado');
+            actualizarFecha();
+            
+            // Mostrar mensaje de bienvenida
+            setTimeout(() => {
+                mostrarDemoMessage('Bienvenido a la demo de Kodyan JURI\n\nEste es un preview de cómo se verá y funcionará tu sistema de gestión jurídica.');
+            }, 1000);
+        });
+
+        // Prevenir clicks en enlaces no funcionales
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && !e.target.classList.contains('demo-active')) {
+                e.preventDefault();
+                mostrarDemoMessage('Esta sección estará disponible en la versión completa');
+            }
+        });
+    </script>
+</body>
+</html>
