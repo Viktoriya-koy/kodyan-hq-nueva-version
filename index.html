@@ -153,7 +153,19 @@
             margin-bottom: 1.5rem;
         }
         
-        /* Chatbot Styles - MEJORADO */
+        .proximamente-badge {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* Chatbot Styles - EXACTO como lo querías */
         #chatbot-container {
             position: fixed;
             bottom: 20px;
@@ -186,8 +198,8 @@
             position: absolute;
             bottom: 70px;
             right: 0;
-            width: 350px;
-            height: 500px;
+            width: 380px;
+            height: 520px;
             background: var(--bg-card);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -200,65 +212,47 @@
         .chatbot-header {
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: white;
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chatbot-header h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
         
         .chatbot-messages {
             flex: 1;
-            padding: 1rem;
+            padding: 1.5rem;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 1rem;
-        }
-        
-        .chatbot-input {
-            padding: 1rem;
-            border-top: 1px solid rgba(56, 178, 172, 0.2);
-            display: flex;
-            gap: 0.5rem;
-            background: var(--bg-secondary);
-        }
-        
-        .chatbot-input input {
-            flex: 1;
-            padding: 0.8rem;
-            border: 1px solid rgba(56, 178, 172, 0.3);
-            border-radius: 8px;
             background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Roboto Mono', monospace;
-        }
-        
-        .chatbot-input button {
-            background: var(--accent-primary);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-        }
-        
-        .chatbot-input button:hover {
-            background: var(--accent-secondary);
         }
         
         .message {
-            padding: 0.8rem 1rem;
+            padding: 1rem;
             border-radius: 12px;
-            max-width: 85%;
+            max-width: 90%;
             line-height: 1.4;
             animation: fadeInUp 0.3s ease;
+            position: relative;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            opacity: 0.7;
         }
         
         .bot-message {
-            background: rgba(56, 178, 172, 0.1);
+            background: var(--bg-card);
             color: var(--text-primary);
             align-self: flex-start;
             border: 1px solid rgba(56, 178, 172, 0.2);
@@ -269,6 +263,77 @@
             color: white;
             align-self: flex-end;
             margin-left: auto;
+        }
+        
+        .quick-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        
+        .quick-option {
+            background: rgba(56, 178, 172, 0.1);
+            color: var(--accent-highlight);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(56, 178, 172, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-option:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .chatbot-input {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(56, 178, 172, 0.2);
+            background: var(--bg-secondary);
+        }
+        
+        .chatbot-input input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(56, 178, 172, 0.3);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .chatbot-input input:focus {
+            outline: none;
+            border-color: var(--accent-highlight);
+            box-shadow: 0 0 0 2px rgba(0, 255, 209, 0.2);
+        }
+        
+        .chatbot-input input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .chatbot-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        
+        .input-hint {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        
+        .chatbot-status {
+            font-size: 0.7rem;
+            color: var(--accent-highlight);
+            text-align: center;
+            font-weight: 500;
         }
         
         #close-chatbot {
@@ -289,6 +354,10 @@
         
         #close-chatbot:hover {
             background: rgba(255, 255, 255, 0.2);
+        }
+        
+        #send-message {
+            display: none;
         }
     </style>
 </head>
@@ -429,6 +498,7 @@
                     <div class="plataforma-icon">
                         <i class="fas fa-stethoscope"></i>
                     </div>
+                    <div class="proximamente-badge">Próximamente</div>
                     <h3>Kodyan Med</h3>
                     <p class="plataforma-tagline">Consultorios virtuales para profesionales de la salud</p>
                     <p>Plataforma todo-en-uno para telemedicina, gestión de pacientes y historia clínica digital.</p>
@@ -444,7 +514,7 @@
                             <li>Prescripciones digitales</li>
                         </ul>
                     </div>
-                    <a href="#contacto" class="btn btn-primary">Solicitar Demo</a>
+                    <a href="#contacto" class="btn btn-primary">Notificarme el lanzamiento</a>
                 </div>
                 
                 <!-- Kodyan Jury -->
@@ -452,6 +522,7 @@
                     <div class="plataforma-icon">
                         <i class="fas fa-gavel"></i>
                     </div>
+                    <div class="proximamente-badge">Próximamente</div>
                     <h3>Kodyan Jury</h3>
                     <p class="plataforma-tagline">Estudios virtuales para abogados</p>
                     <p>Gestión de casos, consultas online, firma digital y expedientes electrónicos.</p>
@@ -467,7 +538,7 @@
                             <li>Recordatorios de vencimientos</li>
                         </ul>
                     </div>
-                    <a href="#contacto" class="btn btn-primary">Solicitar Demo</a>
+                    <a href="#contacto" class="btn btn-primary">Notificarme el lanzamiento</a>
                 </div>
             </div>
         </div>
@@ -768,12 +839,29 @@
             </div>
             <div class="chatbot-messages" id="chatbot-messages">
                 <div class="message bot-message">
-                    ¡Hola! Soy tu asistente de Kodyan HQ. ¿En qué puedo ayudarte hoy?
+                    <div class="message-time">16:45</div>
+                    ¡Hola! Soy el asistente de Kodyan HQ. ¿En qué puedo ayudarte hoy?
+                </div>
+                <div class="message bot-message">
+                    <div class="message-time">16:45</div>
+                    ¿Qué te interesa conocer?<br>
+                    <div class="quick-options">
+                        <span class="quick-option">Kodyan Operations</span>
+                        <span class="quick-option">Kodyan Commerce</span>
+                        <span class="quick-option">Kodyan Web</span>
+                        <span class="quick-option">Kodyan Jury</span>
+                        <span class="quick-option">Kodyan Med</span>
+                        <span class="quick-option">Kodyan Eco</span>
+                        <span class="quick-option">Kodyan Care</span>
+                    </div>
                 </div>
             </div>
             <div class="chatbot-input">
-                <input type="text" id="chatbot-input" placeholder="Escribe tu pregunta...">
-                <button id="send-message">Enviar</button>
+                <input type="text" id="chatbot-input" placeholder="Escribe tu pregunta sobre Kodyan HQ...">
+                <div class="chatbot-footer">
+                    <span class="input-hint">Presiona Enter para enviar • Escribe "ayuda" para ver opciones</span>
+                    <span class="chatbot-status">Powered by Kodyan HQ • Conectado</span>
+                </div>
             </div>
         </div>
     </div>
@@ -781,47 +869,52 @@
     <script src="js/script.js"></script>
     
     <script>
-        // Chatbot functionality
+        // Chatbot functionality - ACTUALIZADO
         document.addEventListener('DOMContentLoaded', function() {
             const chatbotIcon = document.getElementById('chatbot-icon');
             const chatbotWindow = document.getElementById('chatbot-window');
             const closeChatbot = document.getElementById('close-chatbot');
-            const sendButton = document.getElementById('send-message');
             const chatInput = document.getElementById('chatbot-input');
             const chatMessages = document.getElementById('chatbot-messages');
             
             // Toggle chatbot window
             chatbotIcon.addEventListener('click', function() {
                 chatbotWindow.style.display = chatbotWindow.style.display === 'none' ? 'flex' : 'none';
+                if (chatbotWindow.style.display === 'flex') {
+                    chatInput.focus();
+                }
             });
             
             closeChatbot.addEventListener('click', function() {
                 chatbotWindow.style.display = 'none';
             });
             
-            // Send message function
-            function sendMessage() {
-                const message = chatInput.value.trim();
-                if (message) {
-                    // Add user message
-                    addMessage(message, 'user');
-                    chatInput.value = '';
+            // Quick options functionality
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('quick-option')) {
+                    const option = e.target.textContent;
+                    addMessage(option, 'user');
                     
-                    // Bot response
                     setTimeout(() => {
-                        const botResponse = getBotResponse(message);
-                        addMessage(botResponse, 'bot');
-                    }, 1000);
+                        const response = getQuickOptionResponse(option);
+                        addMessage(response, 'bot');
+                    }, 500);
                 }
-            }
+            });
             
-            // Send on button click
-            sendButton.addEventListener('click', sendMessage);
-            
-            // Send on Enter key
+            // Send message on Enter
             chatInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
-                    sendMessage();
+                    const message = chatInput.value.trim();
+                    if (message) {
+                        addMessage(message, 'user');
+                        chatInput.value = '';
+                        
+                        setTimeout(() => {
+                            const response = getBotResponse(message);
+                            addMessage(response, 'bot');
+                        }, 1000);
+                    }
                 }
             });
             
@@ -829,44 +922,83 @@
             function addMessage(text, sender) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${sender}-message`;
-                messageDiv.textContent = text;
+                
+                const time = new Date().toLocaleTimeString('es-AR', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    hour12: false 
+                });
+                
+                messageDiv.innerHTML = `
+                    <div class="message-time">${time}</div>
+                    ${text}
+                `;
+                
                 chatMessages.appendChild(messageDiv);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
             
-            // Bot responses
+            // Quick option responses
+            function getQuickOptionResponse(option) {
+                switch(option) {
+                    case 'Kodyan Operations':
+                        return '🚀 <strong>Kodyan Operations</strong><br>Transformamos tus datos en decisiones claras. Automatización de reportes, dashboards interactivos y alertas inteligentes para equipos que dependen de datos.';
+                    
+                    case 'Kodyan Commerce':
+                        return '🛒 <strong>Kodyan Commerce</strong><br>Activamos tu potencial de crecimiento. Estrategia comercial, diseño de bundles y planes de marketing para emprendedores y pymes.';
+                    
+                    case 'Kodyan Web':
+                        return '🌐 <strong>Kodyan Web</strong><br>Diseño y desarrollo web que convierte visitantes en clientes. Desde sitios corporativos hasta e-commerce, con diseño responsive y SEO.';
+                    
+                    case 'Kodyan Jury':
+                        return '⚖️ <strong>Kodyan Jury</strong><br>Estudios virtuales para abogados. Gestión de casos, consultas online, firma digital y expedientes electrónicos. <em>(Próximamente)</em>';
+                    
+                    case 'Kodyan Med':
+                        return '🏥 <strong>Kodyan Med</strong><br>Consultorios virtuales para profesionales de la salud. Telemedicina, historia clínica digital y agenda online. <em>(Próximamente)</em>';
+                    
+                    case 'Kodyan Eco':
+                        return '🌱 <strong>Kodyan Eco</strong><br>Calculadora de huella de carbono y herramientas educativas ambientales. Recursos gratuitos para concientización.';
+                    
+                    case 'Kodyan Care':
+                        return '💙 <strong>Kodyan Care</strong><br>Primeros auxilios emocionales y herramientas de salud mental gratuitas. Tu puerto seguro para tormentas emocionales.';
+                    
+                    default:
+                        return '¿Te interesa conocer más sobre ' + option + '? Te recomiendo visitar nuestra sección correspondiente en el sitio web.';
+                }
+            }
+            
+            // General bot responses
             function getBotResponse(userMessage) {
                 const lowerMessage = userMessage.toLowerCase();
                 
-                if (lowerMessage.includes('hola') || lowerMessage.includes('holi') || lowerMessage.includes('hi')) {
-                    return '¡Hola! 😊 ¿En qué puedo ayudarte? Puedo contarte sobre nuestros servicios, plataformas o recursos gratuitos.';
+                if (lowerMessage.includes('ayuda')) {
+                    return 'Puedo ayudarte con información sobre:<br><br>' +
+                           '🚀 <strong>Kodyan Operations</strong> - Automatización<br>' +
+                           '🛒 <strong>Kodyan Commerce</strong> - Estrategia comercial<br>' +
+                           '🌐 <strong>Kodyan Web</strong> - Desarrollo web<br>' +
+                           '⚖️ <strong>Kodyan Jury</strong> - Estudios jurídicos (Próximamente)<br>' +
+                           '🏥 <strong>Kodyan Med</strong> - Consultorios médicos (Próximamente)<br>' +
+                           '🌱 <strong>Kodyan Eco</strong> - Calculadora ambiental<br>' +
+                           '💙 <strong>Kodyan Care</strong> - Salud mental<br><br>' +
+                           '¿Sobre cuál te gustaría saber más?';
                 }
                 
-                if (lowerMessage.includes('servicio') || lowerMessage.includes('qué hacen')) {
-                    return 'Tenemos 3 servicios principales:\n\n🚀 KODYAN OPERATIONS - Automatización y datos\n🛒 KODYAN COMMERCE - Estrategia comercial  \n🌐 KODYAN WEB - Diseño y desarrollo web\n\n¿Te interesa alguno en particular?';
+                if (lowerMessage.includes('hola') || lowerMessage.includes('hi')) {
+                    return '¡Hola! ¿En qué puedo ayudarte hoy? Puedes hacer clic en las opciones rápidas o escribir tu pregunta.';
                 }
                 
-                if (lowerMessage.includes('plataforma') || lowerMessage.includes('med') || lowerMessage.includes('jury')) {
-                    return 'Nuestras plataformas especializadas:\n\n🏥 KODYAN MED - Consultorios virtuales para salud\n⚖️ KODYAN JURY - Estudios virtuales para abogados\n\nSon soluciones todo-en-uno para profesionales.';
+                if (lowerMessage.includes('contacto') || lowerMessage.includes('email')) {
+                    return '📧 <strong>Email:</strong> contacto@kodyanhq.com<br>' +
+                           '📱 <strong>WhatsApp:</strong> +54 9 266 468 7313<br>' +
+                           '💼 <strong>LinkedIn:</strong> Kodyan HQ<br><br>' +
+                           '¡Estamos para ayudarte!';
                 }
                 
-                if (lowerMessage.includes('recurso') || lowerMessage.includes('gratis') || lowerMessage.includes('care') || lowerMessage.includes('eco')) {
-                    return 'Recursos gratuitos:\n\n💙 KODYAN CARE - Primeros auxilios emocionales\n🌱 KODYAN ECO - Calculadora de huella de carbono\n\n¡Son 100% gratuitos para la comunidad!';
+                if (lowerMessage.includes('precio') || lowerMessage.includes('cuesta')) {
+                    return 'Los precios varían según el proyecto. Te recomiendo contactarnos para una consulta gratuita y te armamos una propuesta personalizada.';
                 }
                 
-                if (lowerMessage.includes('portfolio') || lowerMessage.includes('calculadora') || lowerMessage.includes('ejemplo')) {
-                    return 'En nuestro portfolio podés probar:\n\n📊 Calculadora ROI Automatización\n👥 Calculadora Rotación Personal\n🎯 El Decididor (herramienta de decisiones)\n\n¡Son interactivas y demostrativas!';
-                }
-                
-                if (lowerMessage.includes('contacto') || lowerMessage.includes('email') || lowerMessage.includes('whatsapp')) {
-                    return 'Podés contactarnos por:\n📧 contacto@kodyanhq.com\n📱 WhatsApp: +54 9 266 468 7313\n💼 LinkedIn: Kodyan HQ\n\n¡Estamos para ayudarte!';
-                }
-                
-                if (lowerMessage.includes('precio') || lowerMessage.includes('cuesta') || lowerMessage.includes('costo')) {
-                    return 'Los precios varían según el proyecto. Te recomiendo contactarnos para una consulta gratuita y te armamos una propuesta a medida.';
-                }
-                
-                return '¡Interesante pregunta! Te recomiendo:\n- Ver nuestra sección de Servicios\n- Probar las calculadoras del Portfolio\n- O contactarnos directamente para una consulta personalizada 😊';
+                return '¡Gracias por tu mensaje! ¿Te gustaría saber sobre alguno de nuestros servicios? Puedes usar las opciones rápidas o escribir "ayuda" para ver todas las opciones.';
             }
         });
     </script>
