@@ -165,7 +165,7 @@
             animation: pulse 2s infinite;
         }
 
-        /* Chatbot Styles - EXACTO como lo querías */
+        /* Chatbot Styles - ORGANIZADO EN 4 COLUMNAS EXACTAS */
         #chatbot-container {
             position: fixed;
             bottom: 20px;
@@ -198,8 +198,8 @@
             position: absolute;
             bottom: 70px;
             right: 0;
-            width: 380px;
-            height: 520px;
+            width: 400px;
+            height: 540px;
             background: var(--bg-card);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -264,29 +264,40 @@
             align-self: flex-end;
             margin-left: auto;
         }
-        
+
+        /* ORGANIZACIÓN EXACTA DE OPCIONES */
         .quick-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
             margin-top: 0.8rem;
         }
-        
+
+        .quick-options-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
         .quick-option {
             background: rgba(56, 178, 172, 0.1);
             color: var(--accent-highlight);
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 0.6rem 0.8rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
             border: 1px solid rgba(56, 178, 172, 0.3);
             cursor: pointer;
             transition: all 0.3s ease;
+            text-align: center;
+            line-height: 1.3;
+            font-weight: 500;
         }
-        
+
         .quick-option:hover {
             background: var(--accent-primary);
             color: white;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(56, 178, 172, 0.3);
         }
         
         .chatbot-input {
@@ -829,7 +840,7 @@
         </div>
     </footer>
 
-    <!-- Chatbot -->
+    <!-- Chatbot CON ORGANIZACIÓN EXACTA -->
     <div id="chatbot-container">
         <div id="chatbot-icon">🤖</div>
         <div id="chatbot-window">
@@ -846,13 +857,25 @@
                     <div class="message-time">16:45</div>
                     ¿Qué te interesa conocer?<br>
                     <div class="quick-options">
-                        <span class="quick-option">Kodyan Operations</span>
-                        <span class="quick-option">Kodyan Commerce</span>
-                        <span class="quick-option">Kodyan Web</span>
-                        <span class="quick-option">Kodyan Jury</span>
-                        <span class="quick-option">Kodyan Med</span>
-                        <span class="quick-option">Kodyan Eco</span>
-                        <span class="quick-option">Kodyan Care</span>
+                        <div class="quick-options-column">
+                            <span class="quick-option">Kodyan Operations</span>
+                            <span class="quick-option">Kodyan Commerce</span>
+                            <span class="quick-option">Kodyan Web</span>
+                        </div>
+                        <div class="quick-options-column">
+                            <span class="quick-option">Kodyan Jury</span>
+                            <span class="quick-option">Kodyan Med</span>
+                            <span class="quick-option">Portafolio</span>
+                        </div>
+                    </div>
+                    <div class="quick-options" style="margin-top: 0.5rem;">
+                        <div class="quick-options-column">
+                            <span class="quick-option">Kodyan Eco</span>
+                            <span class="quick-option">Kodyan Care</span>
+                        </div>
+                        <div class="quick-options-column">
+                            <!-- Columna vacía para mantener el balance -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -962,6 +985,9 @@
                     case 'Kodyan Care':
                         return '💙 <strong>Kodyan Care</strong><br>Primeros auxilios emocionales y herramientas de salud mental gratuitas. Tu puerto seguro para tormentas emocionales.';
                     
+                    case 'Portafolio':
+                        return '📊 <strong>Portafolio</strong><br>Probá nuestras calculadoras interactivas para ver ejemplos de lo que podemos crear:<br>• Calculadora ROI Automatización<br>• Calculadora Rotación Personal<br>• El Decididor<br>¡Son demostraciones reales de nuestro trabajo!';
+                    
                     default:
                         return '¿Te interesa conocer más sobre ' + option + '? Te recomiendo visitar nuestra sección correspondiente en el sitio web.';
                 }
@@ -979,7 +1005,8 @@
                            '⚖️ <strong>Kodyan Jury</strong> - Estudios jurídicos (Próximamente)<br>' +
                            '🏥 <strong>Kodyan Med</strong> - Consultorios médicos (Próximamente)<br>' +
                            '🌱 <strong>Kodyan Eco</strong> - Calculadora ambiental<br>' +
-                           '💙 <strong>Kodyan Care</strong> - Salud mental<br><br>' +
+                           '💙 <strong>Kodyan Care</strong> - Salud mental<br>' +
+                           '📊 <strong>Portafolio</strong> - Demostraciones<br><br>' +
                            '¿Sobre cuál te gustaría saber más?';
                 }
                 
