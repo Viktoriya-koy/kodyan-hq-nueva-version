@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descarga Emocional | Kodyan Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ESTILOS ESPECÍFICOS PARA DESCARGA */
+        .herramienta-detalle {
+            padding: 8rem 0 4rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f5ff 0%, #f0edff 100%);
+        }
+
+        .descarga-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--color-surface);
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 1.5rem;
+            border: 2px solid var(--color-primary);
+            border-radius: 15px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.1rem;
+            resize: vertical;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            line-height: 1.6;
+            background: var(--color-secondary);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-primary-dark);
+            box-shadow: 0 0 0 3px rgba(109, 103, 228, 0.1);
+        }
+
+        textarea::placeholder {
+            color: var(--color-text-light);
+            font-style: italic;
+        }
+
+        .opciones-destruccion {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-destruir {
+            background: var(--color-secondary);
+            color: var(--color-text);
+            border: 2px solid var(--color-primary-light);
+            padding: 1.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-destruir:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-destruir[data-tipo="estallar"] {
+            border-color: #FF6B6B;
+            background: linear-gradient(135deg, #ffecec, #ffdfdf);
+        }
+
+        .btn-destruir[data-tipo="desvanecer"] {
+            border-color: #6D67E4;
+            background: linear-gradient(135deg, #f0edff, #e6e1ff);
+        }
+
+        .btn-destruir[data-tipo="desintegrar"] {
+            border-color: #4ECDC4;
+            background: linear-gradient(135deg, #f0f9f8, #e0f7f5);
+        }
+
+        .btn-destruir[data-tipo="quemar"] {
+            border-color: #FFA726;
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+        }
+
+        .btn-destruir[data-tipo="romper"] {
+            border-color: #8A85FF;
+            background: linear-gradient(135deg, #f0f0ff, #e8e7ff);
+        }
+
+        .btn-destruir[data-tipo="volar"] {
+            border-color: #81C784;
+            background: linear-gradient(135deg, #f1f8e9, #e8f5e8);
+        }
+
+        .btn-destruir i {
+            font-size: 1.8rem;
+        }
+
+        .mensaje-exito {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--color-secondary);
+            border-radius: 12px;
+            margin-top: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .mensaje-exito.mostrar {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .info-seguridad {
+            background: #f0f9ff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: left;
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .info-seguridad h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ANIMACIONES MEJORADAS */
+        .efecto-estallar {
+            animation: estallar 1.5s ease-in-out forwards;
+        }
+
+        .efecto-desvanecer {
+            animation: desvanecer 2s ease-out forwards;
+        }
+
+        .efecto-desintegrar {
+            animation: desintegrar 2s ease-in-out forwards;
+        }
+
+        .efecto-quemar {
+            animation: quemar 1.8s ease-out forwards;
+            position: relative;
+        }
+
+        .efecto-romper {
+            animation: romper 1.5s ease-in-out forwards;
+        }
+
+        .efecto-volar {
+            animation: volar 2s ease-out forwards;
+        }
+
+        @keyframes estallar {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+            }
+            30% {
+                transform: scale(1.1);
+                background-color: #FFE5E5;
+                box-shadow: 0 0 0 20px rgba(255, 107, 107, 0.4);
+            }
+            70% {
+                transform: scale(1.3);
+                opacity: 0.8;
+                box-shadow: 0 0 0 40px rgba(255, 107, 107, 0);
+            }
+            100% {
+                transform: scale(1.8);
+                opacity: 0;
+                box-shadow: 0 0 0 60px rgba(255, 107, 107, 0);
+            }
+        }
+
+        @keyframes desvanecer {
+            0% {
+                opacity: 1;
+                filter: blur(0);
+            }
+            100% {
+                opacity: 0;
+                filter: blur(10px);
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes desintegrar {
+            0% {
+                transform: scale(1) rotate(0);
+                opacity: 1;
+                filter: blur(0);
+            }
+            50% {
+                transform: scale(1.05) rotate(1deg);
+                opacity: 0.8;
+                filter: blur(1px);
+            }
+            100% {
+                transform: scale(0) rotate(5deg);
+                opacity: 0;
+                filter: blur(5px);
+            }
+        }
+
+        @keyframes quemar {
+            0% {
+                opacity: 1;
+                background-color: var(--color-secondary);
+            }
+            50% {
+                background-color: #FFE0B2;
+                box-shadow: 0 0 30px #FFA726;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.9);
+                background-color: #FFCCBC;
+            }
+        }
+
+        @keyframes romper {
+            0% {
+                transform: scale(1) rotate(0);
+                opacity: 1;
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            30% {
+                transform: scale(1.02) rotate(-0.5deg);
+                opacity: 0.9;
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            100% {
+                transform: scale(0.95) rotate(2deg);
+                opacity: 0;
+                clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+            }
+        }
+
+        @keyframes volar {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Animaciones para efectos secundarios */
+        @keyframes chispear {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes particulaFlotar {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx, 100px), var(--ty, -50px)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes lineaRupturaAnim {
+            0% {
+                transform: scaleX(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scaleX(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fragmentoRuptura {
+            0% {
+                transform: translateX(0) rotate(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(var(--offset-x, 100px)) translateY(var(--offset-y, 0)) rotate(var(--rotate, 45deg));
+                opacity: 0;
+            }
+        }
+
+        @keyframes ondaExplosiva {
+            0% {
+                transform: scale(0);
+                opacity: 0.8;
+                border-width: 8px;
+            }
+            50% {
+                opacity: 0.5;
+                border-width: 4px;
+            }
+            100% {
+                transform: scale(8);
+                opacity: 0;
+                border-width: 1px;
+            }
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        /* Estilos para efectos visuales */
+        .particula {
+            animation: particulaFlotar 2s ease-out forwards;
+        }
+
+        .fragmento-ruptura {
+            --offset-x: calc((var(--dir, 1) * 80) + (Math.random() * 40 - 20));
+            --offset-y: calc(Math.random() * 60 - 30);
+            --rotate: calc(Math.random() * 60 - 30);
+        }
+
+        .fragmento-ruptura:nth-child(odd) {
+            --dir: -1;
+        }
+
+        .fragmento-ruptura:nth-child(even) {
+            --dir: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .opciones-destruccion {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .btn-destruir {
+                flex-direction: row;
+                justify-content: center;
+                padding: 1rem;
+            }
+            
+            .descarga-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            textarea {
+                min-height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .opciones-destruccion {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="resources/pulpo-logo.png" alt="Kodyan Care" class="logo-pulpo">
+                Kodyan Care
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#herramientas">Herramientas</a></li>
+                    <li><a href="index.html#regulacion">Regulación</a></li>
+                    <li><a href="index.html#como-ayudar">Cómo Ayudar</a></li>
+                    <li><a href="emergencias.html" class="btn-emergencia">🚨 Emergencia</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="herramienta-detalle">
+        <div class="container">
+            <h1>📝 Descarga Emocional</h1>
+            <p class="subtitulo">Escribí lo que sientas. Elegí cómo liberarlo. Sin juicios, solo liberación.</p>
+
+            <div class="descarga-container">
+                <textarea 
+                    id="texto-descarga" 
+                    placeholder="Escribí aquí todo lo que necesites sacar... lo que sea. Rabia, miedo, tristeza, frustración. Nadie lo va a leer. Solo existirá por unos segundos antes de liberarse para siempre."
+                ></textarea>
+                 <div class="mensaje-terapeutico">
+        <p>💫 <strong>Al soltar las palabras, soltás el peso.</strong> Lo que escribís deja de ser solo tuyo y podés respirar.</p>
+    </div>
+              <div class="opciones-destruccion">
+    <button class="btn-destruir" data-tipo="estallar" onclick="liberarTexto('estallar')">
+        <span>💥</span>
+        Estallar
+    </button>
+    
+    <button class="btn-destruir" data-tipo="desvanecer" onclick="liberarTexto('desvanecer')">
+        <span>💨</span>
+        Desvanecer
+    </button>
+    
+    <button class="btn-destruir" data-tipo="desintegrar" onclick="liberarTexto('desintegrar')">
+        <span>🔳</span>
+        Desintegrar
+    </button>
+    
+    <button class="btn-destruir" data-tipo="quemar" onclick="liberarTexto('quemar')">
+        <span>🔥</span>
+        Quemar
+    </button>
+    
+    <button class="btn-destruir" data-tipo="romper" onclick="liberarTexto('romper')">
+        <span>💢</span>
+        Romper
+    </button>
+    
+    <button class="btn-destruir" data-tipo="volar" onclick="liberarTexto('volar')">
+        <span>🕊️</span>
+        Volar
+    </button>
+</div>
+
+                <p class="mensaje-exito" id="mensaje-exito">
+                    💨 Tu carga emocional se ha liberado. Respirá profundo y sentí el alivio.
+                </p>
+
+                <div class="info-seguridad">
+                    <h3>🔒 Tu privacidad está protegida</h3>
+                    <p>• Nadie lee lo que escribís<br>• Todo se autodestruye en segundos<br>• No se guarda en ningún servidor<br>• Es solo entre vos y la pantalla</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">Kodyan Care</a>
+                    <p>Tu puerto seguro para tormentas emocionales.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Herramientas</h4>
+                    <ul>
+                        <li><a href="anclaje.html">Técnicas de Anclaje</a></li>
+                        <li><a href="descarga.html">Descarga Rápida</a></li>
+                        <li><a href="sensorial.html">Herramientas Sensoriales</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="emergencias.html">Líneas de Crisis</a></li>
+                        <li><a href="guias.html">Guías Completas</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:care@koyhq.com">care@koyhq.com</a></li>
+                        <li><a href="https://instagram.com/kodyan.care" target="_blank">Instagram</a></li>
+                        <li><a href="https://koyhq.com" target="_blank">Koy HQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p><strong>💡 Importante:</strong> Esto no es un substituto de terapia profesional. Si estás en crisis, contactá a <a href="emergencias.html">recursos de emergencia</a>.</p>
+                <p>&copy; 2025 Kodyan Care. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="js/script.js"></script>
+    <script>
+        // Función de liberación mejorada con 6 efectos
+        function liberarTexto(tipo) {
+            const textoArea = document.getElementById('texto-descarga');
+            const botones = document.querySelectorAll('.btn-destruir');
+            const mensajeExito = document.getElementById('mensaje-exito');
+            const container = document.querySelector('.descarga-container');
+            
+            if (textoArea.value.trim() === '') {
+                textoArea.style.borderColor = 'var(--color-emergency)';
+                textoArea.placeholder = 'Escribí algo primero para liberarlo 💙...';
+                setTimeout(() => {
+                    textoArea.style.borderColor = 'var(--color-primary)';
+                    textoArea.placeholder = 'Escribí aquí todo lo que necesites sacar...';
+                }, 2000);
+                return;
+            }
+
+            // Deshabilitar botones durante la animación
+            botones.forEach(boton => {
+                boton.disabled = true;
+                boton.style.opacity = '0.6';
+                boton.style.cursor = 'not-allowed';
+            });
+
+            // Mensajes personalizados según el tipo
+            const mensajes = {
+                estallar: "💥 ¡PUM! Tu carga emocional estalló en mil pedazos. Te liberaste.",
+                desvanecer: "💨 Tu carga se desvaneció suavemente en el aire... Respirá profundo.",
+                desintegrar: "🌪️ Tu carga se desintegró en el viento... Sentí el alivio.",
+                quemar: "🔥 Tu carga se quemó hasta convertirse en cenizas... Purificación completa.",
+                romper: "💢 ¡CRACK! Rompiste esas cadenas emocionales. Sos libre.",
+                volar: "🕊️ Tu carga voló lejos como pájaros... Libertad total."
+            };
+            
+            mensajeExito.textContent = mensajes[tipo] || "💨 Tu carga emocional se ha liberado.";
+
+            // Aplicar efecto visual según el tipo
+            aplicarEfecto(tipo, textoArea, container);
+
+            // Esperar a que termine la animación
+            setTimeout(() => {
+                // Ocultar textarea
+                textoArea.classList.add('oculto');
+                
+                // Mostrar mensaje de éxito
+                mensajeExito.classList.add('mostrar');
+                
+                // Resetear después de un tiempo
+                setTimeout(() => {
+                    resetearInterfaz(textoArea, botones, mensajeExito, tipo);
+                }, 4000);
+                
+            }, 1800);
+        }
+
+        function aplicarEfecto(tipo, elemento, container) {
+            // Remover clases anteriores
+            elemento.className = '';
+            elemento.style.cssText = '';
+            
+            switch(tipo) {
+                case 'estallar':
+                    elemento.classList.add('efecto-estallar');
+                    crearOndaExplosiva(container);
+                    crearParticulas(container, 35, ['#FF6B6B', '#FFA726', '#FFE082', '#FF5252', '#FF1744'], true);
+                    break;
+                    
+                case 'desvanecer':
+                    elemento.classList.add('efecto-desvanecer');
+                    break;
+                    
+                case 'desintegrar':
+                    elemento.classList.add('efecto-desintegrar');
+                    // Para desintegrar, creamos muchas partículas pequeñas (píxeles)
+                    crearParticulas(container, 50, ['#4ECDC4', '#26C6DA', '#80DEEA', '#B2EBF2']);
+                    break;
+                    
+                case 'quemar':
+                    elemento.classList.add('efecto-quemar');
+                    crearFuego(container);
+                    break;
+                    
+                case 'romper':
+                    elemento.classList.add('efecto-romper');
+                    crearFragmentos(container);
+                    break;
+                    
+                case 'volar':
+                    elemento.classList.add('efecto-volar');
+                    crearPajaros(container);
+                    break;
+            }
+        }
+
+        function crearParticulas(container, cantidad, colores, esExplosion = false) {
+            const textoArea = document.getElementById('texto-descarga');
+            const rect = textoArea.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            const centroX = rect.left - containerRect.left + rect.width / 2;
+            const centroY = rect.top - containerRect.top + rect.height / 2;
+            
+            for (let i = 0; i < cantidad; i++) {
+                setTimeout(() => {
+                    const particula = document.createElement('div');
+                    particula.className = 'particula';
+                    
+                    // Para explosión, partículas más grandes y variadas
+                    const tamaño = esExplosion ? 
+                        (8 + Math.random() * 12) : 
+                        (4 + Math.random() * 4);
+                        
+                    particula.style.cssText = `
+                        position: absolute;
+                        width: ${tamaño}px;
+                        height: ${tamaño}px;
+                        background: ${colores[Math.floor(Math.random() * colores.length)]};
+                        border-radius: ${esExplosion ? '50%' : '1px'};
+                        pointer-events: none;
+                        left: ${centroX}px;
+                        top: ${centroY}px;
+                        z-index: 1000;
+                    `;
+                    
+                    container.appendChild(particula);
+                    
+                    // Animación diferente para explosión vs desintegración
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = esExplosion ? 
+                        (3 + Math.random() * 5) : // Más rápido para explosión
+                        (1 + Math.random() * 2);  // Más lento para desintegración
+                        
+                    const vx = Math.cos(angle) * velocity;
+                    const vy = Math.sin(angle) * velocity;
+                    
+                    let x = 0, y = 0;
+                    const animate = () => {
+                        x += vx;
+                        y += vy;
+                        const scale = esExplosion ? 
+                            (1 - (Math.sqrt(x*x + y*y)) / 50) : // Se encogen en explosión
+                            1;
+                            
+                        particula.style.transform = `translate(${x * (esExplosion ? 15 : 10)}px, ${y * (esExplosion ? 15 : 10)}px) scale(${scale})`;
+                        particula.style.opacity = 1 - (Math.sqrt(x*x + y*y)) / (esExplosion ? 40 : 30);
+                        
+                        if (Math.abs(x) < (esExplosion ? 50 : 30) && Math.abs(y) < (esExplosion ? 50 : 30)) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            particula.remove();
+                        }
+                    };
+                    animate();
+                    
+                }, i * (esExplosion ? 20 : 30));
+            }
+        }
+
+        function crearOndaExplosiva(container) {
+            const textoArea = document.getElementById('texto-descarga');
+            const rect = textoArea.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            const centroX = rect.left - containerRect.left + rect.width / 2;
+            const centroY = rect.top - containerRect.top + rect.height / 2;
+            
+            const onda = document.createElement('div');
+            onda.style.cssText = `
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                border: 3px solid #FF6B6B;
+                border-radius: 50%;
+                left: ${centroX}px;
+                top: ${centroY}px;
+                animation: ondaExplosiva 1s ease-out forwards;
+                z-index: 999;
+                pointer-events: none;
+            `;
+            container.appendChild(onda);
+            
+            setTimeout(() => onda.remove(), 1000);
+        }
+
+        function crearFuego(container) {
+            for (let i = 0; i < 8; i++) {
+                const chispa = document.createElement('div');
+                chispa.className = 'chispa';
+                chispa.style.cssText = `
+                    position: absolute;
+                    width: 4px;
+                    height: 15px;
+                    background: linear-gradient(to top, #FF6B6B, #FFA726, #FFE082);
+                    border-radius: 2px;
+                    left: ${40 + Math.random() * 20}%;
+                    bottom: 100%;
+                    animation: chispear 1.5s ease-out forwards;
+                    z-index: 1000;
+                `;
+                container.appendChild(chispa);
+                
+                setTimeout(() => chispa.remove(), 1500);
+            }
+        }
+
+        function crearFragmentos(container) {
+            const textoArea = document.getElementById('texto-descarga');
+            const rect = textoArea.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            
+            // Crear efecto de romper el texto a la mitad
+            const mitadX = rect.left - containerRect.left + rect.width / 2;
+            const mitadY = rect.top - containerRect.top + rect.height / 2;
+            
+            // Crear línea de ruptura
+            const lineaRuptura = document.createElement('div');
+            lineaRuptura.style.cssText = `
+                position: absolute;
+                left: ${mitadX - 100}px;
+                top: ${mitadY}px;
+                width: 200px;
+                height: 3px;
+                background: linear-gradient(90deg, transparent, #FF6B6B, transparent);
+                animation: lineaRupturaAnim 0.8s ease-out forwards;
+                z-index: 1000;
+                pointer-events: none;
+            `;
+            container.appendChild(lineaRuptura);
+            
+            // Crear fragmentos que se separan
+            for (let i = 0; i < 8; i++) {
+                const fragmento = document.createElement('div');
+                fragmento.className = 'fragmento-ruptura';
+                
+                // Alternar entre lado izquierdo y derecho
+                const esIzquierdo = i % 2 === 0;
+                const offsetX = esIzquierdo ? -1 : 1;
+                const offsetY = (i / 8) * 2 - 1; // -1 a 1
+                
+                fragmento.style.cssText = `
+                    position: absolute;
+                    width: ${20 + Math.random() * 30}px;
+                    height: ${15 + Math.random() * 20}px;
+                    background: var(--color-primary-light);
+                    opacity: 0.9;
+                    left: ${mitadX + (esIzquierdo ? -40 : 10)}px;
+                    top: ${mitadY + offsetY * 20}px;
+                    animation: fragmentoRuptura 1.5s ease-out forwards;
+                    z-index: 1000;
+                    border-radius: 4px;
+                    transform-origin: ${esIzquierdo ? 'right' : 'left'} center;
+                `;
+                
+                container.appendChild(fragmento);
+                
+                setTimeout(() => {
+                    lineaRuptura.remove();
+                    fragmento.remove();
+                }, 1500);
+            }
+        }
+
+        function crearPajaros(container) {
+            for (let i = 0; i < 6; i++) {
+                const pajaro = document.createElement('div');
+                pajaro.innerHTML = '🕊️';
+                pajaro.style.cssText = `
+                    position: absolute;
+                    font-size: 1.5rem;
+                    left: 50%;
+                    top: 50%;
+                    animation: volarPajaro 3s ease-out forwards;
+                    z-index: 1000;
+                    pointer-events: none;
+                `;
+                container.appendChild(pajaro);
+                
+                setTimeout(() => pajaro.remove(), 3000);
+            }
+        }
+
+        function resetearInterfaz(textoArea, botones, mensajeExito, tipo) {
+            textoArea.value = '';
+            textoArea.className = '';
+            textoArea.style.cssText = '';
+            textoArea.classList.remove('oculto');
+            
+            botones.forEach(boton => {
+                boton.disabled = false;
+                boton.style.opacity = '1';
+                boton.style.cursor = 'pointer';
+            });
+            
+            mensajeExito.classList.remove('mostrar');
+            
+            // Limpiar efectos
+            document.querySelectorAll('.particula, .chispa, .fragmento-ruptura, .pajaro').forEach(el => el.remove());
+        }
+
+        // Focus automático al cargar
+        window.addEventListener('load', () => {
+            document.getElementById('texto-descarga').focus();
+        });
+
+        // Permitir enviar con Enter
+        document.getElementById('texto-descarga').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                document.querySelector('[data-tipo="estallar"]').click();
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+

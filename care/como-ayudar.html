@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cómo Ayudar a Otros | Kodyan Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ESTILOS PARA CÓMO AYUDAR */
+        .herramienta-detalle {
+            padding: 8rem 0 4rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
+        }
+
+        .ayudar-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        /* MENÚ DE ROLES */
+        .roles-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .rol-btn {
+            background: var(--color-secondary);
+            border: 2px solid transparent;
+            padding: 1.5rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rol-btn:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .rol-btn.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .rol-btn .emoji {
+            font-size: 2rem;
+        }
+
+        /* CONTENIDO DE ROLES */
+        .rol-content {
+            display: none;
+            background: var(--color-surface);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+
+        .rol-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .rol-content h2 {
+            color: var(--color-text);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* SECCIONES COMUNES */
+        .seccion-ayuda {
+            margin-bottom: 2.5rem;
+        }
+
+        .seccion-ayuda h3 {
+            color: var(--color-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pasos-ayuda {
+            background: var(--color-secondary);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+        }
+
+        .pasos-ayuda ol, .pasos-ayuda ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .pasos-ayuda li {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: var(--color-text);
+        }
+
+        .que-decir {
+            background: #f0f9ff;
+            border-left: 4px solid var(--color-primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .que-no-decir {
+            background: #fff5f5;
+            border-left: 4px solid var(--color-emergency);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .alerta-ayuda {
+            background: #fffaf0;
+            border-left: 4px solid #FFD166;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .tip-ayuda {
+            background: #f0f9ff;
+            border-left: 4px solid var(--color-guide);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            font-style: italic;
+        }
+
+        /* AUTOCUIDADO */
+        .autocuidado {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-top: 3rem;
+        }
+
+        .autocuidado h2 {
+            color: var(--color-text);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Números de pasos */
+        .pasos-ayuda ol {
+            counter-reset: step-counter;
+        }
+
+        .pasos-ayuda ol li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .pasos-ayuda ol li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: -0.2rem;
+            background: var(--color-primary);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .roles-menu {
+                grid-template-columns: 1fr;
+            }
+            
+            .rol-content {
+                padding: 2rem;
+            }
+            
+            .rol-content h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="resources/pulpo-logo.png" alt="Kodyan Care" class="logo-pulpo">
+                Kodyan Care
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#herramientas">Herramientas</a></li>
+                    <li><a href="index.html#regulacion">Regulación</a></li>
+                    <li><a href="emergencias.html" class="btn-emergencia">🚨 Emergencia</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="herramienta-detalle">
+        <div class="container">
+            <h1>🤝 Cómo Ayudar a Otros</h1>
+            <p class="subtitulo">Guías prácticas para acompañar a alguien en crisis. Porque nadie debería sentirse solo.</p>
+
+            <div class="ayudar-container">
+                <!-- MENÚ DE ROLES -->
+                <div class="roles-menu">
+                    <button class="rol-btn active" onclick="showRole('familiares')">
+                        <span class="emoji">👪</span>
+                        <span>Familiares</span>
+                    </button>
+                    <button class="rol-btn" onclick="showRole('amigos')">
+                        <span class="emoji">👥</span>
+                        <span>Amigos</span>
+                    </button>
+                    <button class="rol-btn" onclick="showRole('docentes')">
+                        <span class="emoji">🏫</span>
+                        <span>Docentes</span>
+                    </button>
+                    <button class="rol-btn" onclick="showRole('parejas')">
+                        <span class="emoji">💞</span>
+                        <span>Parejas</span>
+                    </button>
+                </div>
+
+                <!-- FAMILIARES -->
+                <div class="rol-content active" id="familiares">
+                    <h2>👪 Para Familiares</h2>
+                    
+                    <div class="seccion-ayuda">
+                        <h3>🆘 En el Momento de Crisis</h3>
+                        <div class="pasos-ayuda">
+                            <ol>
+                                <li><strong>Mantener la calma</strong> - Tu tranquilidad es contagiosa</li>
+                                <li><strong>Crear seguridad</strong> - Espacio tranquilo, reducir estímulos</li>
+                                <li><strong>Validar sin minimizar</strong> - "Veo que estás sufriendo mucho"</li>
+                                <li><strong>Ofrecer opciones simples</strong> - "¿Agua? ¿Manta? ¿Silencio?"</li>
+                                <li><strong>No razonar</strong> - El cerebro en crisis no procesa lógica</li>
+                            </ol>
+                        </div>
+
+                        <div class="que-decir">
+                            <h4>💬 Qué decir:</h4>
+                            <ul>
+                                <li>"Estoy aquí contigo"</li>
+                                <li>"No estás solo en esto"</li>
+                                <li>"Esto debe ser muy difícil"</li>
+                                <li>"¿Qué necesitás en este momento?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="que-no-decir">
+                            <h4>🚫 Qué evitar:</h4>
+                            <ul>
+                                <li>"Animate" o "Poné voluntad"</li>
+                                <li>"No es para tanto"</li>
+                                <li>"¿Por qué no salís a divertirte?"</li>
+                                <li>"Otros tienen problemas peores"</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="seccion-ayuda">
+                        <h3>💆‍♀️ Después de la Crisis</h3>
+                        <div class="pasos-ayuda">
+                            <ol>
+                                <li><strong>No interrogar</strong> - Esperar a que hablen cuando estén listos</li>
+                                <li><strong>Cuidado práctico</strong> - Comida, descanso, logística</li>
+                                <li><strong>Revisar recursos juntos</strong> - Terapia, grupos de apoyo</li>
+                                <li><strong>Normalizar</strong> - "Las crisis pasan, no definen a la persona"</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="tip-ayuda">
+                        <p>💡 <strong>Tip:</strong> Crear un "plan de crisis familiar" con señales tempranas y pasos acordados.</p>
+                    </div>
+                </div>
+
+                <!-- AMIGOS -->
+                <div class="rol-content" id="amigos">
+                    <h2>👥 Para Amigos</h2>
+                    
+                    <div class="seccion-ayuda">
+                        <h3>🆘 Cómo Acompañar</h3>
+                        <div class="pasos-ayuda">
+                            <ol>
+                                <li><strong>Presencia silenciosa</strong> - A veces solo estar ahí basta</li>
+                                <li><strong>Ofrecer ayuda concreta</strong> - "¿Te llevo comida? ¿Cuidamos a tus hijos?"</li>
+                                <li><strong>Validar sin intentar arreglar</strong> - No siempre necesitan soluciones</li>
+                                <li><strong>Mantener el contacto</strong> - Mensajes simples: "Te extraño, acordate de vos"</li>
+                            </ol>
+                        </div>
+
+                        <div class="alerta-ayuda">
+                            <p>⚠️ <strong>Señales para derivar a profesionales:</strong> Autolesión, ideación suicida, crisis que duran horas.</p>
+                        </div>
+                    </div>
+
+                    <div class="seccion-ayuda">
+                        <h3>🚫 Límites Saludables</h3>
+                        <div class="pasos-ayuda">
+                            <ol>
+                                <li><strong>No eres su terapeuta</strong> - Tu rol es acompañar, no curar</li>
+                                <li><strong>Horarios de disponibilidad</strong> - No estés 24/7</li>
+                                <li><strong>Derivar a profesionales</strong> - Saber cuándo es demasiado</li>
+                                <li><strong>Cuidar tu energía</strong> - No puedes ayudar desde el vacío</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOCENTES -->
+                <div class="rol-content" id="docentes">
+                    <h2>🏫 Para Docentes</h2>
+                    
+                    <div class="seccion-ayuda">
+                        <h3>🎒 Acomodaciones en el Aula</h3>
+                        <div class="pasos-ayuda">
+                            <ol>
+                                <li><strong>Espacio seguro</strong> - Lugar tranquilo para retirarse</li>
+                                <li><strong>Flexibilidad en deadlines</strong> - Plazos extendidos cuando sea necesario</li>
+                                <li><strong>Opción de participación</strong> - No forzar a hablar en público</li>
+                                <li><strong>Comunicación con familia</strong> - Trabajo en equipo</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="seccion-ayuda">
+                        <h3>🚨 Señales de Alerta</h3>
+                        <div class="pasos-ayuda">
+                            <ul>
+                                <li>Cambios abruptos en rendimiento</li>
+                                <li>Aislamiento social repentino</li>
+                                <li>Señales de autolesión (mangas largas constantes)</li>
+                                <li>Expresiones de desesperanza</li>
+                            </ul>
+                        </div>
+
+                        <div class="alerta-ayuda">
+                            <p>📞 <strong>Protocolo:</strong> Derivar a orientación escolar y contactar a familia.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAREJAS -->
+                <div class="rol-content" id="parejas">
+                    <h2>💞 Para Parejas</h2>
+                    
+                    <div class="seccion-ayuda">
+                        <h3>❤️ Comunicación en Crisis</h3>
+                        <div class="pasos-ayuda">
+                            <ol>
+                                <li><strong>No personalizar</strong> - La crisis no es sobre ti</li>
+                                <li><strong>Validar el dolor</strong> - "Debe ser terrible sentir eso"</li>
+                                <li><strong>Preguntar necesidades</strong> - "¿Necesitás compañía o espacio?"</li>
+                                <li><strong>Recordar la persona</strong> - Esto es la enfermedad, no su esencia</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="seccion-ayuda">
+                        <h3>⚖️ Equilibrio en la Relación</h3>
+                        <div class="pasos-ayuda">
+                            <ol>
+                                <li><strong>Cuidado mutuo</strong> - Tu salud mental también importa</li>
+                                <li><strong>Límites claros</strong> - Qué puedes y no puedes hacer</li>
+                                <li><strong>Terapia de pareja</strong> - Para navegar juntos la salud mental</li>
+                                <li><strong>Intimidad no sexual</strong> - Abrazos, presencia, conexión</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN DE AUTOCUIDADO -->
+                <div class="autocuidado">
+                    <h2>🛡️ Autocuidado para Quien Ayuda</h2>
+                    
+                    <div class="seccion-ayuda">
+                        <h3>💪 Prevención de Burnout</h3>
+                        <div class="pasos-ayuda">
+                            <ol>
+                                <li><strong>Límites claros</strong> - Horarios de desconexión</li>
+                                <li><strong>Red de apoyo</strong> - Compartir la carga con otros</li>
+                                <li><strong>Terapia propia</strong> - Procesar el estrés de acompañar</li>
+                                <li><strong>Autocompasión</strong> - No eres responsable de curar a nadie</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="tip-ayuda">
+                        <p>💡 <strong>Recordá:</strong> No puedes servir de un vaso vacío. Tu bienestar es esencial para poder ayudar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">Kodyan Care</a>
+                    <p>Tu puerto seguro para tormentas emocionales.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Herramientas</h4>
+                    <ul>
+                        <li><a href="anclaje.html">Técnicas de Anclaje</a></li>
+                        <li><a href="descarga.html">Descarga Rápida</a></li>
+                        <li><a href="chat.html">Chat de Apoyo</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="emergencias.html">Líneas de Crisis</a></li>
+                        <li><a href="guias.html">Guías de Crisis</a></li>
+                        <li><a href="como-ayudar.html">Cómo Ayudar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:care@koyhq.com">care@koyhq.com</a></li>
+                        <li><a href="https://instagram.com/kodyan.care" target="_blank">Instagram</a></li>
+                        <li><a href="https://koyhq.com" target="_blank">Koy HQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p><strong>💡 Importante:</strong> Esto no es un substituto de terapia profesional. Si estás en crisis, contactá a <a href="emergencias.html">recursos de emergencia</a>.</p>
+                <p>&copy; 2025 Kodyan Care. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="js/script.js"></script>
+    <script>
+        // Función para mostrar el rol seleccionado
+        function showRole(roleId) {
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.rol-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Mostrar el contenido seleccionado
+            document.getElementById(roleId).classList.add('active');
+            
+            // Actualizar botones activos
+            document.querySelectorAll('.rol-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+
+        // Inicializar con el primer rol activo
+        window.addEventListener('load', () => {
+            showRole('familiares');
+        });
+    </script>
+</body>
+</html>

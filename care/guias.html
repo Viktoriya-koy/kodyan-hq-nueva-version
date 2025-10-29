@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guías Completas de Crisis | Kodyan Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ESTILOS MEJORADOS PARA GUÍAS COMPLETAS */
+        .herramienta-detalle {
+            padding: 8rem 0 4rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f5ff 0%, #f0edff 100%);
+        }
+
+        .guias-completas-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        /* MENÚ DE NAVEGACIÓN INTERNA */
+        .guias-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            justify-content: center;
+        }
+
+        .guia-btn {
+            background: var(--color-secondary);
+            border: 2px solid transparent;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .guia-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-primary);
+        }
+
+        .guia-btn.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        /* CATEGORÍAS */
+        .categoria-guia {
+            margin-bottom: 4rem;
+            scroll-margin-top: 120px;
+        }
+
+        .categoria-guia h2 {
+            color: var(--color-text);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--color-primary);
+        }
+
+        /* TARJETAS DE GUÍA */
+        .guia-card {
+            background: var(--color-surface);
+            margin-bottom: 2.5rem;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border-left: 4px solid;
+        }
+
+        .guia-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Colores por tipo de crisis */
+        .guia-card.meltdown { border-left-color: #FF6B6B; }
+        .guia-card.shutdown { border-left-color: #6D67E4; }
+        .guia-card.burnout { border-left-color: #4ECDC4; }
+        .guia-card.ansiedad { border-left-color: #8A85FF; }
+        .guia-card.tdah { border-left-color: #453F90; }
+        .guia-card.suicida { border-left-color: #FF6B6B; }
+        .guia-card.autolesion { border-left-color: #FFD166; }
+
+        .guia-card h3 {
+            color: var(--color-text);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .definicion-rapida {
+            background: var(--color-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            border-left: 3px solid currentColor;
+        }
+
+        .seccion-guia {
+            margin-bottom: 2rem;
+        }
+
+        .seccion-guia h4 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .pasos-guia {
+            background: var(--color-secondary);
+            padding: 1.8rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+        }
+
+        .pasos-guia ol, .pasos-guia ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .pasos-guia li {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: var(--color-text);
+        }
+
+        .alerta-urgente {
+            background: #fff5f5;
+            border-left: 4px solid var(--color-emergency);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .alerta-urgente a {
+            color: var(--color-emergency);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .tip-guia {
+            background: #f0f9ff;
+            border-left: 4px solid var(--color-guide);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .no-hacer {
+            background: #fffaf0;
+            border-left: 4px solid #FFD166;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        /* Números de pasos */
+        .pasos-guia ol {
+            counter-reset: step-counter;
+        }
+
+        .pasos-guia ol li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .pasos-guia ol li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: -0.2rem;
+            background: var(--color-primary);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .guias-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .guia-btn {
+                width: 200px;
+                justify-content: center;
+            }
+            
+            .guia-card {
+                padding: 2rem;
+            }
+            
+            .categoria-guia h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="resources/pulpo-logo.png" alt="Kodyan Care" class="logo-pulpo">
+                Kodyan Care
+            </a>
+            <nav>
+    <ul class="nav-links">
+        <li><a href="index.html#herramientas">Herramientas</a></li>
+        <li><a href="index.html#regulacion">Regulación</a></li>
+        <li><a href="index.html#como-ayudar">Cómo Ayudar</a></li>  <!-- NUEVO -->
+        <li><a href="emergencias.html" class="btn-emergencia">🚨 Emergencia</a></li>
+    </ul>
+</nav>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="herramienta-detalle">
+        <div class="container">
+            <h1>📋 Guías Completas de Crisis</h1>
+            <p class="subtitulo">Todas las herramientas en un solo lugar. Protocolos claros para diferentes tipos de crisis.</p>
+
+            <!-- MENÚ DE NAVEGACIÓN INTERNA -->
+           <div class="guias-menu">
+    <button class="guia-btn" onclick="scrollToGuide('neurodivergentes')">
+        <span>🌋</span>Neurodivergentes
+    </button>
+    <button class="guia-btn" onclick="scrollToGuide('ansiedad')">
+        <span>🌪️</span>Ansiedad
+    </button>
+    <button class="guia-btn" onclick="scrollToGuide('rumiacion')">
+        <span>🌀</span>Pensamientos Rumiantes
+    </button>
+    <button class="guia-btn" onclick="scrollToGuide('critico-interno')">
+        <span>🗣️</span>Crítico Interno
+    </button>
+    <button class="guia-btn" onclick="scrollToGuide('tdah')">
+        <span>⚡</span>TDAH
+    </button>
+    <button class="guia-btn" onclick="scrollToGuide('suicida')">
+        <span>🌑</span>Ideación Suicida
+    </button>
+    <button class="guia-btn" onclick="scrollToGuide('autolesion')">
+        <span>🩹</span>Autolesiones
+    </button>
+</div>
+
+            <div class="guias-completas-container">
+                <!-- CRISIS NEURODIVERGENTES -->
+                <div class="categoria-guia" id="neurodivergentes">
+                    <h2><span>🌋</span> Crisis Neurodivergentes</h2>
+                    
+                    <!-- MELTDOWN -->
+                    <div class="guia-card meltdown">
+                        <h3>🌋 Meltdown</h3>
+                        <div class="definicion-rapida">
+                            <p>Explosión externa de sobrecarga. El sistema colapsa hacia afuera: gritos, llanto, autoagresión.</p>
+                        </div>
+                        
+                        <div class="seccion-guia">
+                            <h4>🆘 Qué hacer DURANTE:</h4>
+                            <div class="pasos-guia">
+                                <ol>
+                                    <li><strong>Seguridad primero:</strong> Alejar objetos peligrosos</li>
+                                    <li><strong>Espacio seguro:</strong> Lugar tranquilo y oscuro</li>
+                                    <li><strong>No razonar:</strong> El cerebro no procesa lenguaje</li>
+                                    <li><strong>Reducir estímulos:</strong> Luces, sonidos</li>
+                                    <li><strong>Presión profunda:</strong> Mantas pesadas o autoabrazo</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SHUTDOWN -->
+                    <div class="guia-card shutdown">
+                        <h3>🐚 Shutdown</h3>
+                        <div class="definicion-rapida">
+                            <p>Implosión interna de sobrecarga. El sistema se apaga: mutismo, inmovilidad, desconexión.</p>
+                        </div>
+                        
+                        <div class="seccion-guia">
+                            <h4>🆘 Qué hacer DURANTE:</h4>
+                            <div class="pasos-guia">
+                                <ol>
+                                    <li><strong>No forzar:</strong> No exigir hablar o moverse</li>
+                                    <li><strong>Comunicación no verbal:</strong> Ofrecer agua, papel para escribir</li>
+                                    <li><strong>Presencia silenciosa:</strong> Estar cerca sin hablar</li>
+                                    <li><strong>Tiempo:</strong> Esperar sin presionar</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BURNOUT -->
+                    <div class="guia-card burnout">
+                        <h3>🪫 Burnout Neurodivergente</h3>
+                        <div class="definicion-rapida">
+                            <p>Agotamiento crónico por el esfuerzo constante de "pasar por normal" en un mundo neurotípico.</p>
+                        </div>
+                        
+                        <div class="seccion-guia">
+                            <h4>🆘 Manejo del Burnout:</h4>
+                            <div class="pasos-guia">
+                                <ol>
+                                    <li><strong>Reducción radical de expectativas</strong></li>
+                                    <li><strong>Descanso sensorial</strong></li>
+                                    <li><strong>Rutinas mínimas</strong></li>
+                                    <li><strong>Comidas fáciles</strong></li>
+                                    <li><strong>Comunicación de necesidades</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ANSIEDAD/PÁNICO -->
+                <div class="categoria-guia" id="ansiedad">
+                    <h2><span>🌪️</span> Ansiedad y Pánico</h2>
+                    
+                    <div class="guia-card ansiedad">
+                        <h3>💨 Crisis de Ansiedad/Pánico</h3>
+                        <div class="definicion-rapida">
+                            <p>Tu cuerpo activa la alarma de peligro aunque no haya peligro real. Corazón acelerado, temblores, dificultad para respirar.</p>
+                        </div>
+
+                        <div class="seccion-guia">
+                            <h4>🆘 Qué hacer DURANTE:</h4>
+                            <div class="pasos-guia">
+                                <ol>
+                                    <li><strong>Reconocer:</strong> "Esto es ansiedad, no me va a pasar nada"</li>
+                                    <li><strong>Anclaje 5-4-3-2-1:</strong> 5 cosas que ves, 4 que tocas, 3 que oyes, 2 que hueles, 1 que saboreas</li>
+                                    <li><strong>Temperatura:</strong> Agua fría en muñecas o nuca</li>
+                                    <li><strong>Respiración cuadrada:</strong> 4 segundos inhalar, 4 mantener, 4 exhalar, 4 pausa</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="alerta-urgente">
+                            <p>🚨 <strong>Si dura más de 30 minutos:</strong> Contactar a <a href="emergencias.html">líneas de crisis</a> o atención médica.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PENSAMIENTOS RUMIANTES -->
+<div class="categoria-guia" id="rumiacion">
+    <h2><span>🌀</span> Pensamientos Rumiantes</h2>
+    
+    <div class="guia-card rumiacion">
+        <h3>🌀 Pensamientos Rumiantes (Bucle Infinito)</h3>
+        <div class="definicion-rapida">
+            <p>Cuando tu mente repite el mismo pensamiento una y otra vez, como un disco rayado. No es productivo, es tortuoso.</p>
+        </div>
+        
+        <div class="seccion-guia">
+            <h4>🆘 Qué hacer DURANTE un ataque de rumiación:</h4>
+            <div class="pasos-guia">
+                <ol>
+                    <li><strong>Reconocé el patrón:</strong> "Estoy rumiando otra vez. Esto es ansiedad, no resolución de problemas"</li>
+                    <li><strong>Cambiá el canal mental:</strong> Técnica 5-4-3-2-1 inmediata</li>
+                    <li><strong>Poné un timer:</strong> "Voy a preocuparme por esto solo 10 minutos"</li>
+                    <li><strong>Externalizá:</strong> Escribí TODOS los pensamientos y liberarlos</li>
+                    <li><strong>Mové el cuerpo:</strong> Caminá, bailá, estirate - rompé la inmovilidad</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="seccion-guia">
+            <h4>🎯 Técnicas Específicas para Rumiación</h4>
+            <div class="pasos-guia">
+                <h5>🛑 Técnica "Pare de Girar"</h5>
+                <ul>
+                    <li>Visualizá los pensamientos como un carrusel</li>
+                    <li>Decí "BASTA" en voz alta</li>
+                    <li>Cambiá abruptamente de actividad</li>
+                </ul>
+                
+                <h5>📝 Técnica "Papel de Desecho"</h5>
+                <ul>
+                    <li>Escribí el pensamiento repetitivo</li>
+                    <li>Rompe el papel en mil pedazos</li>
+                    <li>Simbolizá la liberación</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="no-hacer">
+            <h4>🚫 Qué NO hacer con pensamientos rumiantes:</h4>
+            <ul>
+                <li>"Intentar no pensar en eso" (paradójicamente empeora)</li>
+                <li>Razonar con el pensamiento (le das más poder)</li>
+                <li>Quedarte inmóvil (la inmovilidad alimenta el bucle)</li>
+                <li>Castigarte por rumiar (añade culpa al malestar)</li>
+            </ul>
+        </div>
+
+        <div class="tip-guia">
+            <p>💡 <strong>Tip neurodivergente:</strong> La rumiación a menudo viene del exceso de estímulos. Probá reducir input sensorial.</p>
+        </div>
+    </div>
+</div>  
+                <!-- CRÍTICO INTERNO -->
+<div class="categoria-guia" id="critico-interno">
+    <h2><span>🗣️</span> Crítico Interno</h2>
+    
+    <div class="guia-card critico">
+        <h3>🗣️ Manejando al Crítico Interno</h3>
+        <div class="definicion-rapida">
+            <p>Esa voz que siempre encuentra lo malo. No es "vos", es un patrón aprendido que se puede cambiar.</p>
+        </div>
+        
+        <div class="seccion-guia">
+            <h4>🆘 Técnicas Inmediatas cuando ataca fuerte:</h4>
+            <div class="pasos-guia">
+                <ol>
+                    <li><strong>Nombralo:</strong> "Ah, es mi crítico interno. Hola, viejo conocido."</li>
+                    <li><strong>Despersonaliza:</strong> "Esto no es YO pensando, es la ANSIEDAD hablando"</li>
+                    <li><strong>Ponelo en duda:</strong> "¿Es esto realmente cierto?"</li>
+                    <li><strong>Cambiá el canal:</strong> Técnica 5-4-3-2-1 inmediata</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="seccion-guia">
+            <h4>🎭 Técnica "Renombrar la Voz"</h4>
+            <div class="pasos-guia">
+                <ol>
+                    <li><strong>Identificá el patrón:</strong> ¿Cómo suena tu crítico interno?</li>
+                    <li><strong>Ponele nombre:</strong> "El Fiscal Felipe", "Doña Catástrofe"</li>
+                    <li><strong>Despersonalizá:</strong> "Esto no soy YO, es mi ansiedad"</li>
+                    <li><strong>Respondé con datos:</strong> "Los datos muestran que sí puedo hacer esto"</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="seccion-guia">
+            <h4>💝 Técnica del "Amigo Compasivo"</h4>
+            <div class="pasos-guia">
+                <ol>
+                    <li><strong>Escuchá a tu crítico:</strong> "Ok, escucho que decís que soy un desastre..."</li>
+                    <li><strong>Cambiá la voz:</strong> "¿Y si mi mejor amigo me dijera esto?"</li>
+                    <li><strong>Respondé con compasión:</strong> "Estás haciendo lo mejor que podés"</li>
+                    <li><strong>Buscá evidencia contraria:</strong> "Sí, pero la semana pasada pude con..."</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="no-hacer">
+            <h4>🚫 Lo que NO sirve con el Crítico Interno:</h4>
+            <ul>
+                <li>"Pensá positivo" (genera más lucha interna)</li>
+                <li>Forzarte a creer lo contrario</li>
+                <li>Ignorarlo completamente</li>
+                <li>Castigarte por tenerlo</li>
+            </ul>
+        </div>
+
+        <div class="alerta-urgente">
+            <p>🚨 <strong>Si el crítico interno incluye pensamientos de autolesión o suicidio:</strong> Contactá <a href="emergencias.html">ayuda profesional inmediatamente</a>.</p>
+        </div>
+    </div>
+</div>
+                <!-- TDAH -->
+                <div class="categoria-guia" id="tdah">
+                    <h2><span>⚡</span> TDAH</h2>
+                    
+                    <div class="guia-card tdah">
+                        <h3>🎯 Parálisis por Sobrestimulación TDAH</h3>
+                        <div class="definicion-rapida">
+                            <p>El cerebro recibe demasiada información y se bloquea. No es pereza, es sobrecarga del sistema.</p>
+                        </div>
+
+                        <div class="seccion-guia">
+                            <h4>🆘 Qué hacer cuando te paralizás:</h4>
+                            <div class="pasos-guia">
+                                <ol>
+                                    <li><strong>Microtarea:</strong> Elegir la cosa más pequeña posible</li>
+                                    <li><strong>Body doubling:</strong> Llamar a alguien o poner video</li>
+                                    <li><strong>Cambio de ambiente:</strong> Ir a otra habitación o café</li>
+                                    <li><strong>Tiempo definido:</strong> "Solo 5 minutos"</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="no-hacer">
+                            <p>🚫 <strong>No sirve:</strong> Regañarse, forzarse, castigarse. El TDAH no responde a la presión.</p>
+                        </div>
+                    </div>
+                </div>
+
+              <div class="categoria-guia" id="suicida">
+    <h2><span>🌑</span> Ideación Suicida</h2>
+    <div class="guia-card suicida">
+    <h3>💭 Pensamientos de "No quiero estar aquí"</h3>
+    <div class="definicion-rapida">
+        <p>Pensamientos de no querer existir sin un plan activo. Es una señal de dolor extremo, no de debilidad.</p>
+    </div>
+
+    <div class="seccion-guia">
+        <h4>🆘 Protocolo de 24 Horas:</h4>
+        <div class="pasos-guia">
+            <ol>
+                <li><strong>POSTERGAR DECISIONES:</strong> "No tomo decisiones permanentes sobre sentimientos temporales"</li>
+                <li><strong>SEGURIDAD AMBIENTAL:</strong> Alejar objetos/medicamentos de riesgo temporalmente</li>
+                <li><strong>CONTACTO DE VIDA:</strong> Llamar a línea de crisis o persona segura INMEDIATAMENTE</li>
+                <li><strong>CONTRATO DE SEGURIDAD:</strong> "Prometo no hacerme daño por [X tiempo]"</li>
+                <li><strong>ESPACIO PARA SENTIR:</strong> Lugar seguro para expresar el dolor (escribir, llorar, gritar)</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="seccion-guia">
+        <h4>🎯 Diferentes Tipos de Ideación:</h4>
+        <div class="pasos-guia">
+            <h5>🌫️ Ideación Pasiva:</h5>
+            <ul>
+                <li>"Ojalá me durmiera y no despertara"</li>
+                <li>"Quisiera desaparecer"</li>
+                <li>"El mundo estaría mejor sin mí"</li>
+                <li><strong>Acción:</strong> Terapia, grupos de apoyo, manejo de depresión</li>
+            </ul>
+            
+            <h5>⚡ Ideación Activa (Sin Plan):</h5>
+            <ul>
+                <li>"Pienso en suicidarme"</li>
+                <li>"No quiero seguir viviendo"</li>
+                <li><strong>Acción:</strong> Líneas de crisis, contacto psiquiátrico urgente</li>
+            </ul>
+            
+            <h5>🔴 Ideación con Plan/Intento:</h5>
+            <ul>
+                <li>Tengo un método específico en mente</li>
+                <li>He tomado pasos para prepararlo</li>
+                <li><strong>Acción:</strong> EMERGENCIA - Hospitalización, 24/7 supervisión</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="seccion-guia">
+        <h4>🧠 Rompiendo la Lógica Suicida:</h4>
+        <div class="pasos-guia">
+            <h5>💡 Respuestas a Pensamientos Comunes:</h5>
+            <ul>
+                <li><strong>"Soy una carga"</strong> → "Mi cerebro deprimido me miente. La gente me quiere."</li>
+                <li><strong>"El dolor nunca terminará"</strong> → "Los sentimientos son temporales. He sobrevivido antes."</li>
+                <li><strong>"Nada importa"</strong> → "Es la depresión hablando, no la realidad."</li>
+                <li><strong>"Todos estarían mejor"</strong> → "El dolor que causaría sería devastador."</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="seccion-guia">
+        <h4>🌈 Razones para Esperar (Lista Personalizable):</h4>
+        <div class="pasos-guia">
+            <ul>
+                <li>📚 Quiero leer ese libro que sale el próximo mes</li>
+                <li>🐕 Mi mascota no entendería por qué no volví</li>
+                <li>🌅 Quiero ver un atardecer más</li>
+                <li>🍫 Todavía no probé ese chocolate nuevo</li>
+                <li>🎵 Esa banda toca aquí en 3 meses</li>
+                <li>👶 Mi sobrino/nieto va a nacer pronto</li>
+                <li>🌺 La primavera siempre me ha gustado</li>
+            </ul>
+            <p><em>Agregá tus propias razones específicas</em></p>
+        </div>
+    </div>
+
+    <div class="seccion-guia">
+        <h4>🛡️ Plan de Seguridad Personal:</h4>
+        <div class="pasos-guia">
+            <ol>
+                <li><strong>SEÑALES DE ALERTA:</strong> ¿Cómo sé que estoy empeorando?</li>
+                <li><strong>PERSONAS SEGURAS:</strong> Lista de contactos de emergencia</li>
+                <li><strong>LUGARES SEGUROS:</strong> Dónde ir cuando me siento así</li>
+                <li><strong>ACTIVIDADES DISTRACTORAS:</strong> Qué hacer para "sobrevivir el momento"</li>
+                <li><strong>PROFESIONALES:</strong> Psiquiatra, terapeuta, líneas de crisis</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="no-hacer">
+        <h4>🚫 Lo que NO decir a alguien con ideación:</h4>
+        <ul>
+            <li>"Es egoísta"</li>
+            <li>"Solo querés llamar la atención"</li>
+            <li>"Otros tienen problemas peores"</li>
+            <li>"Animate" o "Poné voluntad"</li>
+            <li>"Es pecado" (puede aumentar la culpa)</li>
+        </ul>
+    </div>
+
+    <div class="alerta-urgente">
+        <p>🚨 <strong>Si los pensamientos son activos con plan, método disponible, o sentimiento de urgencia:</strong> 
+        Contactá ayuda profesional INMEDIATAMENTE. Ve a emergencias o llamá al <a href="emergencias.html">141 (Línea de Prevención del Suicidio)</a>.</p>
+    </div>
+
+    <div class="tip-guia">
+        <p>💡 <strong>Recordá:</strong> Pedir ayuda es de valientes. Merecés apoyo profesional. La ideación suicida es un síntoma tratable, no un veredicto.</p>
+    </div>
+</div>
+
+  <!-- Reemplazá la guía de autolesiones actual por esta versión expandida -->
+<div class="categoria-guia" id="autolesion">
+    <h2><span>🩹</span> Autolesiones</h2>
+    <div class="guia-card autolesion">
+    <h3>🩹 Cuando el dolor interno pide salir</h3>
+    <div class="definicion-rapida">
+        <p>Impulso de lastimarse para liberar dolor emocional intenso. No es manipulación, es coping desesperado.</p>
+    </div>
+
+    <div class="seccion-guia">
+        <h4>🆘 Protocolo de Crisis Activa:</h4>
+        <div class="pasos-guia">
+            <ol>
+                <li><strong>RECONOCER LA SEÑAL:</strong> "Estoy a punto de autolesionarme. Esto es una crisis."</li>
+                <li><strong>TIEMPO DE ESPERA:</strong> "Voy a esperar 15 minutos antes de actuar"</li>
+                <li><strong>CONTACTO DE EMERGENCIA:</strong> Llamar o escribir a alguien ANTES de lastimarse</li>
+                <li><strong>ESPACIO SEGURO:</strong> Alejarse de objetos/ambientes de riesgo</li>
+                <li><strong>SUSTITUCIÓN INMEDIATA:</strong> Usar una alternativa sensorial urgente</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="seccion-guia">
+        <h4>🎯 Alternativas por Tipo de Necesidad:</h4>
+        <div class="pasos-guia">
+            <h5>💥 Para liberar RABIA/ENERGÍA:</h5>
+            <ul>
+                <li>Romper papeles/cartón en mil pedazos</li>
+                <li>Gritar en una almohada o en un espacio seguro</li>
+                <li>Ejercicio intenso (saltar, correr en el lugar)</li>
+                <li>Golpear un colchón o almohada</li>
+            </ul>
+            
+            <h5>🧊 Para sentir ALGO (disociación):</h5>
+            <ul>
+                <li>Hielo en muñecas/cuello o baño con agua fría</li>
+                <li>Bandas elásticas en la muñeca (snap, no corte)</li>
+                <li>Comida picante o muy ácida</li>
+                <li>Masaje intenso con pelota de tenis</li>
+            </ul>
+            
+            <h5>🩸 Para ver SANGRE/marcas (necesidad visual):</h5>
+            <ul>
+                <li>Pintura roja en agua (verla dispersarse)</li>
+                <li>Dibujar en la piel con marcador rojo</li>
+                <li>Crear "sangre" con maquillaje o ketchup</li>
+                <li>Romper frutas rojas (fresas, tomates)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="seccion-guia">
+        <h4>🧠 Entendiendo la Autolesión:</h4>
+        <div class="pasos-guia">
+            <ul>
+                <li><strong>No es "llamar la atención":</strong> Es regulación emocional desesperada</li>
+                <li><strong>Funciona temporalmente:</strong> Libera endorfinas que alivian el dolor emocional</li>
+                <li><strong>Es adictivo:</strong> El cerebro aprende que "funciona" para calmar</li>
+                <li><strong>No es sobre morir:</strong> Es sobre SOBREVIVIR al dolor insoportable</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="seccion-guia">
+        <h4>💝 Cuidado Posterior a la Crisis:</h4>
+        <div class="pasos-guia">
+            <ol>
+                <li><strong>PRIMEROS AUXILIOS:</strong> Limpiar y cubrir heridas adecuadamente</li>
+                <li><strong>SIN CULPA:</strong> "Hice lo que pude para sobrevivir en ese momento"</li>
+                <li><strong>ANÁLISIS NO JUICIO:</strong> "¿Qué desencadenó esto? ¿Qué necesitaba?"</li>
+                <li><strong>PLAN PARA LA PRÓXIMA:</strong> "La próxima vez probaré X alternativa primero"</li>
+                <li><strong>APOYO PROFESIONAL:</strong> Buscar terapia DBT o especializada</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="no-hacer">
+        <h4>🚫 Lo que NO ayuda:</h4>
+        <ul>
+            <li>Regañar o castigar ("¿Por qué hiciste eso?")</li>
+            <li>Minimizar ("No es para tanto")</li>
+            <li>Forzar promesas ("Nunca más lo harás")</li>
+            <li>Ignorar el comportamiento</li>
+            <li>Focalizarse solo en las heridas físicas</li>
+        </ul>
+    </div>
+
+    <div class="alerta-urgente">
+        <p>🚨 <strong>Si la lesión es grave, profunda, no deja de sangrar, o hay riesgo de infección:</strong> Buscá atención médica INMEDIATAMENTE. El cuidado físico es importante.</p>
+    </div>
+
+    <div class="tip-guia">
+        <p>💡 <strong>Recorda:</strong> La recuperación es un proceso. Las recaídas son parte del aprendizaje, no fracasos.</p>
+    </div>
+</div>
+                <!-- RECURSOS ADICIONALES -->
+                <div class="categoria-guia">
+                    <h2><span>🔗</span> Recursos Adicionales</h2>
+                    
+                    <div class="guia-card">
+                        <h3>📚 Para seguir aprendiendo</h3>
+                        <div class="pasos-guia">
+                            <ul>
+                                <li><strong>Terapia DBT:</strong> Para desregulación emocional</li>
+                                <li><strong>Grupos de apoyo:</strong> Compartir con pares</li>
+                                <li><strong>Psiquiatra:</strong> Evaluación médica</li>
+                                <li><strong>Workbooks:</strong> Ejercicios prácticos</li>
+                            </ul>
+                        </div>
+
+                        <div class="tip-guia">
+                            <p>💡 <strong>Recordá:</strong> La recuperación no es lineal. Cada crisis superada te hace más fuerte.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">Kodyan Care</a>
+                    <p>Tu puerto seguro para tormentas emocionales.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Herramientas</h4>
+                    <ul>
+                        <li><a href="anclaje.html">Técnicas de Anclaje</a></li>
+                        <li><a href="descarga.html">Descarga Rápida</a></li>
+                        <li><a href="chat.html">Chat de Apoyo</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="emergencias.html">Líneas de Crisis</a></li>
+                        <li><a href="guias.html">Guías Completas</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:care@koyhq.com">care@koyhq.com</a></li>
+                        <li><a href="https://instagram.com/kodyan.care" target="_blank">Instagram</a></li>
+                        <li><a href="https://koyhq.com" target="_blank">Koy HQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p><strong>💡 Importante:</strong> Esto no es un substituto de terapia profesional. Si estás en crisis, contactá a <a href="emergencias.html">recursos de emergencia</a>.</p>
+                <p>&copy; 2025 Kodyan Care. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="js/script.js"></script>
+    <script>
+        // Función para scroll suave a las secciones
+        function scrollToGuide(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Highlight del botón activo
+        const guideButtons = document.querySelectorAll('.guia-btn');
+        guideButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                guideButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Observador para cambiar botón activo al scroll
+        const sections = document.querySelectorAll('.categoria-guia');
+        const options = {
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    guideButtons.forEach(btn => btn.classList.remove('active'));
+                    const correspondingButton = document.querySelector(`[onclick="scrollToGuide('${entry.target.id}')"]`);
+                    if (correspondingButton) {
+                        correspondingButton.classList.add('active');
+                    }
+                }
+            });
+        }, options);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

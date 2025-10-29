@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes y Kits de Crisis | Kodyan Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .herramienta-detalle {
+            padding: 8rem 0 4rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
+        }
+
+        .espacio-seguro-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        /* PLANES DE CRISIS */
+        .planes-seccion {
+            margin-bottom: 5rem;
+        }
+
+        .planes-seccion h2 {
+            color: var(--color-text);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .planes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .plan-crisis {
+            background: var(--color-surface);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            border-left: 5px solid var(--color-primary);
+            transition: var(--transition);
+        }
+
+        .plan-crisis:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .plan-crisis h3 {
+            color: var(--color-text);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pasos-plan {
+            background: var(--color-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .paso {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: var(--color-surface);
+            border-radius: 8px;
+            border-left: 3px solid var(--color-primary-light);
+        }
+
+        .paso:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn-plan {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .btn-plan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(109, 103, 228, 0.3);
+        }
+
+        /* KITS DE SUPERVIVENCIA */
+        .kits-seccion {
+            margin-bottom: 3rem;
+        }
+
+        .kits-seccion h2 {
+            color: var(--color-text);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .kits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .kit {
+            background: var(--color-surface);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            border-left: 5px solid var(--color-guide);
+            transition: var(--transition);
+        }
+
+        .kit:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .kit h3 {
+            color: var(--color-text);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contenido-kit {
+            background: var(--color-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .item {
+            margin-bottom: 0.8rem;
+            padding: 0.6rem 0.8rem;
+            background: var(--color-surface);
+            border-radius: 6px;
+            border-left: 3px solid var(--color-guide);
+        }
+
+        .item:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn-kit {
+            background: linear-gradient(135deg, var(--color-guide), #3ab5ad);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .btn-kit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.3);
+        }
+
+        /* MODAL DE PLAN ACTIVO */
+        .modal-plan {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-contenido {
+            background: var(--color-surface);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .cerrar-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-text-light);
+        }
+
+        .paso-activo {
+            background: #f0f9ff;
+            border-left: 4px solid var(--color-primary);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+        }
+
+        .paso-completado {
+            background: #f0fff0;
+            border-left: 4px solid var(--color-success);
+            opacity: 0.7;
+        }
+
+        .btn-paso {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .btn-paso:hover {
+            background: var(--color-primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .planes-grid,
+            .kits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .plan-crisis,
+            .kit {
+                padding: 2rem;
+            }
+            
+            .modal-contenido {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="resources/pulpo-logo.png" alt="Kodyan Care" class="logo-pulpo">
+                Kodyan Care
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#herramientas">Herramientas</a></li>
+                    <li><a href="index.html#regulacion">Regulación</a></li>
+                    <li><a href="index.html#como-ayudar">Cómo Ayudar</a></li>
+                    <li><a href="emergencias.html" class="btn-emergencia">🚨 Emergencia</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="herramienta-detalle">
+        <div class="container">
+            <h1>🛡️ Espacio Seguro - Planes y Kits</h1>
+            <p class="subtitulo">Cuando sabés lo que te pasa pero no sabés por dónde empezar. Planes concretos para crisis comunes.</p>
+
+            <div class="espacio-seguro-container">
+                <!-- PLANES DE CRISIS -->
+                <section class="planes-seccion">
+                    <h2>🗺️ Planes de Acción para Crisis Comunes</h2>
+                    
+                    <div class="planes-grid">
+                        <!-- PLAN 1: ANSIEDAD MATUTINA -->
+                        <div class="plan-crisis">
+                            <h3>😰 "Me desperté con ansiedad"</h3>
+                            <div class="pasos-plan">
+                                <div class="paso">1. 🌡️ Revisar necesidades básicas (agua, comida, baño)</div>
+                                <div class="paso">2. 🛌 Permiso para no ser productivo hoy</div>
+                                <div class="paso">3. 🎯 <a href="tarjetas.html">Elegir una tarjeta</a> para el día</div>
+                                <div class="paso">4. 📞 Contacto de seguridad asignado</div>
+                            </div>
+                            <button class="btn-plan" onclick="iniciarPlan('ansiedad-matutina')">Comenzar este plan</button>
+                        </div>
+                        
+                        <!-- PLAN 2: DISOCIACIÓN -->
+                        <div class="plan-crisis">
+                            <h3>🧠 "Estoy disociando/desconectado"</h3>
+                            <div class="pasos-plan">
+                                <div class="paso">1. 👣 <a href="sensorial.html">Ejercicio de enraizamiento</a></div>
+                                <div class="paso">2. 🌡️ Contraste térmico (agua fría en manos)</div>
+                                <div class="paso">3. 📝 Nombrar 3 cosas reales en voz alta</div>
+                                <div class="paso">4. 🕒 Timer de 15 minutos para "volver"</div>
+                            </div>
+                            <button class="btn-plan" onclick="iniciarPlan('disociacion')">Comenzar este plan</button>
+                        </div>
+                        
+                        <!-- PLAN 3: BURNOUT -->
+                        <div class="plan-crisis">
+                            <h3>🪫 "Burnout - no puedo con nada"</h3>
+                            <div class="pasos-plan">
+                                <div class="paso">1. 📉 Reducción radical de expectativas</div>
+                                <div class="paso">2. 🍽️ Comida fácil pre-aprobada</div>
+                                <div class="paso">3. 🎧 <a href="sensorial.html">Espacio sensorial mínimo</a></div>
+                                <div class="paso">4. 📴 Desconexión digital permitida</div>
+                            </div>
+                            <button class="btn-plan" onclick="iniciarPlan('burnout')">Comenzar este plan</button>
+                        </div>
+
+                        <!-- PLAN 4: SOBRECARGA SENSORIAL -->
+                        <div class="plan-crisis">
+                            <h3>🔊 "Sobrecarga sensorial - todo molesta"</h3>
+                            <div class="pasos-plan">
+                                <div class="paso">1. 🔇 Reducción inmediata de estímulos (luces, sonidos)</div>
+                                <div class="paso">2. 🕶️ Espacio oscuro o auriculares cancelación de ruido</div>
+                                <div class="paso">3. 🧊 Estímulo único y controlado (hielo, peso)</div>
+                                <div class="paso">4. ⏳ Tiempo de recuperación sin culpa</div>
+                            </div>
+                            <button class="btn-plan" onclick="iniciarPlan('sobrecarga')">Comenzar este plan</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- KITS DE SUPERVIVENCIA -->
+                <section class="kits-seccion">
+                    <h2>🎒 Kits de Supervivencia Emocional</h2>
+                    <p>Preparados para crisis predecibles. Preparalos cuando estés bien para usarlos cuando no lo estés.</p>
+                    
+                    <div class="kits-grid">
+                        <!-- KIT 1: OFICINA/TRABAJO -->
+                        <div class="kit">
+                            <h3>🏢 Kit Oficina/Trabajo</h3>
+                            <div class="contenido-kit">
+                                <div class="item">🎧 Auriculares con cancelación de ruido</div>
+                                <div class="item">🪨 Piedra táctil para la mano</div>
+                                <div class="item">📝 Frase de emergencia para reuniones ("Necesito un momento")</div>
+                                <div class="item">🚪 Permiso para retirarse 5 minutos</div>
+                                <div class="item">💧 Botella de agua siempre visible</div>
+                            </div>
+                            <button class="btn-kit" onclick="prepararKit('oficina')">Preparar este kit</button>
+                        </div>
+                        
+                        <!-- KIT 2: EVENTOS SOCIALES -->
+                        <div class="kit">
+                            <h3>🎉 Kit Eventos Sociales</h3>
+                            <div class="contenido-kit">
+                                <div class="item">🚽 Baño como espacio seguro designado</div>
+                                <div class="item">📱 Mensaje de escape pre-escrito</div>
+                                <div class="item">⏱️ Límite de tiempo automático (2 horas max)</div>
+                                <div class="item">🍃 Ejercicio de respiración discreto</div>
+                                <div class="item">🎧 Música de rescate en el teléfono</div>
+                            </div>
+                            <button class="btn-kit" onclick="prepararKit('social')">Preparar este kit</button>
+                        </div>
+                        
+                        <!-- KIT 3: NOCHES DIFÍCILES -->
+                        <div class="kit">
+                            <h3>🌙 Kit Noches Difíciles</h3>
+                            <div class="contenido-kit">
+                                <div class="item">📞 Contacto nocturno de emergencia</div>
+                                <div class="item">💤 Lista de "cosas para probar" para dormir</div>
+                                <div class="item">📺 Show/audio familiar y seguro</div>
+                                <div class="item">🚫 Permiso para no dormir esta noche</div>
+                                <div class="item">💡 Luz tenue para ansiedad nocturna</div>
+                            </div>
+                            <button class="btn-kit" onclick="prepararKit('noche')">Preparar este kit</button>
+                        </div>
+
+                        <!-- KIT 4: SALIDAS IMPREVISTAS -->
+                        <div class="kit">
+                            <h3>🚶 Kit Salidas Imprevistas</h3>
+                            <div class="contenido-kit">
+                                <div class="item">🎧 Auriculares siempre en la mochila</div>
+                                <div class="item">💧 Botella de agua pequeña</div>
+                                <div class="item">🍫 Snack de emergencia</div>
+                                <div class="item">📱 Cargador portátil</div>
+                                <div class="item">💊 Medicación de rescate (si aplica)</div>
+                            </div>
+                            <button class="btn-kit" onclick="prepararKit('salidas')">Preparar este kit</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- INFORMACIÓN ADICIONAL -->
+                <div class="plan-crisis" style="text-align: center;">
+                    <h3>💡 Cómo usar estos planes y kits</h3>
+                    <div class="pasos-plan">
+                        <div class="paso"><strong>Revisalos cuando estés bien:</strong> Familiarizate con los planes antes de necesitarlos</div>
+                        <div class="paso"><strong>Personalizalos:</strong> Adaptalos a tus necesidades específicas</div>
+                        <div class="paso"><strong>Compartilos:</strong> Mostrale tus planes a alguien de confianza</div>
+                        <div class="paso"><strong>Practica:</strong> Probá los kits en situaciones de bajo estrés primero</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== MODAL PLAN ACTIVO ===== -->
+    <div class="modal-plan" id="modal-plan">
+        <div class="modal-contenido">
+            <button class="cerrar-modal" onclick="cerrarModal()">×</button>
+            <h2 id="titulo-plan-activo">Plan en Progreso</h2>
+            <div id="contenido-plan-activo">
+                <!-- Se llena dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">Kodyan Care</a>
+                    <p>Tu puerto seguro para tormentas emocionales.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Herramientas</h4>
+                    <ul>
+                        <li><a href="anclaje.html">Técnicas de Anclaje</a></li>
+                        <li><a href="descarga.html">Descarga Rápida</a></li>
+                        <li><a href="espacio-seguro.html">Planes y Kits</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="emergencias.html">Líneas de Crisis</a></li>
+                        <li><a href="guias.html">Guías de Crisis</a></li>
+                        <li><a href="como-ayudar.html">Cómo Ayudar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:care@koyhq.com">care@koyhq.com</a></li>
+                        <li><a href="https://instagram.com/kodyan.care" target="_blank">Instagram</a></li>
+                        <li><a href="https://koyhq.com" target="_blank">Koy HQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p><strong>💡 Importante:</strong> Esto no es un substituto de terapia profesional.</p>
+                <p>&copy; 2025 Kodyan Care. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="js/script.js"></script>
+    <script>
+        // DATOS DE PLANES
+        const planes = {
+            'ansiedad-matutina': {
+                titulo: '😰 Plan: "Me desperté con ansiedad"',
+                pasos: [
+                    { texto: '🌡️ Revisar necesidades básicas: ¿Tomé agua? ¿Comí? ¿Fui al baño?', completado: false },
+                    { texto: '🛌 Darme permiso: "Hoy no tengo que ser productivo. Solo existir está bien"', completado: false },
+                    { texto: '🎯 <a href="tarjetas.html" target="_blank">Elegir una tarjeta de afrontamiento</a> para guiar el día', completado: false },
+                    { texto: '📞 Contactar a mi persona de seguridad: [Tu contacto aquí]', completado: false },
+                    { texto: '⏰ Establecer un check-in a las 2 PM para reevaluar', completado: false }
+                ]
+            },
+            'disociacion': {
+                titulo: '🧠 Plan: "Estoy disociando/desconectado"',
+                pasos: [
+                    { texto: '👣 <a href="sensorial.html" target="_blank">Ejercicio de enraizamiento</a> - sentir pies en el piso', completado: false },
+                    { texto: '🌡️ Contraste térmico: Agua fría en muñecas o nuca', completado: false },
+                    { texto: '📝 Nombrar 3 cosas que puedo VER y 3 que puedo OÍR, en voz alta', completado: false },
+                    { texto: '🕒 Poner timer de 15 minutos: "Solo tengo que volver en 15 minutos"', completado: false },
+                    { texto: '📞 Llamar a alguien si después de 15 minutos sigo desconectado', completado: false }
+                ]
+            },
+            'burnout': {
+                titulo: '🪫 Plan: "Burnout - no puedo con nada"',
+                pasos: [
+                    { texto: '📉 Reducción radical: "Solo necesito respirar hoy. Nada más"', completado: false },
+                    { texto: '🍽️ Comida fácil: Elegir de la lista pre-aprobada de comidas fáciles', completado: false },
+                    { texto: '🎧 <a href="sensorial.html" target="_blank">Espacio sensorial mínimo</a> - 10 minutos de estimulación controlada', completado: false },
+                    { texto: '📴 Desconexión digital: Apagar notificaciones, modo avión si es necesario', completado: false },
+                    { texto: '💤 Descanso sin culpa: Permitir siestas, estar en cama, no hacer nada', completado: false }
+                ]
+            },
+            'sobrecarga': {
+                titulo: '🔊 Plan: "Sobrecarga sensorial - todo molesta"',
+                pasos: [
+                    { texto: '🔇 Reducción inmediata: Bajar luces, silenciar sonidos, alejarme de multitudes', completado: false },
+                    { texto: '🕶️ Espacio seguro: Habitación oscura o auriculares con cancelación de ruido', completado: false },
+                    { texto: '🧊 Estímulo controlado: Usar hielo o manta pesada como input único', completado: false },
+                    { texto: '⏳ Tiempo de recuperación: "Necesito X tiempo para recuperarme. Está bien"', completado: false },
+                    { texto: '🚫 Protección: Cancelar planes, decir no a demandas adicionales', completado: false }
+                ]
+            }
+        };
+
+        // DATOS DE KITS
+        const kits = {
+            'oficina': {
+                titulo: '🏢 Kit Oficina/Trabajo',
+                items: [
+                    '🎧 Auriculares con cancelación de ruido (siempre a mano)',
+                    '🪨 Piedra táctil o objeto fidget discreto',
+                    '📝 Frases pre-aprobadas: "Necesito un momento", "Voy al baño"',
+                    '🚪 Salida de emergencia: Baño o espacio vacío identificado',
+                    '💧 Botella de agua visible como recordatorio',
+                    '🍫 Snack de emergencia en el cajón',
+                    '📱 Contacto de crisis en favoritos'
+                ]
+            },
+            'social': {
+                titulo: '🎉 Kit Eventos Sociales',
+                items: [
+                    '🚽 Baño como refugio designado',
+                    '📱 Mensaje pre-escrito: "No me siento bien, tengo que irme"',
+                    '⏱️ Límite de tiempo: 2 horas máximo, autoimpuesto',
+                    '🍃 Respiración cuadrada para hacer discretamente',
+                    '🎧 Música de rescate en el teléfono',
+                    '🚗 Plan de salida anticipado',
+                    '👥 Persona de apoyo identificada en el evento'
+                ]
+            },
+            'noche': {
+                titulo: '🌙 Kit Noches Difíciles',
+                items: [
+                    '📞 Contacto nocturno: [Nombre y número]',
+                    '💤 Lista de alternativas para dormir: leer, audio libro, meditación',
+                    '📺 Contenido seguro: Serie/podcast que siempre calma',
+                    '🚫 Permiso escrito: "Está bien no dormir esta noche"',
+                    '💡 Luz tenue para ansiedad nocturna',
+                    '🪨 Objeto pesado para ansiedad física',
+                    '📝 Diario para pensamientos intrusivos'
+                ]
+            },
+            'salidas': {
+                titulo: '🚶 Kit Salidas Imprevistas',
+                items: [
+                    '🎧 Auriculares siempre en la mochila/bolso',
+                    '💧 Botella de agua pequeña plegable',
+                    '🍫 Barra de cereal o snack no perecedero',
+                    '📱 Cargador portátil y cable',
+                    '💊 Medicación de rescate (si corresponde)',
+                    '🧥 Capa extra (fría/ansiedad)',
+                    '📞 Números de emergencia en papel'
+                ]
+            }
+        };
+
+        // FUNCIONES PARA PLANES
+        function iniciarPlan(tipoPlan) {
+            const plan = planes[tipoPlan];
+            if (!plan) return;
+
+            const modal = document.getElementById('modal-plan');
+            const titulo = document.getElementById('titulo-plan-activo');
+            const contenido = document.getElementById('contenido-plan-activo');
+
+            titulo.textContent = plan.titulo;
+            contenido.innerHTML = '';
+
+            plan.pasos.forEach((paso, index) => {
+                const pasoDiv = document.createElement('div');
+                pasoDiv.className = `paso-activo ${paso.completado ? 'paso-completado' : ''}`;
+                pasoDiv.innerHTML = `
+                    <h4>Paso ${index + 1}</h4>
+                    <p>${paso.texto}</p>
+                    ${!paso.completado ? `<button class="btn-paso" onclick="marcarPasoCompletado('${tipoPlan}', ${index})">✅ Completado</button>` : ''}
+                `;
+                contenido.appendChild(pasoDiv);
+            });
+
+            // Botón de reinicio
+            const reinicioDiv = document.createElement('div');
+            reinicioDiv.style.textAlign = 'center';
+            reinicioDiv.style.marginTop = '2rem';
+            reinicioDiv.innerHTML = `<button class="btn-plan" onclick="reiniciarPlan('${tipoPlan}')">🔄 Reiniciar Plan</button>`;
+            contenido.appendChild(reinicioDiv);
+
+            modal.style.display = 'flex';
+        }
+
+        function marcarPasoCompletado(tipoPlan, indexPaso) {
+            planes[tipoPlan].pasos[indexPaso].completado = true;
+            iniciarPlan(tipoPlan); // Recargar para mostrar cambios
+        }
+
+        function reiniciarPlan(tipoPlan) {
+            planes[tipoPlan].pasos.forEach(paso => {
+                paso.completado = false;
+            });
+            iniciarPlan(tipoPlan);
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-plan').style.display = 'none';
+        }
+
+        // FUNCIONES PARA KITS
+        function prepararKit(tipoKit) {
+            const kit = kits[tipoKit];
+            if (!kit) return;
+
+            const modal = document.getElementById('modal-plan');
+            const titulo = document.getElementById('titulo-plan-activo');
+            const contenido = document.getElementById('contenido-plan-activo');
+
+            titulo.textContent = `🎒 ${kit.titulo} - Lista de Preparación`;
+            contenido.innerHTML = `
+                <div class="paso-activo">
+                    <h4>📋 Items para tu kit:</h4>
+                    <ul>
+                        ${kit.items.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="paso-activo">
+                    <h4>💡 Consejos para prepararlo:</h4>
+                    <ul>
+                        <li>Prepará este kit cuando estés bien</li>
+                        <li>Guardalo en un lugar accesible</li>
+                        <li>Revisalo cada 3 meses</li>
+                        <li>Compartí su ubicación con alguien de confianza</li>
+                    </ul>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn-kit" onclick="cerrarModal()">✅ Entendido - Voy a preparar mi kit</button>
+                </div>
+            `;
+
+            modal.style.display = 'flex';
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-plan');
+            if (event.target === modal) {
+                cerrarModal();
+            }
+        }
+    </script>
+</body>
+</html>

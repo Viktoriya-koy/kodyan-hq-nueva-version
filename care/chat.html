@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulpobot - Chat de Apoyo | Kodyan Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ESTILOS ESPECÍFICOS PARA PULPOBOT */
+        .herramienta-detalle {
+            padding: 8rem 0 4rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
+        }
+
+        .chat-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: var(--color-surface);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+
+        /* DISCLAIMER FIJO */
+        .disclaimer-fijo {
+            background: #fffaf0;
+            border-left: 4px solid #FFD166;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+        }
+
+        .disclaimer-fijo p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--color-text);
+        }
+
+        .disclaimer-fijo a {
+            color: var(--color-emergency);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .disclaimer-fijo a:hover {
+            text-decoration: underline;
+        }
+
+        /* ÁREA DE MENSAJES */
+        .mensajes {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--color-secondary);
+            border-radius: 15px;
+            border: 2px solid var(--color-primary-light);
+        }
+
+        .mensaje {
+            margin-bottom: 1.2rem;
+            padding: 1rem 1.2rem;
+            border-radius: 18px;
+            max-width: 80%;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .mensaje.kody {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: white;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        .mensaje.usuario {
+            background: linear-gradient(135deg, var(--color-text-light), var(--color-text));
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        /* OPCIONES RÁPIDAS */
+        .opciones-rapidas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1.5rem 0;
+        }
+
+        .btn-opcion {
+            background: var(--color-secondary);
+            border: 2px solid var(--color-primary-light);
+            padding: 0.8rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-opcion:hover {
+            background: var(--color-primary-light);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* INPUT Y BOTONES */
+        .input-chat {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .input-chat input {
+            flex: 1;
+            padding: 1rem 1.2rem;
+            border: 2px solid var(--color-primary);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            transition: var(--transition);
+        }
+
+        .input-chat input:focus {
+            outline: none;
+            border-color: var(--color-primary-dark);
+            box-shadow: 0 0 0 3px rgba(109, 103, 228, 0.1);
+        }
+
+        .input-chat button {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .input-chat button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ACCIONES DE EMERGENCIA */
+        .acciones-emergencia {
+            background: #fff5f5;
+            border: 2px solid var(--color-emergency);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .acciones-emergencia h4 {
+            color: var(--color-emergency);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .botones-emergencia {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-emergencia-chat {
+            background: var(--color-emergency);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-emergencia-chat:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+
+        /* ANIMACIONES */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* TYPING INDICATOR */
+        .typing-indicator {
+            display: none;
+            padding: 0.8rem 1.2rem;
+            background: var(--color-secondary);
+            border-radius: 18px;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--color-text-light);
+            font-style: italic;
+        }
+
+        .typing-indicator.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .chat-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .mensajes {
+                height: 300px;
+            }
+            
+            .mensaje {
+                max-width: 90%;
+            }
+            
+            .opciones-rapidas {
+                flex-direction: column;
+            }
+            
+            .botones-emergencia {
+                flex-direction: column;
+            }
+            
+            .input-chat {
+                flex-direction: column;
+            }
+            
+            .input-chat input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="resources/pulpo-logo.png" alt="Kodyan Care" class="logo-pulpo">
+                Kodyan Care
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#herramientas">Herramientas</a></li>
+                    <li><a href="index.html#regulacion">Regulación</a></li>
+                    <li><a href="index.html#como-ayudar">Cómo Ayudar</a></li>
+                    <li><a href="emergencias.html" class="btn-emergencia">🚨 Emergencia</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="herramienta-detalle">
+        <div class="container">
+            <h1>🤖 Pulpobot - Chat de Apoyo</h1>
+            <p class="subtitulo">Kody te acompaña en momentos difíciles y te conecta con recursos cuando es necesario</p>
+
+            <div class="chat-container">
+                <!-- DISCLAIMER FIJO -->
+                <div class="disclaimer-fijo">
+                    <p>⚠️ <strong>Kody no es un profesional de la salud:</strong> Soy un bot de apoyo que deriva a recursos reales. <a href="emergencias.html">Contactá emergencias</a> si estás en crisis.</p>
+                </div>
+
+                <!-- ÁREA DE MENSAJES -->
+                <div class="mensajes" id="mensajes">
+                    <div class="mensaje kody">
+                        ¡Hola! 💙 Soy Kody, tu pulpo de apoyo. Estoy aquí para acompañarte con técnicas de regulación emocional o derivarte a ayuda profesional si lo necesitás.
+                    </div>
+                    
+                    <div class="mensaje kody">
+                        ¿En qué te puedo ayudar hoy? Podés escribirme o elegir una opción:
+                    </div>
+                </div>
+
+                <!-- OPCIONES RÁPIDAS -->
+                <div class="opciones-rapidas">
+                    <button class="btn-opcion" onclick="seleccionarOpcion('ansiedad')">🌪️ Ansiedad intensa</button>
+                    <button class="btn-opcion" onclick="seleccionarOpcion('tristeza')">😢 Tristeza abrumadora</button>
+                    <button class="btn-opcion" onclick="seleccionarOpcion('sobrecarga')">🧠 Sobrecarga sensorial</button>
+                    <button class="btn-opcion" onclick="seleccionarOpcion('tecnicas')">🛠️ Técnicas de grounding</button>
+                </div>
+
+                <!-- TYPING INDICATOR -->
+                <div class="typing-indicator" id="typing">
+                    Kody está escribiendo...
+                </div>
+
+                <!-- INPUT DE MENSAJE -->
+                <div class="input-chat">
+                    <input type="text" id="input-mensaje" placeholder="Escribí cómo te sentís..." onkeypress="if(event.key === 'Enter') enviarMensaje()">
+                    <button onclick="enviarMensaje()">Enviar</button>
+                </div>
+
+                <!-- ACCIONES DE EMERGENCIA (oculto inicialmente) -->
+                <div class="acciones-emergencia" id="acciones-emergencia" style="display: none;">
+                    <h4>🚨 Recursos de Emergencia</h4>
+                    <div class="botones-emergencia">
+                        <a href="tel:141" class="btn-emergencia-chat">📞 Llamar al 141</a>
+                        <a href="emergencias.html" class="btn-emergencia-chat">🆘 Ver más recursos</a>
+                        <a href="https://www.argentina.gob.ar/salud/mental" target="_blank" class="btn-emergencia-chat">🏥 Buscar hospital</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">Kodyan Care</a>
+                    <p>Tu puerto seguro para tormentas emocionales.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Herramientas</h4>
+                    <ul>
+                        <li><a href="anclaje.html">Técnicas de Anclaje</a></li>
+                        <li><a href="descarga.html">Descarga Rápida</a></li>
+                        <li><a href="chat.html">Chat de Apoyo</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="emergencias.html">Líneas de Crisis</a></li>
+                        <li><a href="guias.html">Guías de Crisis</a></li>
+                        <li><a href="como-ayudar.html">Cómo Ayudar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:care@koyhq.com">care@koyhq.com</a></li>
+                        <li><a href="https://instagram.com/kodyan.care" target="_blank">Instagram</a></li>
+                        <li><a href="https://koyhq.com" target="_blank">Koy HQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p><strong>💡 Importante:</strong> Esto no es un substituto de terapia profesional. Si estás en crisis, contactá a <a href="emergencias.html">recursos de emergencia</a>.</p>
+                <p>&copy; 2025 Kodyan Care. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="js/script.js"></script>
+    <script>
+        // BASE DE DATOS DE RESPUESTAS SEGURAS
+        const respuestasKody = {
+            saludo: [
+                "¡Hola! 💙 Soy Kody, tu pulpo de apoyo. ¿En qué te puedo ayudar hoy?",
+                "Hola 💙 Me alegra que estés acá. ¿Cómo te sentís?",
+                "¡Hola! 🌊 Kody al habla. ¿Necesitás acompañamiento?"
+            ],
+            
+            ansiedad: [
+                "🌪️ La ansiedad puede ser muy intensa. ¿Te ayudo con respiración o grounding?",
+                "💨 Veo que la ansiedad está fuerte. ¿Probamos la técnica 5-4-3-2-1?",
+                "🌊 Las tormentas de ansiedad pasan. ¿Respiramos juntos?"
+            ],
+            
+            tristeza: [
+                "😢 La tristeza pesa mucho. ¿Querés probar alguna técnica de regulación?",
+                "🫂 Esto suena muy difícil. ¿Te ayudo a encontrar recursos de apoyo?",
+                "🌧️ Las emociones intensas son como tormentas: pasan. ¿Necesitás acompañamiento?"
+            ],
+            
+            sobrecarga: [
+                "🧠 La sobrecarga sensorial es agotadora. ¿Reducción de estímulos?",
+                "🔇 Demasiada información. ¿Espacio tranquilo y auriculares?",
+                "🌌 Sobrecarga detectada. ¿Técnicas de grounding o espacio seguro?"
+            ],
+            
+            tecnicas: [
+                "🌬️ ¿Respiración 4-7-8? Inhalá 4, mantené 7, exhalá 8",
+                "🔍 ¿Técnica 5-4-3-2-1? 5 cosas que ves, 4 que tocás...",
+                "🧊 ¿Anclaje con hielo? Contraste térmico para calmar el sistema"
+            ],
+            
+            emergencia: [
+                "🚨 **Necesitás hablar con un profesional YA.** Te muestro recursos de emergencia:",
+                "🆘 **Esto requiere atención inmediata.** Contactá estas líneas:",
+                "💔 **Por tu seguridad, necesitás ayuda profesional.** Te conecto con emergencias:"
+            ],
+            
+            default: [
+                "💙 Escucho que estás pasando por un momento difícil",
+                "🫂 Esto suena abrumador. ¿Te ayudo con técnicas o recursos?",
+                "🌱 ¿Necesitás acompañamiento para regular lo que sentís?"
+            ]
+        };
+
+        // PALABRAS CLAVE PARA DETECCIÓN
+        const palabrasClave = {
+            emergencia: ['suicid', 'matar', 'morir', 'acabar', 'no quiero vivir', 'quiero morir'],
+            ansiedad: ['ansiedad', 'pánico', 'ataque', 'nervioso', 'asustado', 'aterrado'],
+            tristeza: ['triste', 'deprimido', 'sin esperanza', 'vacío', 'sin sentido'],
+            sobrecarga: ['sobrecarga', 'estímulos', 'ruido', 'luces', 'no aguanto', 'demasiado'],
+            tecnicas: ['técnica', 'herramienta', 'qué hacer', 'cómo calmar', 'grounding']
+        };
+
+        // VARIABLES GLOBALES
+        let contadorEmergencia = 0;
+        const UMBRAL_EMERGENCIA = 2;
+
+        // FUNCIONES PRINCIPALES
+        function enviarMensaje() {
+            const input = document.getElementById('input-mensaje');
+            const mensajeUsuario = input.value.trim();
+            
+            if (!mensajeUsuario) return;
+            
+            // Agregar mensaje del usuario
+            agregarMensaje(mensajeUsuario, 'usuario');
+            input.value = '';
+            
+            // Responder después de un delay
+            setTimeout(() => {
+                const respuesta = generarRespuesta(mensajeUsuario);
+                agregarMensaje(respuesta.texto, 'kody');
+                
+                // Mostrar acciones si hay
+                if (respuesta.acciones) {
+                    mostrarAcciones(respuesta.acciones);
+                }
+            }, 1000);
+            
+            // Mostrar "escribiendo..."
+            mostrarTyping();
+        }
+
+        function seleccionarOpcion(opcion) {
+            const opcionesTexto = {
+                'ansiedad': 'Estoy sintiendo mucha ansiedad',
+                'tristeza': 'Me siento muy triste y abrumado',
+                'sobrecarga': 'Tengo sobrecarga sensorial',
+                'tecnicas': 'Necesito técnicas de grounding'
+            };
+            
+            document.getElementById('input-mensaje').value = opcionesTexto[opcion];
+            enviarMensaje();
+        }
+
+        function generarRespuesta(mensaje) {
+            const mensajeLower = mensaje.toLowerCase();
+            
+            // Detección de emergencia
+            if (palabrasClave.emergencia.some(palabra => mensajeLower.includes(palabra))) {
+                contadorEmergencia++;
+                
+                if (contadorEmergencia >= UMBRAL_EMERGENCIA) {
+                    return {
+                        texto: respuestasKody.emergencia[Math.floor(Math.random() * respuestasKody.emergencia.length)],
+                        acciones: 'emergencia'
+                    };
+                }
+            }
+            
+            // Detección por categorías
+            for (const [categoria, palabras] of Object.entries(palabrasClave)) {
+                if (palabras.some(palabra => mensajeLower.includes(palabra)) && categoria !== 'emergencia') {
+                    return {
+                        texto: respuestasKody[categoria][Math.floor(Math.random() * respuestasKody[categoria].length)],
+                        acciones: null
+                    };
+                }
+            }
+            
+            // Respuesta por defecto
+            return {
+                texto: respuestasKody.default[Math.floor(Math.random() * respuestasKody.default.length)],
+                acciones: null
+            };
+        }
+
+        // FUNCIONES DE UI
+        function agregarMensaje(texto, tipo) {
+            const mensajes = document.getElementById('mensajes');
+            const mensajeDiv = document.createElement('div');
+            mensajeDiv.className = `mensaje ${tipo}`;
+            mensajeDiv.innerHTML = texto;
+            mensajes.appendChild(mensajeDiv);
+            mensajes.scrollTop = mensajes.scrollHeight;
+            ocultarTyping();
+        }
+
+        function mostrarTyping() {
+            document.getElementById('typing').classList.add('active');
+        }
+
+        function ocultarTyping() {
+            document.getElementById('typing').classList.remove('active');
+        }
+
+        function mostrarAcciones(tipo) {
+            const acciones = document.getElementById('acciones-emergencia');
+            acciones.style.display = 'block';
+        }
+
+        // EVENT LISTENERS
+        document.getElementById('input-mensaje').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                enviarMensaje();
+            }
+        });
+
+        // INICIALIZACIÓN
+        window.addEventListener('load', () => {
+            document.getElementById('input-mensaje').focus();
+        });
+    </script>
+</body>
+</html>

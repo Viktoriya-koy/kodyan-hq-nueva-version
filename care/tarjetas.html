@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjetas de Afrontamiento | Kodyan Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .herramienta-detalle {
+            padding: 8rem 0 4rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f5ff 0%, #f0edff 100%);
+        }
+
+        .tarjetas-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .instrucciones {
+            background: var(--color-surface);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .instrucciones h2 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+
+        .mazo-tarjetas {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .tarjeta {
+            background: var(--color-surface);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-sm);
+            border-left: 5px solid;
+            transition: var(--transition);
+            cursor: pointer;
+            text-align: left;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Colores por categoría */
+        .tarjeta[data-categoria="cuerpo"] { border-left-color: #FF6B6B; }
+        .tarjeta[data-categoria="sentidos"] { border-left-color: #4ECDC4; }
+        .tarjeta[data-categoria="mente"] { border-left-color: #6D67E4; }
+        .tarjeta[data-categoria="emocion"] { border-left-color: #FFD166; }
+        .tarjeta[data-categoria="conexion"] { border-left-color: #8A85FF; }
+        .tarjeta[data-categoria="entorno"] { border-left-color: #453F90; }
+
+        .tarjeta h3 {
+            color: var(--color-text);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tarjeta p {
+            color: var(--color-text-light);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .accion-tarjeta {
+            background: var(--color-secondary);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 500;
+            color: var(--color-primary);
+            text-decoration: none;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .accion-tarjeta:hover {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-elegir {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 2rem;
+        }
+
+        .btn-elegir:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(109, 103, 228, 0.3);
+        }
+
+        .tarjeta-elegida {
+            background: var(--color-surface);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin: 2rem auto;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+            border: 3px solid var(--color-primary);
+            animation: aparecer 0.5s ease;
+            display: none;
+        }
+
+        @keyframes aparecer {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .btn-volver {
+            background: var(--color-secondary);
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .btn-volver:hover {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .mazo-tarjetas {
+                grid-template-columns: 1fr;
+            }
+            
+            .tarjeta {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="resources/pulpo-logo.png" alt="Kodyan Care" class="logo-pulpo">
+                Kodyan Care
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#herramientas">Herramientas</a></li>
+                    <li><a href="index.html#regulacion">Regulación</a></li>
+                    <li><a href="index.html#como-ayudar">Cómo Ayudar</a></li>
+                    <li><a href="emergencias.html" class="btn-emergencia">🚨 Emergencia</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="herramienta-detalle">
+        <div class="container">
+            <h1>🃏 Tarjetas de Afrontamiento</h1>
+            <p class="subtitulo">Cuando no sabés qué hacer, dejá que una tarjeta te guíe</p>
+
+            <div class="tarjetas-container">
+                <!-- INSTRUCCIONES -->
+                <div class="instrucciones">
+                    <h2>¿Cómo usar estas tarjetas?</h2>
+                    <p>Cuando te sentís abrumado/a y no sabés por dónde empezar, dejá que el azar elija por vos. Cada tarjeta te da una idea concreta y práctica.</p>
+                    <button class="btn-elegir" onclick="mostrarMazo()">
+                        🎲 Elegir una tarjeta al azar
+                    </button>
+                </div>
+
+                <!-- MAZO DE TARJETAS (oculto inicialmente) -->
+                <div class="mazo-tarjetas" id="mazo-tarjetas">
+                    <!-- TARJETA 1: CUERPO -->
+                    <div class="tarjeta" data-categoria="cuerpo">
+                        <h3>🌡️ Revisá tu cuerpo</h3>
+                        <p>Tu cuerpo manda señales cuando necesita cuidado básico. Preguntate:</p>
+                        <ul>
+                            <li>¿Tomé agua en las últimas 2 horas?</li>
+                            <li>¿Comí algo nutritivo hace poco?</li>
+                            <li>¿Necesito ir al baño?</li>
+                            <li>¿Estoy en una posición cómoda?</li>
+                        </ul>
+                        <a href="#" class="accion-tarjeta" onclick="elegirTarjeta(this)">Elegir esta</a>
+                    </div>
+
+                    <!-- TARJETA 2: SENTIDOS -->
+                    <div class="tarjeta" data-categoria="sentidos">
+                        <h3>🎵 Cambiá el input sensorial</h3>
+                        <p>Tu sistema nervioso podría estar sobrecargado. Probá:</p>
+                        <ul>
+                            <li>Poné música suave o sonidos de naturaleza</li>
+                            <li>Usá auriculares con cancelación de ruido</li>
+                            <li>Bajá las luces o encendé una luz tenue</li>
+                            <li>Tomá una bebida fría o caliente</li>
+                        </ul>
+                        <a href="audio.html" class="accion-tarjeta" onclick="elegirTarjeta(this)">Ir a Sonidos Calmantes</a>
+                    </div>
+
+                    <!-- TARJETA 3: MOVIMIENTO -->
+                    <div class="tarjeta" data-categoria="cuerpo">
+                        <h3>🔄 Mové el cuerpo</h3>
+                        <p>El movimiento ayuda a liberar la energía estancada:</p>
+                        <ul>
+                            <li>Estirate como un gato por 2 minutos</li>
+                            <li>Caminá por tu casa/patio 5 minutos</li>
+                            <li>Bailá una canción que te guste</li>
+                            <li>Hacé respiraciones profundas</li>
+                        </ul>
+                        <a href="anclaje.html" class="accion-tarjeta" onclick="elegirTarjeta(this)">Ejercicios de Respiración</a>
+                    </div>
+
+                    <!-- TARJETA 4: MENTE -->
+                    <div class="tarjeta" data-categoria="mente">
+                        <h3>🎯 Enfocá la mente</h3>
+                        <p>Cuando los pensamientos van muy rápido:</p>
+                        <ul>
+                            <li>Anclaje 5-4-3-2-1: 5 cosas que ves, 4 que tocás...</li>
+                            <li>Contá hacia atrás desde 100 de 3 en 3</li>
+                            <li>Nombrá todos los objetos azules de la habitación</li>
+                            <li>Recordá 3 cosas lindas de esta semana</li>
+                        </ul>
+                        <a href="anclaje.html" class="accion-tarjeta" onclick="elegirTarjeta(this)">Técnicas de Anclaje</a>
+                    </div>
+
+                    <!-- TARJETA 5: EMOCIÓN -->
+                    <div class="tarjeta" data-categoria="emocion">
+                        <h3>📝 Expresá lo que sentís</h3>
+                        <p>Darle forma a lo que sentís puede aliviar la presión:</p>
+                        <ul>
+                            <li>Escribí en un papel y rompelo después</li>
+                            <li>Dibujá o pintá sin intentar hacer "arte"</li>
+                            <li>Grabá un audio hablando solo para vos</li>
+                            <li>Usá la descarga emocional digital</li>
+                        </ul>
+                        <a href="descarga.html" class="accion-tarjeta" onclick="elegirTarjeta(this)">Ir a Descarga Rápida</a>
+                    </div>
+
+                    <!-- TARJETA 6: CONEXIÓN -->
+                    <div class="tarjeta" data-categoria="conexion">
+                        <h3>📞 Contacto seguro</h3>
+                        <p>No estás solo/a en esto. Considerá:</p>
+                        <ul>
+                            <li>¿Hay alguien con quien podés chatear?</li>
+                            <li>¿Podés llamar a un ser querido?</li>
+                            <li>¿Hay grupos de apoyo online?</li>
+                            <li>Recordá: Pedir ayuda es de valientes</li>
+                        </ul>
+                        <a href="como-ayudar.html" class="accion-tarjeta" onclick="elegirTarjeta(this)">Guías para Familiares/Amigos</a>
+                    </div>
+
+                    <!-- TARJETA 7: ENTORNO -->
+                    <div class="tarjeta" data-categoria="entorno">
+                        <h3>🌿 Cambiá de ambiente</h3>
+                        <p>A veces el espacio contribuye al malestar:</p>
+                        <ul>
+                            <li>Andá a otra habitación</li>
+                            <li>Salí al patio/balcón 5 minutos</li>
+                            <li>Ordená una pequeña área (un escritorio)</li>
+                            <li>Encendé una vela o incienso suave</li>
+                        </ul>
+                        <a href="sensorial.html" class="accion-tarjeta" onclick="elegirTarjeta(this)">Herramientas Sensoriales</a>
+                    </div>
+
+                    <!-- TARJETA 8: DISTRACCIÓN -->
+                    <div class="tarjeta" data-categoria="mente">
+                        <h3>🎮 Distracción saludable</h3>
+                        <p>Darle un respiro a tu mente puede ayudar:</p>
+                        <ul>
+                            <li>Mirá un episodio de una serie liviana</li>
+                            <li>Jugá un juego simple en el teléfono</li>
+                            <li>Armá un rompecabezas virtual</li>
+                            <li>Leé un libro que ya conozcas</li>
+                        </ul>
+                        <a href="#" class="accion-tarjeta" onclick="elegirTarjeta(this)">Elegir esta</a>
+                    </div>
+
+                    <!-- TARJETA 9: AUTOCUIDADO -->
+                    <div class="tarjeta" data-categoria="cuerpo">
+                        <h3>💆‍♀️ Mini-autocuidado</h3>
+                        <p>Un pequeño gesto de cuidado personal:</p>
+                        <ul>
+                            <li>Lavate la cara con agua fría</li>
+                            <li>Ponete crema en las manos masajeando</li>
+                            <li>Peinate o hacete una coleta</li>
+                            <li>Cambiate de ropa aunque no salgas</li>
+                        </ul>
+                        <a href="#" class="accion-tarjeta" onclick="elegirTarjeta(this)">Elegir esta</a>
+                    </div>
+
+                    <!-- TARJETA 10: PERSPECTIVA -->
+                    <div class="tarjeta" data-categoria="mente">
+                        <h3>⏰ Recordatorio temporal</h3>
+                        <p>Las crisis son temporales. Recordá:</p>
+                        <ul>
+                            <li>Esto va a pasar, como pasó antes</li>
+                            <li>No tenés que resolver todo ahora</li>
+                            <li>Podés postergar decisiones importantes</li>
+                            <li>Solo enfocate en sobrevivir este momento</li>
+                        </ul>
+                        <a href="guias.html" class="accion-tarjeta" onclick="elegirTarjeta(this)">Ver Guías de Crisis</a>
+                    </div>
+                </div>
+
+                <!-- TARJETA ELEGIDA (aparece cuando eligen una) -->
+                <div class="tarjeta-elegida" id="tarjeta-elegida">
+                    <h2 id="titulo-elegido"></h2>
+                    <div id="contenido-elegido"></div>
+                    <button class="btn-volver" onclick="volverAlMazo()">🃏 Elegir otra tarjeta</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">Kodyan Care</a>
+                    <p>Tu puerto seguro para tormentas emocionales.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Herramientas</h4>
+                    <ul>
+                        <li><a href="anclaje.html">Técnicas de Anclaje</a></li>
+                        <li><a href="descarga.html">Descarga Rápida</a></li>
+                        <li><a href="tarjetas.html">Tarjetas de Afrontamiento</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="emergencias.html">Líneas de Crisis</a></li>
+                        <li><a href="guias.html">Guías de Crisis</a></li>
+                        <li><a href="como-ayudar.html">Cómo Ayudar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://www.instagram.com/kodyan.care/" target="_blank">Instagram</a></li>
+                        <li><a href="mailto:care@koyhq.com">care@koyhq.com</a></li>
+                        <li><a href="https://koyhq.com" target="_blank">Koy HQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p><strong>💡 Importante:</strong> Esto no es un substituto de terapia profesional.</p>
+                <p>&copy; 2025 Kodyan Care. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="js/script.js"></script>
+    <script>
+        function mostrarMazo() {
+            document.querySelector('.instrucciones').style.display = 'none';
+            document.getElementById('mazo-tarjetas').style.display = 'grid';
+        }
+
+        function elegirTarjeta(elemento) {
+            const tarjeta = elemento.closest('.tarjeta');
+            const titulo = tarjeta.querySelector('h3').textContent;
+            const contenido = tarjeta.innerHTML;
+            
+            document.getElementById('mazo-tarjetas').style.display = 'none';
+            document.getElementById('titulo-elegido').textContent = titulo;
+            document.getElementById('contenido-elegido').innerHTML = contenido;
+            document.getElementById('tarjeta-elegida').style.display = 'block';
+        }
+
+        function volverAlMazo() {
+            document.getElementById('tarjeta-elegida').style.display = 'none';
+            document.getElementById('mazo-tarjetas').style.display = 'grid';
+        }
+
+        // Elegir una tarjeta completamente al azar
+        function tarjetaAlAzar() {
+            const tarjetas = document.querySelectorAll('.tarjeta');
+            const tarjetaRandom = tarjetas[Math.floor(Math.random() * tarjetas.length)];
+            elegirTarjeta(tarjetaRandom.querySelector('.accion-tarjeta'));
+        }
+
+        // También se puede llamar desde el botón principal
+        document.querySelector('.btn-elegir').addEventListener('click', function(e) {
+            if (!e.target.closest('.btn-elegir')) return;
+            tarjetaAlAzar();
+        });
+    </script>
+</body>
+</html>
