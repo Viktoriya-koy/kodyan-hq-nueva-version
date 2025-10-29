@@ -8,25 +8,142 @@
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-749178C11R"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-749178C11R');
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-749178C11R');
     </script>
-    
+
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230D1117'/><text x='50' y='72' font-family='Montserrat, sans-serif' font-size='60' font-weight='700' fill='%2300FFD1' text-anchor='middle'>K</text></svg>" type="image/svg+xml">
     
-    <!-- Fuentes y Iconos -->
+    <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- Hojas de Estilo -->
+    <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/chatbot.css">
-</head>
 
+    <style>
+        /* Estilos temporales para nuevas secciones */
+        .recursos-grid, .plataformas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .recurso-card, .plataforma-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e3f2fd;
+            transition: transform 0.3s ease;
+        }
+        
+        .recurso-card:hover, .plataforma-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .recurso-icon, .plataforma-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Chatbot Styles */
+        #chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        #chatbot-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        #chatbot-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        #chatbot-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid #e3f2fd;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbot-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .chatbot-input {
+            padding: 1rem;
+            border-top: 1px solid #e3f2fd;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .bot-message {
+            background: #f1f3ff;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background: #667eea;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+    </style>
+</head>
 <body>
     <!-- Header & Navigation -->
     <header>
@@ -35,10 +152,11 @@
             <nav>
                 <ul class="nav-links">
                     <li><a href="#home">Inicio</a></li>
-                    <li><a href="#quienes-somos">Quiénes Somos</a></li>
                     <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#como-trabajamos">Cómo Trabajamos</a></li>
+                    <li><a href="#plataformas">Plataformas</a></li>
+                    <li><a href="#recursos">Recursos</a></li>
                     <li><a href="#portfolio">Portafolio</a></li>
+                    <li><a href="#como-trabajamos">Cómo Trabajamos</a></li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
             </nav>
@@ -61,54 +179,9 @@
         <div class="tech-line tech-line-2"></div>
         <div class="tech-line tech-line-3"></div>
         <div class="tech-line tech-line-4"></div>
-        <div class="tech-line tech-line-5"></div>
-        <div class="tech-line tech-line-6"></div>
-        <div class="tech-line tech-line-7"></div>
-        <div class="tech-line tech-line-8"></div>
     </section>
 
-    <!-- Quiénes Somos Section -->
-    <section class="quienes-somos" id="quienes-somos">
-        <div class="container">
-            <div class="section-title">
-                <h2>Quiénes Somos</h2>
-            </div>
-            
-            <div class="about-content">
-                <p>En <strong>Kodyan HQ</strong>, somos especialistas en transformar desafíos operativos y comerciales en soluciones digitales elegantes y efectivas. Nacimos de la convicción de que las herramientas tecnológicas deberían ser accesibles, intuitivas y poderosas.</p>
-                
-                <p>Nos apasiona crear sistemas que no solo resuelven problemas inmediatos, sino que también abren nuevas oportunidades de crecimiento. Trabajamos especialmente con:</p>
-            </div>
-            
-            <div class="focus-areas">
-                <div class="focus-item">
-                    <div class="focus-icon">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h4>Organizaciones Públicas</h4>
-                    <p>Modernización de procesos y herramientas de gestión</p>
-                </div>
-                
-                <div class="focus-item">
-                    <div class="focus-icon">
-                        <i class="fas fa-store"></i>
-                    </div>
-                    <h4>Pequeñas y Medianas Empresas</h4>
-                    <p>Sistemas de automatización y estrategias comerciales</p>
-                </div>
-                
-                <div class="focus-item">
-                    <div class="focus-icon">
-                        <i class="fas fa-leaf"></i>
-                    </div>
-                    <h4>Proyectos Sustentables</h4>
-                    <p>Soluciones con impacto ambiental y social positivo</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Servicios Section -->
+    <!-- Servicios Section - TRES PILARES -->
     <section class="servicios" id="servicios">
         <div class="container">
             <div class="section-title">
@@ -162,6 +235,213 @@
                     </div>
                     <a href="#contacto" class="btn btn-outline">Saber más</a>
                 </div>
+
+                <!-- KODYAN WEB - NUEVO -->
+                <div class="service-card" data-animate data-animate-delay="300">
+                    <div class="service-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Kodyan Web</h3>
+                    <p class="service-tagline">Diseño y desarrollo web que convierte visitantes en clientes.</p>
+                    <p>Creemos tu presencia digital desde cero o modernizamos tu sitio existente. Diseño responsive, optimización SEO y experiencia de usuario intuitiva.</p>
+                    <div class="service-details">
+                        <h4>Para quién es:</h4>
+                        <p>Emprendedores, profesionales independientes, pymes que necesitan sitio web o e-commerce.</p>
+                        
+                        <h4>Incluye:</h4>
+                        <ul>
+                            <li>Diseño web responsive</li>
+                            <li>Optimización SEO</li>
+                            <li>Integración e-commerce</li>
+                            <li>Formularios de contacto</li>
+                            <li>Hosting y dominio</li>
+                        </ul>
+                    </div>
+                    <a href="#contacto" class="btn btn-outline">Saber más</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plataformas Especializadas Section - NUEVA -->
+    <section class="plataformas-especializadas" id="plataformas" style="background: #f8f9fa; padding: 5rem 0;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Plataformas Especializadas</h2>
+                <p>Soluciones todo-en-uno para profesionales</p>
+            </div>
+            
+            <div class="plataformas-grid">
+                <!-- Kodyan Med -->
+                <div class="plataforma-card">
+                    <div class="plataforma-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <h3>Kodyan Med</h3>
+                    <p class="plataforma-tagline">Consultorios virtuales para profesionales de la salud</p>
+                    <p>Plataforma todo-en-uno para telemedicina, gestión de pacientes y historia clínica digital.</p>
+                    <div class="plataforma-details">
+                        <h4>Para:</h4>
+                        <p>Médicos, psicólogos, nutricionistas, profesionales de la salud</p>
+                        
+                        <h4>Características:</h4>
+                        <ul>
+                            <li>Agenda de turnos online</li>
+                            <li>Historia clínica digital</li>
+                            <li>Videollamadas seguras</li>
+                            <li>Prescripciones digitales</li>
+                        </ul>
+                    </div>
+                    <a href="#contacto" class="btn btn-primary">Solicitar Demo</a>
+                </div>
+                
+                <!-- Kodyan Jury -->
+                <div class="plataforma-card">
+                    <div class="plataforma-icon">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <h3>Kodyan Jury</h3>
+                    <p class="plataforma-tagline">Estudios virtuales para abogados</p>
+                    <p>Gestión de casos, consultas online, firma digital y expedientes electrónicos.</p>
+                    <div class="plataforma-details">
+                        <h4>Para:</h4>
+                        <p>Abogados, estudios jurídicos, profesionales del derecho</p>
+                        
+                        <h4>Características:</h4>
+                        <ul>
+                            <li>Gestión de casos y clientes</li>
+                            <li>Expedientes digitales</li>
+                            <li>Firma electrónica</li>
+                            <li>Recordatorios de vencimientos</li>
+                        </ul>
+                    </div>
+                    <a href="#contacto" class="btn btn-primary">Solicitar Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recursos Gratuitos Section - NUEVA -->
+    <section class="recursos-gratuitos" id="recursos">
+        <div class="container">
+            <div class="section-title">
+                <h2>Recursos Gratuitos para la Comunidad</h2>
+                <p>Herramientas de acceso libre que creamos para generar impacto positivo</p>
+            </div>
+            
+            <div class="recursos-grid">
+                <!-- Kodyan Care -->
+                <div class="recurso-card">
+                    <div class="recurso-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Kodyan Care</h3>
+                    <p>Primeros auxilios emocionales y herramientas de salud mental gratuitas</p>
+                    <a href="/care/" class="btn btn-primary">Acceder a Kodyan Care</a>
+                </div>
+                
+                <!-- Kodyan Eco -->
+                <div class="recurso-card">
+                    <div class="recurso-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Kodyan Eco</h3>
+                    <p>Calculadora de huella de carbono y herramientas educativas ambientales</p>
+                    <a href="/calculadoras/" class="btn btn-outline">Probar Calculadora</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section - ACTUALIZADO -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <div class="section-title">
+                <h2>Herramientas que demuestran lo que podemos crear para vos</h2>
+                <p>Probá estas calculadoras interactivas para ver el potencial de automatización</p>
+            </div>
+            
+            <div class="portfolio-grid">
+                <!-- Calculadora ROI Automatización -->
+                <div class="portfolio-item">
+                    <div class="portfolio-img">
+                        <i class="fas fa-chart-line" style="font-size: 4rem; color: var(--accent-highlight);"></i>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Calculadora ROI Automatización</h3>
+                        <p class="portfolio-subtitle">¿Cuánto ahorrarías automatizando procesos?</p>
+                        
+                        <div class="portfolio-details">
+                            <h4>El valor:</h4>
+                            <p>Calculá exactamente cuánto tiempo y dinero podés recuperar automatizando tareas repetitivas en tu empresa.</p>
+                            
+                            <h4>Para quién es útil:</h4>
+                            <ul>
+                                <li>PYMES con procesos manuales</li>
+                                <li>Emprendedores sobrecargados</li>
+                                <li>Equipos que pierden tiempo en reportes</li>
+                            </ul>
+                            
+                            <p class="tech-stack"><strong>Tecnologías:</strong> JavaScript • HTML5 • CSS3 • Analytics</p>
+                            
+                            <a href="calculadora-roi-automatization.html" class="btn btn-neon">Probar Calculadora</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Calculadora Rotación Personal -->
+                <div class="portfolio-item">
+                    <div class="portfolio-img">
+                        <i class="fas fa-users" style="font-size: 4rem; color: var(--accent-highlight);"></i>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Calculadora Rotación de Personal</h3>
+                        <p class="portfolio-subtitle">¿Cuánto te cuesta la rotación de empleados?</p>
+                        
+                        <div class="portfolio-details">
+                            <h4>El valor:</h4>
+                            <p>Descubrí el impacto económico real de la rotación de personal en tu organización.</p>
+                            
+                            <h4>Para quién es útil:</h4>
+                            <ul>
+                                <li>Departamentos de RRHH</li>
+                                <li>Gerentes con equipos inestables</li>
+                                <li>Startups en crecimiento</li>
+                            </ul>
+                            
+                            <p class="tech-stack"><strong>Tecnologías:</strong> JavaScript • Formularios dinámicos • Cálculos en tiempo real</p>
+                            
+                            <a href="calculadora-rotacion-personal.html" class="btn btn-neon">Probar Calculadora</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- El Decididor -->
+                <div class="portfolio-item">
+                    <div class="portfolio-img">
+                        <i class="fas fa-random" style="font-size: 4rem; color: var(--accent-highlight);"></i>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>El Decididor</h3>
+                        <p class="portfolio-subtitle">Herramienta para tomar decisiones difíciles</p>
+                        
+                        <div class="portfolio-details">
+                            <h4>El valor:</h4>
+                            <p>¿Invertir en marketing o en desarrollo? ¿Contratar o outsourcing? Esta herramienta te ayuda a decidir con datos.</p>
+                            
+                            <h4>Para quién es útil:</h4>
+                            <ul>
+                                <li>Emprendedores indecisos</li>
+                                <li>Gerentes con múltiples opciones</li>
+                                <li>Equipos con recursos limitados</li>
+                            </ul>
+                            
+                            <p class="tech-stack"><strong>Tecnologías:</strong> Algoritmos de decisión • UI/UX • JavaScript</p>
+                            
+                            <a href="el-decididor.html" class="btn btn-neon">Usar Herramienta</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -193,92 +473,6 @@
                     <div class="step-number">4</div>
                     <h3>Impulsamos</h3>
                     <p>Ajustamos y escalamos para potenciar tu impacto.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section class="portfolio" id="portfolio">
-        <div class="container">
-            <div class="section-title">
-                <h2>Creamos herramientas que generan impacto real</h2>
-            </div>
-            
-            <div class="portfolio-grid">
-                <!-- Proyecto 1: Calculadoras -->
-                <div class="portfolio-item">
-                    <div class="portfolio-img">
-                        <i class="fas fa-leaf" style="font-size: 4rem; color: var(--accent-highlight);"></i>
-                    </div>
-                    <div class="portfolio-content">
-                        <h3>Calculadora de Huella de Carbono para San Luis</h3>
-                        <p class="portfolio-subtitle">Herramienta digital educativa y segmentada</p>
-                        
-                        <div class="portfolio-details">
-                            <h4>El desafío:</h4>
-                            <p>Crear una herramienta accesible que permitiera a los habitantes de San Luis calcular su huella de carbono de manera didáctica y personalizada.</p>
-                            
-                            <h4>La solución:</h4>
-                            <p>Tres calculadoras interactivas adaptadas por edad (niños, jóvenes, adultos) con enfoques específicos para cada público.</p>
-                            
-                            <h4>Resultados:</h4>
-                            <ul>
-                                <li>Herramienta educativa masiva</li>
-                                <li>Base para políticas públicas</li>
-                                <li>Alto potencial viral</li>
-                                <li>Código escalable para otras provincias</li>
-                            </ul>
-                            
-                            <p class="tech-stack"><strong>Tecnologías:</strong> HTML5, CSS3, JavaScript vanilla</p>
-                            
-                            <a href="https://viktoriya-koy.github.io/kodyan-huella/" target="_blank" class="btn btn-neon">Probar Calculadoras</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Proyecto 2: Alertas -->
-                <div class="portfolio-item">
-                    <div class="portfolio-img alertas-img">
-                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; width: 90%; height: auto;">
-                            <h4 style="color: #214C4F; text-align: center; margin-bottom: 15px;">Sistema de Alertas</h4>
-                            <div style="background: white; padding: 15px; border-radius: 5px; color: #214C4F; font-size: 0.9rem;">
-                                <p style="margin-bottom: 10px;"><strong>Expedientes que requieren atención</strong></p>
-                                <p style="color: #dc3545; margin-bottom: 5px;">● 12056789/25 - 168 días</p>
-                                <p style="color: #fd7e14; margin-bottom: 5px;">● 12050323/25 - 65 días</p>
-                                <p style="color: #ffc107; margin-bottom: 5px;">● 12058901/25 - 58 días</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="portfolio-content">
-                        <h3>Sistema Inteligente de Alertas para Expedientes</h3>
-                        <p class="portfolio-subtitle">Automatización de gestión de trámites</p>
-                        
-                        <div class="portfolio-details">
-                            <h4>El desafío:</h4>
-                            <p>Eliminar el caos de la gestión manual de expedientes y evitar vencimientos que generan multas o demoras injustificadas.</p>
-                            
-                            <h4>La solución:</h4>
-                            <p>Un sistema desarrollado en Google Apps Script que transforma una planilla de Google Sheets en un centro de control proactivo.</p>
-                            
-                            <h4>Lo más valorado:</h4>
-                            <ul>
-                                <li>Alertas visuales escalonadas (Amarillo, Naranja, Rojo)</li>
-                                <li>Notificaciones por email segmentadas por rol</li>
-                                <li>Dashboard centralizado en tiempo real</li>
-                                <li>Cero infraestructura nueva</li>
-                            </ul>
-                            
-                            <p class="testimonio">
-                                "Desarrollé este sistema para resolver un problema real en la gestión pública. Hoy está en fase de prueba, ayudando a aumentar la eficiencia de equipos completos."
-                                <br><strong>- Victoria Ramonell Río</strong>
-                            </p>
-                            
-                            <p class="tech-stack"><strong>Tecnologías:</strong> Google Apps Script • JavaScript • Google Sheets • HTML/CSS</p>
-                            
-                            <a href="#contacto" class="btn btn-outline">Solicitar asesoramiento gratuito</a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -355,6 +549,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
                         
+                        <!-- Mensaje de confirmación -->
                         <div id="form-confirmation" style="display: none; margin-top: 20px; padding: 15px; background: var(--accent-primary); color: white; border-radius: 8px;">
                             <i class="fas fa-check-circle"></i> ¡Mensaje enviado! Te contactaremos pronto.
                         </div>
@@ -377,8 +572,9 @@
                     <h4>Enlaces Rápidos</h4>
                     <ul>
                         <li><a href="#home">Inicio</a></li>
-                        <li><a href="#quienes-somos">Quiénes Somos</a></li>
-                        <li><a href="#como-trabajamos">Cómo Trabajamos</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#plataformas">Plataformas</a></li>
+                        <li><a href="#recursos">Recursos</a></li>
                         <li><a href="#portfolio">Portafolio</a></li>
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
@@ -389,8 +585,17 @@
                     <ul>
                         <li><a href="#servicios">Kodyan Operations</a></li>
                         <li><a href="#servicios">Kodyan Commerce</a></li>
-                        <li><a href="#portfolio">Calculadora Huella de Carbono</a></li>
-                        <li><a href="#portfolio">Sistema de Alertas</a></li>
+                        <li><a href="#servicios">Kodyan Web</a></li>
+                        <li><a href="#plataformas">Kodyan Med</a></li>
+                        <li><a href="#plataformas">Kodyan Jury</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Recursos Gratuitos</h4>
+                    <ul>
+                        <li><a href="/care/">Kodyan Care</a></li>
+                        <li><a href="/calculadoras/">Kodyan Eco</a></li>
                     </ul>
                 </div>
             </div>
@@ -401,111 +606,117 @@
         </div>
     </footer>
 
-    <!-- ===== CHATBOT INTEGRADO ===== -->
-    <!-- Botón flotante para abrir chat -->
-    <div class="chatbot-toggle" id="chatbotToggle" title="Chat de Kodyan HQ">
-        <i class="fas fa-robot"></i>
-        <span class="notification-dot"></span>
-    </div>
-
-    <!-- Contenedor principal del chatbot -->
-    <div class="chatbot-container" id="chatbotContainer">
-        <!-- Header del chat -->
-        <div class="chatbot-header">
-            <div class="chatbot-avatar">
-                <i class="fas fa-code"></i>
+    <!-- Chatbot -->
+    <div id="chatbot-container">
+        <div id="chatbot-icon">🤖</div>
+        <div id="chatbot-window" style="display: none;">
+            <div class="chatbot-header">
+                <h4>Asistente Kodyan</h4>
+                <button id="close-chatbot">×</button>
             </div>
-            <div class="chatbot-info">
-                <h3>Kodyan Assistant</h3>
-                <span class="status">
-                    <i class="fas fa-circle"></i> En línea
-                </span>
-            </div>
-            <div class="chatbot-actions">
-                <button class="chatbot-minimize" id="chatbotMinimize" title="Minimizar">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="chatbot-close" id="chatbotClose" title="Cerrar">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Área de mensajes -->
-        <div class="chatbot-messages" id="chatbotMessages">
-            <!-- Mensaje de bienvenida -->
-            <div class="message bot-message">
-                <div class="message-avatar">
-                    <i class="fas fa-code"></i>
-                </div>
-                <div class="message-content">
-                    <p>¡Hola! Soy el asistente de <strong>Kodyan HQ</strong>. ¿En qué puedo ayudarte hoy?</p>
-                    <div class="message-time">16:20</div>
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="message bot-message">
+                    ¡Hola! Soy tu asistente de Kodyan HQ. ¿En qué puedo ayudarte hoy?
                 </div>
             </div>
-
-            <!-- Opciones rápidas -->
-            <div class="quick-options">
-                <div class="quick-options-title">¿Qué te interesa conocer?</div>
-                <div class="quick-options-grid">
-                    <button class="quick-option" data-topic="operations">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Kodyan Operations</span>
-                    </button>
-                    <button class="quick-option" data-topic="commerce">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>Kodyan Commerce</span>
-                    </button>
-                    <button class="quick-option" data-topic="juri">
-                        <i class="fas fa-gavel"></i>
-                        <span>Kodyan Juri</span>
-                    </button>
-                    <button class="quick-option" data-topic="med">
-                        <i class="fas fa-stethoscope"></i>
-                        <span>Kodyan Med</span>
-                    </button>
-                    <button class="quick-option" data-topic="eco">
-                        <i class="fas fa-leaf"></i>
-                        <span>Kodyan Eco</span>
-                    </button>
-                    <button class="quick-option" data-topic="care">
-                        <i class="fas fa-heart"></i>
-                        <span>Kodyan Care</span>
-                    </button>
-                </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbot-input" placeholder="Escribe tu pregunta...">
+                <button id="send-message">Enviar</button>
             </div>
-        </div>
-
-        <!-- Área de entrada -->
-        <div class="chatbot-input">
-            <div class="input-container">
-                <button class="input-action" id="chatbotClear" title="Limpiar conversación">
-                    <i class="fas fa-trash"></i>
-                </button>
-                <input type="text" id="chatbotInput" placeholder="Escribe tu pregunta sobre Kodyan HQ..." maxlength="500">
-                <button id="chatbotSend" class="send-button">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-            <div class="input-hint">
-                <small>Presiona Enter para enviar • Escribe "ayuda" para ver opciones</small>
-            </div>
-        </div>
-
-        <!-- Footer del chat -->
-        <div class="chatbot-footer">
-            <small>Powered by Kodyan HQ • <span id="chatbotTime">Conectado</span></small>
         </div>
     </div>
 
-    <!-- Scripts Principales -->
     <script src="js/script.js"></script>
-
-    <!-- Scripts del Chatbot -->
-    <script src="js/chatbot/chatbot-config.js"></script>
-    <script src="js/chatbot/chatbot-data.js"></script>
-    <script src="js/chatbot/chatbot-engine.js"></script>
-    <script src="js/chatbot/chatbot-ui.js"></script>
-    <script src="js/chatbot/chatbot.js"></script>
+    
+    <script>
+        // Chatbot functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatbotIcon = document.getElementById('chatbot-icon');
+            const chatbotWindow = document.getElementById('chatbot-window');
+            const closeChatbot = document.getElementById('close-chatbot');
+            const sendButton = document.getElementById('send-message');
+            const chatInput = document.getElementById('chatbot-input');
+            const chatMessages = document.getElementById('chatbot-messages');
+            
+            // Toggle chatbot window
+            chatbotIcon.addEventListener('click', function() {
+                chatbotWindow.style.display = chatbotWindow.style.display === 'none' ? 'flex' : 'none';
+            });
+            
+            closeChatbot.addEventListener('click', function() {
+                chatbotWindow.style.display = 'none';
+            });
+            
+            // Send message function
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    // Add user message
+                    addMessage(message, 'user');
+                    chatInput.value = '';
+                    
+                    // Bot response
+                    setTimeout(() => {
+                        const botResponse = getBotResponse(message);
+                        addMessage(botResponse, 'bot');
+                    }, 1000);
+                }
+            }
+            
+            // Send on button click
+            sendButton.addEventListener('click', sendMessage);
+            
+            // Send on Enter key
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Add message to chat
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                messageDiv.textContent = text;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Bot responses
+            function getBotResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                if (lowerMessage.includes('hola') || lowerMessage.includes('holi') || lowerMessage.includes('hi')) {
+                    return '¡Hola! 😊 ¿En qué puedo ayudarte? Puedo contarte sobre nuestros servicios, plataformas o recursos gratuitos.';
+                }
+                
+                if (lowerMessage.includes('servicio') || lowerMessage.includes('qué hacen')) {
+                    return 'Tenemos 3 servicios principales:\n\n🚀 KODYAN OPERATIONS - Automatización y datos\n🛒 KODYAN COMMERCE - Estrategia comercial  \n🌐 KODYAN WEB - Diseño y desarrollo web\n\n¿Te interesa alguno en particular?';
+                }
+                
+                if (lowerMessage.includes('plataforma') || lowerMessage.includes('med') || lowerMessage.includes('jury')) {
+                    return 'Nuestras plataformas especializadas:\n\n🏥 KODYAN MED - Consultorios virtuales para salud\n⚖️ KODYAN JURY - Estudios virtuales para abogados\n\nSon soluciones todo-en-uno para profesionales.';
+                }
+                
+                if (lowerMessage.includes('recurso') || lowerMessage.includes('gratis') || lowerMessage.includes('care') || lowerMessage.includes('eco')) {
+                    return 'Recursos gratuitos:\n\n💙 KODYAN CARE - Primeros auxilios emocionales\n🌱 KODYAN ECO - Calculadora de huella de carbono\n\n¡Son 100% gratuitos para la comunidad!';
+                }
+                
+                if (lowerMessage.includes('portfolio') || lowerMessage.includes('calculadora') || lowerMessage.includes('ejemplo')) {
+                    return 'En nuestro portfolio podés probar:\n\n📊 Calculadora ROI Automatización\n👥 Calculadora Rotación Personal\n🎯 El Decididor (herramienta de decisiones)\n\n¡Son interactivas y demostrativas!';
+                }
+                
+                if (lowerMessage.includes('contacto') || lowerMessage.includes('email') || lowerMessage.includes('whatsapp')) {
+                    return 'Podés contactarnos por:\n📧 contacto@kodyanhq.com\n📱 WhatsApp: +54 9 266 468 7313\n💼 LinkedIn: Kodyan HQ\n\n¡Estamos para ayudarte!';
+                }
+                
+                if (lowerMessage.includes('precio') || lowerMessage.includes('cuesta') || lowerMessage.includes('costo')) {
+                    return 'Los precios varían según el proyecto. Te recomiendo contactarnos para una consulta gratuita y te armamos una propuesta a medida.';
+                }
+                
+                return '¡Interesante pregunta! Te recomiendo:\n- Ver nuestra sección de Servicios\n- Probar las calculadoras del Portfolio\n- O contactarnos directamente para una consulta personalizada 😊';
+            }
+        });
+    </script>
 </body>
 </html>
