@@ -24,9 +24,21 @@
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/chatbot.css">
 
     <style>
+        /* VARIABLES CSS QUE FALTAN */
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-card: #1C2128;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8B949E;
+            --accent-primary: #38B2AC;
+            --accent-secondary: #319795;
+            --accent-highlight: #00FFD1;
+            --transition: all 0.3s ease;
+        }
+
         /* Estilos para nuevas secciones - COHERENTES con tu diseño */
         .plataformas-especializadas {
             background-color: var(--bg-secondary);
@@ -164,6 +176,223 @@
             display: inline-block;
             margin-bottom: 1rem;
             animation: pulse 2s infinite;
+        }
+
+        /* Animaciones que faltan */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chatbot Styles */
+        #chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        #chatbot-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(56, 178, 172, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        #chatbot-icon:hover {
+            transform: scale(1.1);
+            animation: none;
+        }
+        
+        #chatbot-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 400px;
+            height: 540px;
+            background: var(--bg-card);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid var(--accent-primary);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chatbot-header h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .chatbot-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: var(--bg-primary);
+        }
+        
+        .message {
+            padding: 1rem;
+            border-radius: 12px;
+            max-width: 90%;
+            line-height: 1.4;
+            animation: fadeInUp 0.3s ease;
+            position: relative;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            opacity: 0.7;
+        }
+        
+        .bot-message {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border: 1px solid rgba(56, 178, 172, 0.2);
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .quick-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+        }
+
+        .quick-options-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .quick-option {
+            background: rgba(56, 178, 172, 0.1);
+            color: var(--accent-highlight);
+            padding: 0.6rem 0.8rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(56, 178, 172, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            line-height: 1.3;
+            font-weight: 500;
+        }
+
+        .quick-option:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(56, 178, 172, 0.3);
+        }
+        
+        .chatbot-input {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(56, 178, 172, 0.2);
+            background: var(--bg-secondary);
+        }
+        
+        .chatbot-input input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(56, 178, 172, 0.3);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .chatbot-input input:focus {
+            outline: none;
+            border-color: var(--accent-highlight);
+            box-shadow: 0 0 0 2px rgba(0, 255, 209, 0.2);
+        }
+        
+        .chatbot-input input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .chatbot-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        
+        .input-hint {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        
+        .chatbot-status {
+            font-size: 0.7rem;
+            color: var(--accent-highlight);
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        #close-chatbot {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        #close-chatbot:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
@@ -317,10 +546,10 @@
                             <li>Agenda de turnos online</li>
                             <li>Historia clínica digital</li>
                             <li>Alerta de turnos por mail a los pacientes</li>
-                            <li>Facturación</li>
+                            <li>Facturación</li> <!-- ✅ CORREGIDO -->
                         </ul>
                     </div>
-                    <a href="med-preview/" class="btn btn-primary">Ver Vista Previa</a>
+                    <a href="med-preview/" class="btn btn-primary">Ver Vista Previa</a> <!-- ✅ CORREGIDO -->
                 </div>
                 
                 <!-- Kodyan Jury -->
@@ -344,7 +573,7 @@
                             <li>Finanzas</li>
                         </ul>
                     </div>
-                    <a href="jury-preview/" class="btn btn-primary">Ver Vista Previa</a>
+                    <a href="jury-preview/" class="btn btn-primary">Ver Vista Previa</a> <!-- ✅ CORREGIDO -->
                 </div>
             </div>
         </div>
@@ -686,6 +915,144 @@
     </div>
 
     <script src="js/script.js"></script>
-    <script src="js/chatbot.js"></script>
+    
+    <script>
+        // Chatbot functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatbotIcon = document.getElementById('chatbot-icon');
+            const chatbotWindow = document.getElementById('chatbot-window');
+            const closeChatbot = document.getElementById('close-chatbot');
+            const chatInput = document.getElementById('chatbot-input');
+            const chatMessages = document.getElementById('chatbot-messages');
+            
+            // Toggle chatbot window
+            chatbotIcon.addEventListener('click', function() {
+                chatbotWindow.style.display = chatbotWindow.style.display === 'none' ? 'flex' : 'none';
+                if (chatbotWindow.style.display === 'flex') {
+                    chatInput.focus();
+                }
+            });
+            
+            closeChatbot.addEventListener('click', function() {
+                chatbotWindow.style.display = 'none';
+            });
+            
+            // Quick options functionality
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('quick-option')) {
+                    const option = e.target.textContent;
+                    addMessage(option, 'user');
+                    
+                    setTimeout(() => {
+                        const response = getQuickOptionResponse(option);
+                        addMessage(response, 'bot');
+                    }, 500);
+                }
+            });
+            
+            // Send message on Enter
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const message = chatInput.value.trim();
+                    if (message) {
+                        addMessage(message, 'user');
+                        chatInput.value = '';
+                        
+                        setTimeout(() => {
+                            const response = getBotResponse(message);
+                            addMessage(response, 'bot');
+                        }, 1000);
+                    }
+                }
+            });
+            
+            // Add message to chat
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                
+                const time = new Date().toLocaleTimeString('es-AR', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    hour12: false 
+                });
+                
+                messageDiv.innerHTML = `
+                    <div class="message-time">${time}</div>
+                    ${text}
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Quick option responses
+            function getQuickOptionResponse(option) {
+                switch(option) {
+                    case 'Kodyan Operations':
+                        return '🚀 <strong>Kodyan Operations</strong><br>Transformamos tus datos en decisiones claras. Automatización de reportes, dashboards interactivos y alertas inteligentes para equipos que dependen de datos.';
+                    
+                    case 'Kodyan Commerce':
+                        return '🛒 <strong>Kodyan Commerce</strong><br>Activamos tu potencial de crecimiento. Estrategia comercial, diseño de bundles y planes de marketing para emprendedores y pymes.';
+                    
+                    case 'Kodyan Web':
+                        return '🌐 <strong>Kodyan Web</strong><br>Diseño y desarrollo web que convierte visitantes en clientes. Desde sitios corporativos hasta e-commerce, con diseño responsive y SEO.';
+                    
+                    case 'Kodyan Jury':
+                        return '⚖️ <strong>Kodyan Jury</strong><br>Estudios virtuales para abogados. Gestión de clientes, fichero de expedientes, finanzas, agenda diaria. <em>(Próximamente)</em>';
+                    
+                    case 'Kodyan Med':
+                        return '🏥 <strong>Kodyan Med</strong><br>Consultorios virtuales para profesionales de la salud. Historia clínica digital, agenda online, facturación, alertas de turnos. <em>(Próximamente)</em>';
+                    
+                    case 'Kodyan Eco':
+                        return '🌱 <strong>Kodyan Eco</strong><br>Calculadora de huella de carbono y herramientas educativas ambientales. Recursos gratuitos para concientización.';
+                    
+                    case 'Kodyan Care':
+                        return '💙 <strong>Kodyan Care</strong><br>Primeros auxilios emocionales y herramientas de salud mental gratuitas. Tu puerto seguro para tormentas emocionales.';
+                    
+                    case 'Portafolio':
+                        return '📊 <strong>Portafolio</strong><br>Probá nuestras calculadoras interactivas para ver ejemplos de lo que podemos crear:<br>• Calculadora ROI Automatización<br>• Calculadora Rotación Personal<br>• El Decididor<br>¡Son demostraciones reales de nuestro trabajo!';
+                    
+                    default:
+                        return '¿Te interesa conocer más sobre ' + option + '? Te recomiendo visitar nuestra sección correspondiente en el sitio web.';
+                }
+            }
+            
+            // General bot responses
+            function getBotResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                if (lowerMessage.includes('ayuda')) {
+                    return 'Puedo ayudarte con información sobre:<br><br>' +
+                           '🚀 <strong>Kodyan Operations</strong> - Automatización<br>' +
+                           '🛒 <strong>Kodyan Commerce</strong> - Estrategia comercial<br>' +
+                           '🌐 <strong>Kodyan Web</strong> - Desarrollo web<br>' +
+                           '⚖️ <strong>Kodyan Jury</strong> - Estudios jurídicos (Próximamente)<br>' +
+                           '🏥 <strong>Kodyan Med</strong> - Consultorios médicos (Próximamente)<br>' +
+                           '🌱 <strong>Kodyan Eco</strong> - Calculadora ambiental<br>' +
+                           '💙 <strong>Kodyan Care</strong> - Salud mental<br>' +
+                           '📊 <strong>Portafolio</strong> - Demostraciones<br><br>' +
+                           '¿Sobre cuál te gustaría saber más?';
+                }
+                
+                if (lowerMessage.includes('hola') || lowerMessage.includes('hi')) {
+                    return '¡Hola! ¿En qué puedo ayudarte hoy? Puedes hacer clic en las opciones rápidas o escribir tu pregunta.';
+                }
+                
+                if (lowerMessage.includes('contacto') || lowerMessage.includes('email')) {
+                    return '📧 <strong>Email:</strong> contacto@kodyanhq.com<br>' +
+                           '📱 <strong>WhatsApp:</strong> +54 9 266 468 7313<br>' +
+                           '💼 <strong>LinkedIn:</strong> Kodyan HQ<br><br>' +
+                           '¡Estamos para ayudarte!';
+                }
+                
+                if (lowerMessage.includes('precio') || lowerMessage.includes('cuesta')) {
+                    return 'Los precios varían según el proyecto. Te recomiendo contactarnos para una consulta gratuita y te armamos una propuesta personalizada.';
+                }
+                
+                return '¡Gracias por tu mensaje! ¿Te gustaría saber sobre alguno de nuestros servicios? Puedes usar las opciones rápidas o escribir "ayuda" para ver todas las opciones.';
+            }
+        });
+    </script>
 </body>
 </html>
