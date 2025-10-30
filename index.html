@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="css/responsive.css">
 
     <style>
-        /* VARIABLES CSS QUE FALTAN */
+        /* VARIABLES CSS */
         :root {
             --bg-primary: #0D1117;
             --bg-secondary: #161B22;
@@ -39,7 +39,7 @@
             --transition: all 0.3s ease;
         }
 
-        /* Estilos para nuevas secciones - COHERENTES con tu diseño */
+        /* Estilos para nuevas secciones */
         .plataformas-especializadas {
             background-color: var(--bg-secondary);
             padding: 6rem 0;
@@ -132,6 +132,21 @@
             font-weight: bold;
         }
         
+        /* Botones dobles para plataformas */
+        .plataforma-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .plataforma-actions .btn {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        
         .recursos-gratuitos {
             background-color: var(--bg-primary);
             padding: 6rem 0;
@@ -178,7 +193,7 @@
             animation: pulse 2s infinite;
         }
 
-        /* Animaciones que faltan */
+        /* Animaciones */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -546,10 +561,19 @@
                             <li>Agenda de turnos online</li>
                             <li>Historia clínica digital</li>
                             <li>Alerta de turnos por mail a los pacientes</li>
-                            <li>Facturación</li> <!-- ✅ CORREGIDO -->
+                            <li>Facturación</li>
                         </ul>
                     </div>
-                    <a href="med-preview/" class="btn btn-primary">Ver Vista Previa</a> <!-- ✅ CORREGIDO -->
+                    
+                    <!-- BOTONES ACTUALIZADOS -->
+                    <div class="plataforma-actions">
+                        <a href="med-preview/" class="btn btn-primary">
+                            <i class="fas fa-eye"></i> Ver Vista Previa
+                        </a>
+                        <a href="#contacto" class="btn btn-outline" onclick="setInteres('med')">
+                            <i class="fas fa-bell"></i> Notificarme el lanzamiento
+                        </a>
+                    </div>
                 </div>
                 
                 <!-- Kodyan Jury -->
@@ -573,7 +597,16 @@
                             <li>Finanzas</li>
                         </ul>
                     </div>
-                    <a href="jury-preview/" class="btn btn-primary">Ver Vista Previa</a> <!-- ✅ CORREGIDO -->
+                    
+                    <!-- BOTONES ACTUALIZADOS -->
+                    <div class="plataforma-actions">
+                        <a href="jury-preview/" class="btn btn-primary">
+                            <i class="fas fa-eye"></i> Ver Vista Previa
+                        </a>
+                        <a href="#contacto" class="btn btn-outline" onclick="setInteres('jury')">
+                            <i class="fas fa-bell"></i> Notificarme el lanzamiento
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -917,7 +950,72 @@
     <script src="js/script.js"></script>
     
     <script>
-        // Chatbot functionality
+        // ===== SISTEMA DE NOTIFICACIONES DE LANZAMIENTO =====
+        function setInteres(plataforma) {
+            // Guardar en localStorage
+            localStorage.setItem('interesLanzamiento', plataforma);
+            
+            // Mostrar mensaje
+            const plataformaNombre = plataforma === 'med' ? 'Kodyan Med' : 'Kodyan Jury';
+            alert(`¡Perfecto! 🎉\n\nTe notificaremos cuando ${plataformaNombre} esté disponible.\n\nSerás de los primeros en probarlo.`);
+            
+            // Scroll suave a contacto
+            document.getElementById('contacto').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+            
+            // Pre-llenar el formulario después de un delay
+            setTimeout(() => {
+                const mensajeField = document.getElementById('message');
+                if (mensajeField) {
+                    mensajeField.value = `¡Hola! Estoy interesado/a en ${plataformaNombre}. Por favor notifíquenme cuando esté disponible.`;
+                    mensajeField.focus();
+                }
+            }, 800);
+        }
+
+        // Al cargar la página, verificar si hay interés guardado
+        document.addEventListener('DOMContentLoaded', function() {
+            const interes = localStorage.getItem('interesLanzamiento');
+            if (interes) {
+                console.log(`Usuario interesado en: ${interes}`);
+            }
+
+            // Mejorar el formulario de contacto
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    const interes = localStorage.getItem('interesLanzamiento');
+                    if (interes) {
+                        // Agregar campo hidden con el interés
+                        let hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'plataforma_interes';
+                        hiddenInput.value = interes;
+                        this.appendChild(hiddenInput);
+                        
+                        // Limpiar después de enviar
+                        setTimeout(() => {
+                            localStorage.removeItem('interesLanzamiento');
+                        }, 1000);
+                    }
+                    
+                    // Mostrar mensaje de confirmación
+                    const confirmation = document.getElementById('form-confirmation');
+                    if (confirmation) {
+                        confirmation.style.display = 'block';
+                        contactForm.reset();
+                        setTimeout(() => {
+                            confirmation.style.display = 'none';
+                        }, 5000);
+                    }
+                    
+                    e.preventDefault();
+                });
+            }
+        });
+
+        // ===== CHATBOT FUNCTIONALITY =====
         document.addEventListener('DOMContentLoaded', function() {
             const chatbotIcon = document.getElementById('chatbot-icon');
             const chatbotWindow = document.getElementById('chatbot-window');
@@ -1048,6 +1146,10 @@
                 
                 if (lowerMessage.includes('precio') || lowerMessage.includes('cuesta')) {
                     return 'Los precios varían según el proyecto. Te recomiendo contactarnos para una consulta gratuita y te armamos una propuesta personalizada.';
+                }
+
+                if (lowerMessage.includes('med') || lowerMessage.includes('jury')) {
+                    return '¡Las plataformas especializadas están en desarrollo! 🚧<br><br>Podés ver las vistas previas y solicitar que te notifiquemos cuando estén disponibles.';
                 }
                 
                 return '¡Gracias por tu mensaje! ¿Te gustaría saber sobre alguno de nuestros servicios? Puedes usar las opciones rápidas o escribir "ayuda" para ver todas las opciones.';
