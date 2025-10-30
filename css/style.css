@@ -855,9 +855,9 @@ section {
     color: white;
 }
 
-/* ===== RECURSOS GRATUITOS DESTACADOS ===== */
+/* ===== RECURSOS GRATUITOS DESTACADOS - COLORES INVERTIDOS ===== */
 .recursos-gratuitos-destacados {
-    background: linear-gradient(135deg, #0a0d12 0%, var(--bg-primary) 100%);
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     padding: 8rem 0;
     position: relative;
     overflow: hidden;
@@ -871,22 +871,13 @@ section {
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 20% 80%, rgba(0, 255, 209, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(56, 178, 172, 0.03) 0%, transparent 50%);
+        radial-gradient(circle at 20% 80%, rgba(0, 255, 209, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(56, 178, 172, 0.08) 0%, transparent 50%);
     pointer-events: none;
 }
 
-.recursos-grid-destacado {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-    gap: 3rem;
-    margin-top: 4rem;
-    position: relative;
-    z-index: 2;
-}
-
 .recurso-card-destacado {
-    background: var(--bg-card);
+    background: white;
     padding: 3rem 2.5rem;
     border-radius: 20px;
     text-align: center;
@@ -894,127 +885,92 @@ section {
     position: relative;
     overflow: hidden;
     border: 2px solid transparent;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
 }
 
-.recurso-card-destacado::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--accent-highlight), var(--accent-primary));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-}
-
-.recurso-card-destacado:hover::before {
-    transform: scaleX(1);
-}
-
-.recurso-card-destacado:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-    border-color: var(--accent-primary);
-}
-
-/* Colores específicos para cada recurso */
+/* Kodyan Care - Fondo verde claro, texto oscuro */
 .recurso-care {
-    background: linear-gradient(135deg, var(--bg-card) 0%, #1a1f2b 100%);
-    border: 2px solid rgba(0, 255, 209, 0.2);
+    background: linear-gradient(135deg, #00FFD1 0%, #00ccb8 100%) !important;
+    border: 2px solid #00FFD1;
 }
 
-.recurso-eco {
-    background: linear-gradient(135deg, var(--bg-card) 0%, #1a1f2b 100%);
-    border: 2px solid rgba(56, 178, 172, 0.2);
-}
-
-.recurso-card-destacado .recurso-icon {
-    font-size: 4rem;
-    margin-bottom: 1.5rem;
-    display: block;
+.recurso-care h3,
+.recurso-care .recurso-tagline,
+.recurso-care > p,
+.recurso-care .feature {
+    color: #0D1117 !important;
 }
 
 .recurso-care .recurso-icon {
-    color: var(--accent-highlight);
+    color: #0D1117 !important;
     animation: pulse 2s infinite;
 }
 
+.recurso-care .feature {
+    background: rgba(13, 17, 23, 0.1);
+    color: #0D1117 !important;
+    border: 1px solid rgba(13, 17, 23, 0.2);
+}
+
+/* Kodyan Eco - Fondo turquesa, texto oscuro */
+.recurso-eco {
+    background: linear-gradient(135deg, #38B2AC 0%, #28736E 100%) !important;
+    border: 2px solid #38B2AC;
+}
+
+.recurso-eco h3,
+.recurso-eco .recurso-tagline,
+.recurso-eco > p,
+.recurso-eco .feature {
+    color: #0D1117 !important;
+}
+
 .recurso-eco .recurso-icon {
-    color: var(--accent-primary);
+    color: #0D1117 !important;
     animation: float 3s ease-in-out infinite;
 }
 
-.recurso-card-destacado h3 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-    font-weight: 700;
+.recurso-eco .feature {
+    background: rgba(13, 17, 23, 0.1);
+    color: #0D1117 !important;
+    border: 1px solid rgba(13, 17, 23, 0.2);
 }
 
-.recurso-tagline {
-    font-size: 1.3rem;
-    color: var(--accent-secondary);
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-}
-
-.recurso-card-destacado > p {
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-    font-size: 1.1rem;
-}
-
-.recurso-features {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    margin-bottom: 2.5rem;
-}
-
-.feature {
-    background: rgba(56, 178, 172, 0.1);
-    color: var(--accent-highlight);
-    padding: 0.8rem 1.2rem;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    border: 1px solid rgba(56, 178, 172, 0.2);
-    transition: var(--transition);
-}
-
-.recurso-card-destacado:hover .feature {
-    background: rgba(56, 178, 172, 0.15);
-    transform: translateX(5px);
-}
-
-/* Botones especializados */
+/* Botones con fondo oscuro y texto claro */
 .btn-care {
-    background: linear-gradient(135deg, var(--accent-highlight), #00ccb8);
-    color: var(--bg-primary) !important;
-    border: 2px solid var(--accent-highlight);
+    background: var(--bg-primary) !important;
+    color: #00FFD1 !important;
+    border: 2px solid var(--bg-primary);
 }
 
 .btn-care:hover {
-    background: linear-gradient(135deg, #00ccb8, var(--accent-highlight));
+    background: #161B22 !important;
+    color: #00FFD1 !important;
     transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 255, 209, 0.4);
+    box-shadow: 0 10px 25px rgba(13, 17, 23, 0.3);
 }
 
 .btn-eco {
-    background: linear-gradient(135deg, var(--accent-primary), #2a968f);
-    color: white !important;
-    border: 2px solid var(--accent-primary);
+    background: var(--bg-primary) !important;
+    color: #38B2AC !important;
+    border: 2px solid var(--bg-primary);
 }
 
 .btn-eco:hover {
-    background: linear-gradient(135deg, #2a968f, var(--accent-primary));
+    background: #161B22 !important;
+    color: #38B2AC !important;
     transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(56, 178, 172, 0.4);
+    box-shadow: 0 10px 25px rgba(13, 17, 23, 0.3);
 }
 
+/* Título de sección en oscuro */
+.recursos-gratuitos-destacados .section-title h2 {
+    color: #0D1117;
+}
+
+.recursos-gratuitos-destacados .section-title p {
+    color: #4A5568;
+}
 /* ===== CONTACTO SECTION ===== */
 .contacto {
     background-color: var(--bg-secondary);
