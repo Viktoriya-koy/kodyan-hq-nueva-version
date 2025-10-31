@@ -1,23 +1,60 @@
 {
-  "name": "Kodyan Care - Primeros Auxilios Emocionales",
-  "short_name": "Kodyan Care",
-  "description": "Herramientas digitales para salud mental y regulación emocional",
-  "start_url": "/",
-  "display": "standalone",
   "background_color": "#667eea",
+  "description": "Seguinos en Instagram @kodyan.care - Herramientas digitales gratuitas para crisis de ansiedad, pánico y salud mental. Técnicas de anclaje, respiración guiada y apoyo inmediato. Neurodivergente-friendly.",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Kodyan Care",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Kodyan Care",
+  "start_url": "/",
   "theme_color": "#764ba2",
-  "orientation": "portrait",
   "icons": [
     {
-      "src": "resources/pulpo-logo-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "https://koyhq.com/care/resources/favicon.ico",
+      "type": "image/x-icon",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
     },
     {
-      "src": "resources/pulpo-logo-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "https://koyhq.com/care/resources/apple-touch-icon.png",
+      "sizes": "180x180",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 180,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    },
+    {
+      "src": "https://kodyancare.com/resources/twitter-image.png",
+      "isSquare": false,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    },
+    {
+      "src": "https://kodyancare.com/resources/og-image.png",
+      "isSquare": false,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
     }
-  ],
-  "categories": ["health", "lifestyle", "education"]
+  ]
 }
