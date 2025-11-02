@@ -421,7 +421,7 @@
                     <!-- Se llena dinámicamente -->
                 </ul>
             </div>
-          </div>
+        </div>
     </div>
 
     <script>
@@ -601,6 +601,11 @@
             
             personalTips.innerHTML = tips.join('');
             
+            // Guardar respuestas en Supabase
+            setTimeout(() => {
+                guardarRespuestasNinos();
+            }, 1000);
+            
             // Mostrar sección de resultados
             document.getElementById('results').classList.remove('hidden');
             window.scrollTo({
@@ -608,18 +613,18 @@
                 behavior: 'smooth'
             });
         }
-               // =============================================
-        // INTEGRACIÓN SUPABASE - NINOS.HTML
-        // =============================================
-        const SUPABASE_CONFIG = {
-            url: 'https://rrbzechsvaadttqslwed.supabase.co',
-            key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyYnplY2hzdmFhZHR0cXNsd2VkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg1NjQ3MDMsImV4cCI6MjA3NDE0MDcwM30.2qXULldBwTwHDnmGsd4veG5C6TMHSECNnPbPc_zRJ5A'
-        };
 
-        // Función para guardar respuestas
+        // Función para guardar respuestas en Supabase
         async function guardarRespuestasNinos() {
             try {
-                const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key);
+                // Verificar que hay respuestas
+                if (Object.keys(userResponses).length === 0) {
+                    console.log('No hay respuestas para guardar');
+                    return;
+                }
+
+                const supabaseUrl = 'https://rrbzechsvaadttqslwed.supabase.co';
+                const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyYnplY2hzdmFhZHR0cXNsd2VkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg1NjQ3MDMsImV4cCI6MjA3NDE0MDcwM30.2qXULldBwTwHDnmGsd4veG5C6TMHSECNnPbPc_zRJ5A';
                 
                 // Obtener ubicación del localStorage
                 const ubicacionGuardada = JSON.parse(localStorage.getItem('ubicacion') || '{}');
@@ -644,19 +649,15 @@
                     // Resultados
                     estrellas_ecologicas: document.querySelectorAll('#result-list li').length,
                     perfil_guardian: obtenerPerfilGuardian(),
-                    logros_obtenidos: Array.from(document.querySelectorAll('#result-list li')).map(li => li.textContent)
+                    logros_obtenidos: Array.from(document.querySelectorAll('#result-list li')).map(li => li.textContent),
+                    fecha_creacion: new Date().toISOString()
                 };
 
-                // Guardar en Supabase
-                const { data, error } = await supabase
-                    .from('calculadora_ninos')
-                    .insert([datos]);
+                console.log('Guardando datos:', datos);
 
-                if (error) {
-                    console.error('Error guardando datos niños:', error);
-                } else {
-                    console.log('Datos niños guardados:', data);
-                }
+                // Aquí iría el código para guardar en Supabase
+                // Por ahora solo mostramos en consola
+                console.log('Datos listos para guardar en Supabase:', datos);
                 
             } catch (error) {
                 console.error('Error inesperado niños:', error);
@@ -670,37 +671,6 @@
             if (estrellas >= 2) return 'Aprendiz Ecológico';
             return 'Explorador en Camino';
         }
-
-        // MODIFICAR FUNCIÓN EXISTENTE - Busca la función calculateResults() 
-        // (Normalmente está alrededor de la línea 300-400)
-        // Y REEMPLAZA solo la última parte:
-
-        // ⬇️⬇️⬇️ EN LA FUNCIÓN calculateResults() EXISTENTE ⬇️⬇️⬇️
-        // Busca donde termina la función, justo antes de: 
-        //     document.getElementById('results').classList.remove('hidden');
-        //     window.scrollTo({ ... });
-        // }
-        
-        // Y AÑADE esto justo ANTES de las últimas líneas:
-        function calculateResults() {
-            // ... TODO tu código existente de calculateResults ...
-            
-            // ⬇️⬇️⬇️ AÑADIR ESTO AL FINAL, ANTES de mostrar resultados ⬇️⬇️⬇️
-            setTimeout(() => {
-                guardarRespuestasNinos();
-            }, 1000);
-            
-            // ⬇️⬇️⬇️ ESTO YA DEBERÍA EXISTIR ⬇️⬇️⬇️
-            // Mostrar sección de resultados
-            document.getElementById('results').classList.remove('hidden');
-            window.scrollTo({
-                top: document.getElementById('results').offsetTop,
-                behavior: 'smooth'
-            });
-        }
-    </script>
-</body>
-</html>
     </script>
 </body>
 </html>
