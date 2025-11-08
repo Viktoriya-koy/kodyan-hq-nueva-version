@@ -26,529 +26,133 @@
     <link rel="stylesheet" href="css/responsive.css">
 
     <style>
-        /* VARIABLES CSS */
-        :root {
-            --bg-primary: #0D1117;
-            --bg-secondary: #161B22;
-            --bg-card: #1C2128;
-            --text-primary: #FFFFFF;
-            --text-secondary: #8B949E;
-            --accent-primary: #38B2AC;
-            --accent-secondary: #319795;
-            --accent-highlight: #00FFD1;
-            --transition: all 0.3s ease;
+        /* Kodyan 3D Preview Section Styles */
+        .k3d-preview {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #0a0d12 100%);
+            padding: 6rem 0;
+            border-bottom: 1px solid rgba(56, 178, 172, 0.1);
         }
 
-        /* Estilos para nuevas secciones */
-        .plataformas-especializadas {
-            background-color: var(--bg-secondary);
-            padding: 6rem 0;
-        }
-        
-        .plataformas-grid {
+        .k3d-preview-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
-        .plataforma-card {
-            background: var(--bg-card);
-            border-radius: 15px;
-            padding: 3rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: var(--transition);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(56, 178, 172, 0.1);
-        }
-        
-        .plataforma-card:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-highlight));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        
-        .plataforma-card:hover:before {
-            transform: scaleX(1);
-        }
-        
-        .plataforma-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            border-color: var(--accent-primary);
-        }
-        
-        .plataforma-icon {
-            font-size: 3.5rem;
-            color: var(--accent-highlight);
-            margin-bottom: 1.5rem;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .plataforma-tagline {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--accent-secondary);
-            margin-bottom: 1.5rem;
-        }
-        
-        .plataforma-details {
-            text-align: left;
-            margin-top: 2rem;
-        }
-        
-        .plataforma-details h4 {
+
+        .k3d-preview-text h3 {
+            font-size: 2.2rem;
             color: var(--text-primary);
-            margin: 1.5rem 0 0.5rem 0;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-highlight), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .k3d-preview-text p {
             font-size: 1.1rem;
-        }
-        
-        .plataforma-details ul {
-            list-style: none;
-            margin: 1rem 0;
-        }
-        
-        .plataforma-details li {
-            margin-bottom: 0.5rem;
-            padding-left: 1.5rem;
-            position: relative;
+            line-height: 1.7;
             color: var(--text-secondary);
+            margin-bottom: 2rem;
         }
-        
-        .plataforma-details li:before {
-            content: '✓';
-            position: absolute;
-            left: 0;
+
+        .k3d-preview-features {
+            display: flex;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .preview-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .preview-feature i {
             color: var(--accent-highlight);
-            font-weight: bold;
         }
-        
-        /* Botones dobles para plataformas */
-        .plataforma-actions {
+
+        .k3d-preview-products {
             display: flex;
             gap: 1rem;
-            justify-content: center;
+            margin: 2rem 0;
             flex-wrap: wrap;
-            margin-top: 2rem;
         }
 
-        .plataforma-actions .btn {
-            flex: 1;
-            min-width: 200px;
+        .preview-product {
+            background: var(--bg-card);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(56, 178, 172, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .preview-product i {
+            color: var(--accent-primary);
+        }
+
+        .k3d-preview-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .k3d-preview-visual {
+            position: relative;
             text-align: center;
         }
-        
-        /* ===== RECURSOS GRATUITOS DESTACADOS ===== */
-        .recursos-gratuitos-destacados {
-            background: linear-gradient(135deg, var(--bg-primary) 0%, #0a0d12 100%);
-            padding: 8rem 0;
-            position: relative;
-            overflow: hidden;
-        }
 
-        .recursos-gratuitos-destacados::before {
-            content: '';
+        .preview-badge {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(0, 255, 209, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(56, 178, 172, 0.03) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        .recursos-grid-destacado {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
-            position: relative;
+            top: -10px;
+            right: -10px;
+            background: var(--accent-highlight);
+            color: var(--bg-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.8rem;
             z-index: 2;
         }
 
-        .recurso-card-destacado {
-            background: var(--bg-card);
-            padding: 3rem 2.5rem;
-            border-radius: 20px;
-            text-align: center;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid transparent;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
 
-        .recurso-card-destacado::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-highlight), var(--accent-primary));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        .recurso-card-destacado:hover::before {
-            transform: scaleX(1);
-        }
-
-        .recurso-card-destacado:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            border-color: var(--accent-primary);
-        }
-
-        /* Colores específicos para cada recurso */
-        .recurso-care {
-            background: linear-gradient(135deg, var(--bg-card) 0%, #1a1f2b 100%);
-            border: 2px solid rgba(0, 255, 209, 0.2);
-        }
-
-        .recurso-eco {
-            background: linear-gradient(135deg, var(--bg-card) 0%, #1a1f2b 100%);
-            border: 2px solid rgba(56, 178, 172, 0.2);
-        }
-
-        .recurso-card-destacado .recurso-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .recurso-care .recurso-icon {
-            color: var(--accent-highlight);
-            animation: pulse 2s infinite;
-        }
-
-        .recurso-eco .recurso-icon {
-            color: var(--accent-primary);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .recurso-card-destacado h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .recurso-tagline {
-            font-size: 1.3rem;
-            color: var(--accent-secondary);
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
-
-        .recurso-card-destacado > p {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-            font-size: 1.1rem;
-        }
-
-        .recurso-features {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .feature {
-            background: rgba(56, 178, 172, 0.1);
-            color: var(--accent-highlight);
-            padding: 0.8rem 1.2rem;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            border: 1px solid rgba(56, 178, 172, 0.2);
-            transition: var(--transition);
-        }
-
-        .recurso-card-destacado:hover .feature {
-            background: rgba(56, 178, 172, 0.15);
-            transform: translateX(5px);
-        }
-
-        /* Botones especializados */
-        .btn-care {
-            background: linear-gradient(135deg, var(--accent-highlight), #00ccb8);
-            color: var(--bg-primary) !important;
-            border: 2px solid var(--accent-highlight);
-        }
-
-        .btn-care:hover {
-            background: linear-gradient(135deg, #00ccb8, var(--accent-highlight));
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 255, 209, 0.4);
-        }
-
-        .btn-eco {
-            background: linear-gradient(135deg, var(--accent-primary), #2a968f);
-            color: white !important;
-            border: 2px solid var(--accent-primary);
-        }
-
-        .btn-eco:hover {
-            background: linear-gradient(135deg, #2a968f, var(--accent-primary));
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(56, 178, 172, 0.4);
-        }
-
-        /* Responsive para recursos */
+        /* Responsive */
         @media (max-width: 768px) {
-            .recursos-grid-destacado {
+            .k3d-preview-content {
                 grid-template-columns: 1fr;
                 gap: 2rem;
+                text-align: center;
             }
             
-            .recurso-card-destacado {
-                padding: 2.5rem 2rem;
+            .k3d-preview-features {
+                justify-content: center;
             }
             
-            .recurso-card-destacado h3 {
-                font-size: 1.7rem;
+            .k3d-preview-products {
+                justify-content: center;
             }
             
-            .recurso-tagline {
-                font-size: 1.1rem;
+            .k3d-preview-actions {
+                justify-content: center;
+            }
+            
+            .preview-badge {
+                right: 50%;
+                transform: translateX(50%);
             }
         }
-
-        @media (max-width: 480px) {
-            .recurso-card-destacado {
-                padding: 2rem 1.5rem;
-            }
-        }
-
-        /* Animaciones */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Chatbot Styles */
-        #chatbot-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
         
-        #chatbot-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(56, 178, 172, 0.3);
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
-        }
-        
-        #chatbot-icon:hover {
-            transform: scale(1.1);
-            animation: none;
-        }
-        
-        #chatbot-window {
-            position: absolute;
-            bottom: 70px;
-            right: 0;
-            width: 400px;
-            height: 540px;
-            background: var(--bg-card);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid var(--accent-primary);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        
-        .chatbot-header {
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: white;
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .chatbot-header h4 {
-            margin: 0;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        
-        .chatbot-messages {
-            flex: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            background: var(--bg-primary);
-        }
-        
-        .message {
-            padding: 1rem;
-            border-radius: 12px;
-            max-width: 90%;
-            line-height: 1.4;
-            animation: fadeInUp 0.3s ease;
-            position: relative;
-        }
-        
-        .message-time {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            opacity: 0.7;
-        }
-        
-        .bot-message {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            align-self: flex-start;
-            border: 1px solid rgba(56, 178, 172, 0.2);
-        }
-        
-        .user-message {
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: white;
-            align-self: flex-end;
-            margin-left: auto;
-        }
-
-        .quick-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.8rem;
-            margin-top: 0.8rem;
-        }
-
-        .quick-options-column {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .quick-option {
-            background: rgba(56, 178, 172, 0.1);
-            color: var(--accent-highlight);
-            padding: 0.6rem 0.8rem;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            border: 1px solid rgba(56, 178, 172, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            line-height: 1.3;
-            font-weight: 500;
-        }
-
-        .quick-option:hover {
-            background: var(--accent-primary);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(56, 178, 172, 0.3);
-        }
-        
-        .chatbot-input {
-            padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(56, 178, 172, 0.2);
-            background: var(--bg-secondary);
-        }
-        
-        .chatbot-input input {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid rgba(56, 178, 172, 0.3);
-            border-radius: 8px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .chatbot-input input:focus {
-            outline: none;
-            border-color: var(--accent-highlight);
-            box-shadow: 0 0 0 2px rgba(0, 255, 209, 0.2);
-        }
-        
-        .chatbot-input input::placeholder {
-            color: var(--text-secondary);
-        }
-        
-        .chatbot-footer {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-        }
-        
-        .input-hint {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            text-align: center;
-        }
-        
-        .chatbot-status {
-            font-size: 0.7rem;
-            color: var(--accent-highlight);
-            text-align: center;
-            font-weight: 500;
-        }
-        
-        #close-chatbot {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-        
-        #close-chatbot:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
     </style>
 </head>
 <body>
@@ -556,17 +160,27 @@
     <header>
         <div class="container header-container">
             <a href="#" class="logo"><i class="fas fa-code"></i>Kodyan HQ</a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#home">Inicio</a></li>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#como-trabajamos">Cómo Trabajamos</a></li>
-                    <li><a href="#plataformas">Plataformas</a></li>
-                    <li><a href="#portfolio">Portafolio</a></li>
-                    <li><a href="#recursos">Recursos</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-            </nav>
+           <nav>
+    <ul class="nav-links">
+        <li><a href="#home">Inicio</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#como-trabajamos">Cómo Trabajamos</a></li>
+        <li><a href="#kodyan-3d">Kodyan 3D</a></li>
+        <li><a href="#recursos">Recursos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <!-- Menú desplegable -->
+        <li class="dropdown">
+            <a href="#more" class="dropdown-toggle">
+                Más <i class="fas fa-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="#plataformas">Plataformas</a></li>
+                <li><a href="#portfolio">Portafolio</a></li>                
+            </ul>
+        </li>
+    </ul>
+</nav>
+
             <div class="hamburger">
                 <i class="fas fa-bars"></i>
             </div>
@@ -592,7 +206,7 @@
         <div class="tech-line tech-line-8"></div>
     </section>
 
-    <!-- Servicios Section - TRES PILARES -->
+    <!-- Servicios Section -->
     <section class="servicios" id="servicios">
         <div class="container">
             <div class="section-title">
@@ -647,7 +261,7 @@
                     <a href="#contacto" class="btn btn-outline">Saber más</a>
                 </div>
 
-                <!-- KODYAN WEB - NUEVO -->
+                <!-- KODYAN WEB -->
                 <div class="service-card" data-animate data-animate-delay="300">
                     <div class="service-icon">
                         <i class="fas fa-globe"></i>
@@ -674,7 +288,7 @@
         </div>
     </section>
 
-    <!-- Cómo Trabajamos Section - MOVIDO ANTES DE PLATAFORMAS -->
+    <!-- Cómo Trabajamos Section -->
     <section class="como-trabajamos" id="como-trabajamos">
         <div class="container">
             <div class="section-title">
@@ -706,163 +320,112 @@
         </div>
     </section>
 
-    <!-- Plataformas Especializadas Section -->
-    <section class="plataformas-especializadas" id="plataformas">
-        <div class="container">
+<!-- Kodyan 3D Section - VERSIÓN MEJORADA ESTRATÉGICA -->
+<section class="k3d-preview-centered" id="kodyan-3d">
+    <div class="container">
+        <div class="k3d-centered-content">
+            <!-- Badge más emocional -->
+            <div class="k3d-badge-centered">Próximamente <br> Diseño Consciente</div>
+            
+            <!-- Header más atractivo -->
             <div class="section-title">
-                <h2>Plataformas Especializadas</h2>
-                <p>Soluciones todo-en-uno para profesionales</p>
+                <h1>Kodyan 3D</h1>
+                <p class="tagline">Bienestar cotidiano, impreso en 3D</p>
             </div>
             
-            <div class="plataformas-grid">
-                <!-- Kodyan Med -->
-                <div class="plataforma-card">
-                    <div class="plataforma-icon">
-                        <i class="fas fa-stethoscope"></i>
+            <!-- Propuesta de valor principal revisada -->
+            <div class="k3d-main-description">
+                <h2>Pequeñas herramientas, grandes cambios en tu día a día</h2>
+                <p>En Kodyan 3D, transformamos comprensión en diseño. Comenzamos escuchando necesidades específicas para crear soluciones que mejoran la vida de <strong>todas las personas</strong>. Porque el buen diseño debe ser funcional, accesible y empático.</p>
+            </div>
+            
+            <!-- Características con enfoque dual (origen + beneficio universal) -->
+            <div class="k3d-features-centered">
+                <div class="feature-centered">
+                    <div class="feature-icon">
+                         <i class="fas fa-brain"></i>  
                     </div>
-                    <div class="proximamente-badge">Próximamente</div>
-                    <h3>Kodyan Med</h3>
-                    <p class="plataforma-tagline">Consultorios virtuales para profesionales de la salud</p>
-                    <p>Plataforma todo-en-uno para la gestión de pacientes y historia clínica digital.</p>
-                    <div class="plataforma-details">
-                        <h4>Para:</h4>
-                        <p>Médicos, odonotólogos, psicólogos, y demás profesionales de la salud</p>
-                        
-                        <h4>Características:</h4>
-                        <ul> 
-                            <li>Agenda de turnos online</li>
-                            <li>Historia clínica digital</li>
-                            <li>Alerta de turnos por mail a los pacientes</li>
-                            <li>Facturación</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- BOTONES ACTUALIZADOS -->
-                    <div class="plataforma-actions">
-                        <a href="med" class="btn btn-primary">
-                            <i class="fas fa-eye"></i> Ver Vista Previa
-                        </a>
-                        <a href="#contacto" class="btn btn-outline" onclick="setInteres('med')">
-                            <i class="fas fa-bell"></i> Notificarme el lanzamiento
-                        </a>
-                    </div>
+                    <h4>Nacido de la Experiencia</h4>
+                    <p>Diseñamos desde la vivencia neurodivergente, creando herramientas con una comprensión profunda de necesidades reales</p>
                 </div>
                 
-                <!-- Kodyan Jury -->
-                <div class="plataforma-card">
-                    <div class="plataforma-icon">
-                        <i class="fas fa-gavel"></i>
+                <div class="feature-centered">
+                    <div class="feature-icon">
+                        <i class="fas fa-universal-access"></i>
                     </div>
-                    <div class="proximamente-badge">Próximamente</div>
-                    <h3>Kodyan Jury</h3>
-                    <p class="plataforma-tagline">Estudios virtuales para abogados</p>
-                    <p>Gestión de casos, consultas online, firma digital y expedientes electrónicos.</p>
-                    <div class="plataforma-details">
-                        <h4>Para:</h4>
-                        <p>Abogados, estudios jurídicos, profesionales del derecho</p>
-                        
-                        <h4>Características:</h4>
-                        <ul> 
-                            <li>Gestión de casos y clientes</li>
-                            <li>Expedientes digitales</li>
-                            <li>Agenda</li>
-                            <li>Finanzas</li>
-                        </ul>
+                    <h4>Funcionalidad Universal</h4>
+                    <p>Lo que ayuda a una persona con TDAH también puede aliviar el estrés de cualquier terricola</p>
+                </div>
+                
+                <div class="feature-centered">
+                    <div class="feature-icon">
+                         <i class="fas fa-globe-americas"></i>
                     </div>
-                    
-                    <!-- BOTONES ACTUALIZADOS -->
-                    <div class="plataforma-actions">
-                       <a href="jury" class="btn btn-primary">
-                            <i class="fas fa-eye"></i> Ver Vista Previa
-                        </a>
-                        <a href="#contacto" class="btn btn-outline" onclick="setInteres('jury')">
-                            <i class="fas fa-bell"></i> Notificarme el lanzamiento
-                        </a>
-                    </div>
+                    <h4>Diseño<br> Sustentable</h4>
+                    <p>Impreso bajo demanda con materiales ecológicos (PLA), porque cuidar el planeta también es bienestar</p>
                 </div>
             </div>
-        </div>
-    </section>
 
-  <!-- Portfolio Section - COMPACTA 3 COLUMNAS -->
-<section class="portfolio" id="portfolio">
-    <div class="container">
-        <div class="section-title">
-            <h2>Herramientas que demuestran lo que podemos crear</h2>
-            <p>Probá estas calculadoras interactivas para ver el potencial de automatización</p>
-        </div>
-        
-        <div class="portfolio-grid-compact">
-            <!-- Calculadora ROI Automatización -->
-            <div class="portfolio-item-compact">
-                <div class="portfolio-icon-compact">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="portfolio-content-compact">
-                    <h3>ROI Automatización</h3>
-                    <p class="portfolio-subtitle">¿Cuánto ahorrarías automatizando procesos?</p>
-                    <p class="portfolio-desc">Calculá exactamente cuánto tiempo y dinero podés recuperar.</p>
-                    
-                    <div class="portfolio-tech">
-                        <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">Analytics</span>
+            <!-- Categorías renombradas para apelar a beneficios emocionales -->
+            <div class="k3d-products-section">
+                <h3>Encontrá tu solución ideal</h3>
+                <div class="k3d-products-preview">
+                    <div class="product-preview-item">
+                   <i class="fas fa-spa"></i>
+                        <div>
+                            <strong>Enfoque y Calma</strong>
+                            <small>Herramientas sensoriales para concentración y manejo del estrés</small>
+                        </div>
                     </div>
-                    
-                    <a href="calculadoras/calculadora-roi-automatizacion.html" class="btn btn-compact">
-                        <i class="fas fa-calculator"></i>
-                        Probar Calculadora
-                    </a>
+                    <div class="product-preview-item">
+                        <i class="fas fa-hands-helping"></i>
+                        <div>
+                            <strong>Independencia y Facilidad</strong>
+                            <small>Ayudas ergonómicas para tareas cotidianas</small>
+                        </div>
+                    </div>
+                    <div class="product-preview-item">
+                        <i class="fas fa-th-large"></i>
+                        <div>
+                            <strong>Organización Práctica</strong>
+                            <small>Soluciones que ordenan tu espacio y tu mente</small>
+                        </div>
+                    </div>
+                    <div class="product-preview-item">
+                        <i class="fas fa-magic"></i>
+                        <div>
+                            <strong>Personalización Única</strong>
+                            <small>Productos adaptados a tus necesidades específicas</small>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- Calculadora Rotación Personal -->
-            <div class="portfolio-item-compact">
-                <div class="portfolio-icon-compact">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="portfolio-content-compact">
-                    <h3>Rotación de Personal</h3>
-                    <p class="portfolio-subtitle">¿Cuánto te cuesta la rotación?</p>
-                    <p class="portfolio-desc">Descubrí el impacto económico real en tu organización.</p>
-                    
-                    <div class="portfolio-tech">
-                        <span class="tech-tag">Formularios</span>
-                        <span class="tech-tag">Cálculos</span>
-                    </div>
-                    
-                    <a href="calculadoras/calculadora-rotacion-personal.html" class="btn btn-compact">
-                        <i class="fas fa-calculator"></i>
-                        Probar Calculadora
-                    </a>
-                </div>
-            </div>
-
-            <!-- Multi-Criteria Analyzer -->
-            <div class="portfolio-item-compact">
-                <div class="portfolio-icon-compact">
-                    <i class="fas fa-random"></i>
-                </div>
-                <div class="portfolio-content-compact">
-                    <h3>Multi-Criteria Analyzer</h3>
-                    <p class="portfolio-subtitle">Herramienta para decisiones difíciles</p>
-                    <p class="portfolio-desc">¿Invertir en marketing o desarrollo? Decidí con datos.</p>
-                    
-                    <div class="portfolio-tech">
-                        <span class="tech-tag">Algoritmos</span>
-                        <span class="tech-tag">UI/UX</span>
-                    </div>
-                    
-                    <a href="calculadoras/multi-criteria-analyzer.html" class="btn btn-compact">
-                        <i class="fas fa-calculator"></i>
-                        Usar Herramienta
-                    </a>
-                </div>
-            </div>
+            <!-- Call to Action más compelling -->
+           <div class="k3d-cta-section">
+   
+    
+    <p class="cta-description"><strong>¿Listo para hacer tu día más fácil?</strong> <br> Visitá nuestra tienda y descubrí todos los productos disponibles.</p>
+    
+    <div class="cta-section">
+    <p class="cta-text">Mientras tanto, conocé más sobre nuestros productos</p>
+    <div class="cta-buttons">
+        <a href="3d/" class="btn btn-primary">
+            <i class="fas fa-cube"></i> Ver Catálogo de Productos
+        </a>
+        <a href="https://wa.me/5492664687313" class="btn btn-outline" target="_blank">
+            <i class="fab fa-whatsapp"></i> Consultas Personalizadas
+        </a>
+    </div>
+    
+    <div class="trust-badges">
+        <small>✅ Compra 100% Segura • ✅ Envíos a Todo el País • ✅ Diseño Argentino</small>
+    </div>
+</div>
         </div>
     </div>
 </section>
-
-    <!-- Recursos Gratuitos Section - NUEVA VERSIÓN DESTACADA -->
+    <!-- Recursos Gratuitos Section - ORIGINAL -->
     <section class="recursos-gratuitos-destacados" id="recursos">
         <div class="container">
             <div class="section-title">
@@ -907,6 +470,160 @@
                         <i class="fas fa-leaf"></i>
                         Acceder a Kodyan Eco
                     </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plataformas Especializadas Section - MOVIDA MÁS ABAJO -->
+    <section class="plataformas-especializadas" id="plataformas">
+        <div class="container">
+            <div class="section-title">
+                <h2>Plataformas Especializadas</h2>
+                <p>Soluciones todo-en-uno para profesionales</p>
+            </div>
+            
+            <div class="plataformas-grid">
+                <!-- Kodyan Med -->
+                <div class="plataforma-card">
+                    <div class="plataforma-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <div class="proximamente-badge">Próximamente</div>
+                    <h3>Kodyan Med</h3>
+                    <p class="plataforma-tagline">Consultorios virtuales para profesionales de la salud</p>
+                    <p>Plataforma todo-en-uno para la gestión de pacientes y historia clínica digital.</p>
+                    <div class="plataforma-details">
+                        <h4>Para:</h4>
+                        <p>Médicos, odonotólogos, psicólogos, y demás profesionales de la salud</p>
+                        
+                        <h4>Características:</h4>
+                        <ul> 
+                            <li>Agenda de turnos online</li>
+                            <li>Historia clínica digital</li>
+                            <li>Alerta de turnos por mail a los pacientes</li>
+                            <li>Facturación</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="plataforma-actions">
+                        <a href="med" class="btn btn-primary">
+                            <i class="fas fa-eye"></i> Ver Vista Previa
+                        </a>
+                        <a href="#contacto" class="btn btn-outline" onclick="setInteres('med')">
+                            <i class="fas fa-bell"></i> Notificarme el lanzamiento
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Kodyan Jury -->
+                <div class="plataforma-card">
+                    <div class="plataforma-icon">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <div class="proximamente-badge">Próximamente</div>
+                    <h3>Kodyan Jury</h3>
+                    <p class="plataforma-tagline">Estudios virtuales para abogados</p>
+                    <p>Gestión de casos, consultas online, firma digital y expedientes electrónicos.</p>
+                    <div class="plataforma-details">
+                        <h4>Para:</h4>
+                        <p>Abogados, estudios jurídicos, profesionales del derecho</p>
+                        
+                        <h4>Características:</h4>
+                        <ul> 
+                            <li>Gestión de casos y clientes</li>
+                            <li>Expedientes digitales</li>
+                            <li>Agenda</li>
+                            <li>Finanzas</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="plataforma-actions">
+                       <a href="jury" class="btn btn-primary">
+                            <i class="fas fa-eye"></i> Ver Vista Previa
+                        </a>
+                        <a href="#contacto" class="btn btn-outline" onclick="setInteres('jury')">
+                            <i class="fas fa-bell"></i> Notificarme el lanzamiento
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section - MOVIDA MÁS ABAJO -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <div class="section-title">
+                <h2>Herramientas que demuestran lo que podemos crear</h2>
+                <p>Probá estas calculadoras interactivas para ver el potencial de automatización</p>
+            </div>
+            
+            <div class="portfolio-grid-compact">
+                <!-- Calculadora ROI Automatización -->
+                <div class="portfolio-item-compact">
+                    <div class="portfolio-icon-compact">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="portfolio-content-compact">
+                        <h3>ROI Automatización</h3>
+                        <p class="portfolio-subtitle">¿Cuánto ahorrarías automatizando procesos?</p>
+                        <p class="portfolio-desc">Calculá exactamente cuánto tiempo y dinero podés recuperar.</p>
+                        
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Analytics</span>
+                        </div>
+                        
+                        <a href="calculadoras/calculadora-roi-automatizacion.html" class="btn btn-compact">
+                            <i class="fas fa-calculator"></i>
+                            Probar Calculadora
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Calculadora Rotación Personal -->
+                <div class="portfolio-item-compact">
+                    <div class="portfolio-icon-compact">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="portfolio-content-compact">
+                        <h3>Rotación de Personal</h3>
+                        <p class="portfolio-subtitle">¿Cuánto te cuesta la rotación?</p>
+                        <p class="portfolio-desc">Descubrí el impacto económico real en tu organización.</p>
+                        
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Formularios</span>
+                            <span class="tech-tag">Cálculos</span>
+                        </div>
+                        
+                        <a href="calculadoras/calculadora-rotacion-personal.html" class="btn btn-compact">
+                            <i class="fas fa-calculator"></i>
+                            Probar Calculadora
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Multi-Criteria Analyzer -->
+                <div class="portfolio-item-compact">
+                    <div class="portfolio-icon-compact">
+                        <i class="fas fa-random"></i>
+                    </div>
+                    <div class="portfolio-content-compact">
+                        <h3>Multi-Criteria Analyzer</h3>
+                        <p class="portfolio-subtitle">Herramienta para decisiones difíciles</p>
+                        <p class="portfolio-desc">¿Invertir en marketing o desarrollo? Decidí con datos.</p>
+                        
+                        <div class="portfolio-tech">
+                            <span class="tech-tag">Algoritmos</span>
+                            <span class="tech-tag">UI/UX</span>
+                        </div>
+                        
+                        <a href="calculadoras/multi-criteria-analyzer.html" class="btn btn-compact">
+                            <i class="fas fa-calculator"></i>
+                            Usar Herramienta
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1008,9 +725,10 @@
                         <li><a href="#home">Inicio</a></li>
                         <li><a href="#servicios">Servicios</a></li>
                         <li><a href="#como-trabajamos">Cómo Trabajamos</a></li>
+                        <li><a href="#kodyan-3d">Kodyan 3D</a></li>
+                        <li><a href="#recursos">Recursos Gratuitos</a></li>
                         <li><a href="#plataformas">Plataformas</a></li>
                         <li><a href="#portfolio">Portafolio</a></li>
-                        <li><a href="#recursos">Recursos</a></li>
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                 </div>
@@ -1021,8 +739,7 @@
                         <li><a href="#servicios">Kodyan Operations</a></li>
                         <li><a href="#servicios">Kodyan Commerce</a></li>
                         <li><a href="#servicios">Kodyan Web</a></li>
-                        <li><a href="#plataformas">Kodyan Med</a></li>
-                        <li><a href="#plataformas">Kodyan Jury</a></li>
+                        <li><a href="#kodyan-3d">Kodyan 3D</a></li>
                     </ul>
                 </div>
 
@@ -1042,73 +759,20 @@
         </div>
     </footer>
 
-    <!-- Chatbot -->
-    <div id="chatbot-container">
-        <div id="chatbot-icon">🤖</div>
-        <div id="chatbot-window">
-            <div class="chatbot-header">
-                <h4>Asistente Kodyan</h4>
-                <button id="close-chatbot">×</button>
-            </div>
-            <div class="chatbot-messages" id="chatbot-messages">
-                <div class="message bot-message">
-                    <div class="message-time">16:45</div>
-                    ¡Hola! Soy el asistente de Kodyan HQ. ¿En qué puedo ayudarte hoy?
-                </div>
-                <div class="message bot-message">
-                    <div class="message-time">16:45</div>
-                    ¿Qué te interesa conocer?<br>
-                    <div class="quick-options">
-                        <div class="quick-options-column">
-                            <span class="quick-option">Kodyan Operations</span>
-                            <span class="quick-option">Kodyan Commerce</span>
-                            <span class="quick-option">Kodyan Web</span>
-                        </div>
-                        <div class="quick-options-column">
-                            <span class="quick-option">Kodyan Jury</span>
-                            <span class="quick-option">Kodyan Med</span>
-                            <span class="quick-option">Portafolio</span>
-                        </div>
-                    </div>
-                    <div class="quick-options" style="margin-top: 0.5rem;">
-                        <div class="quick-options-column">
-                            <span class="quick-option">Kodyan Eco</span>
-                            <span class="quick-option">Kodyan Care</span>
-                        </div>
-                        <div class="quick-options-column">
-                            <!-- Columna vacía para mantener el balance -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="chatbot-input">
-                <input type="text" id="chatbot-input" placeholder="Escribe tu pregunta sobre Kodyan HQ...">
-                <div class="chatbot-footer">
-                    <span class="input-hint">Presiona Enter para enviar • Escribe "ayuda" para ver opciones</span>
-                    <span class="chatbot-status">Powered by Kodyan HQ • Conectado</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Scripts -->
     <script src="js/script.js"></script>
     
     <script>
-        // ===== SISTEMA DE NOTIFICACIONES DE LANZAMIENTO =====
+        // Sistema de notificaciones de lanzamiento
         function setInteres(plataforma) {
-            // Guardar en localStorage
             localStorage.setItem('interesLanzamiento', plataforma);
-            
-            // Mostrar mensaje
             const plataformaNombre = plataforma === 'med' ? 'Kodyan Med' : 'Kodyan Jury';
             alert(`¡Perfecto! 🎉\n\nTe notificaremos cuando ${plataformaNombre} esté disponible.\n\nSerás de los primeros en probarlo.`);
             
-            // Scroll suave a contacto
             document.getElementById('contacto').scrollIntoView({ 
                 behavior: 'smooth' 
             });
             
-            // Pre-llenar el formulario después de un delay
             setTimeout(() => {
                 const mensajeField = document.getElementById('message');
                 if (mensajeField) {
@@ -1118,33 +782,26 @@
             }, 800);
         }
 
-        // Al cargar la página, verificar si hay interés guardado
+        // Mejorar el formulario de contacto
         document.addEventListener('DOMContentLoaded', function() {
             const interes = localStorage.getItem('interesLanzamiento');
-            if (interes) {
-                console.log(`Usuario interesado en: ${interes}`);
-            }
-
-            // Mejorar el formulario de contacto
             const contactForm = document.getElementById('contactForm');
+            
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
                     const interes = localStorage.getItem('interesLanzamiento');
                     if (interes) {
-                        // Agregar campo hidden con el interés
                         let hiddenInput = document.createElement('input');
                         hiddenInput.type = 'hidden';
                         hiddenInput.name = 'plataforma_interes';
                         hiddenInput.value = interes;
                         this.appendChild(hiddenInput);
                         
-                        // Limpiar después de enviar
                         setTimeout(() => {
                             localStorage.removeItem('interesLanzamiento');
                         }, 1000);
                     }
                     
-                    // Mostrar mensaje de confirmación
                     const confirmation = document.getElementById('form-confirmation');
                     if (confirmation) {
                         confirmation.style.display = 'block';
@@ -1156,147 +813,6 @@
                     
                     e.preventDefault();
                 });
-            }
-        });
-
-        // ===== CHATBOT FUNCTIONALITY =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatbotIcon = document.getElementById('chatbot-icon');
-            const chatbotWindow = document.getElementById('chatbot-window');
-            const closeChatbot = document.getElementById('close-chatbot');
-            const chatInput = document.getElementById('chatbot-input');
-            const chatMessages = document.getElementById('chatbot-messages');
-            
-            // Toggle chatbot window
-            chatbotIcon.addEventListener('click', function() {
-                chatbotWindow.style.display = chatbotWindow.style.display === 'none' ? 'flex' : 'none';
-                if (chatbotWindow.style.display === 'flex') {
-                    chatInput.focus();
-                }
-            });
-            
-            closeChatbot.addEventListener('click', function() {
-                chatbotWindow.style.display = 'none';
-            });
-            
-            // Quick options functionality
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('quick-option')) {
-                    const option = e.target.textContent;
-                    addMessage(option, 'user');
-                    
-                    setTimeout(() => {
-                        const response = getQuickOptionResponse(option);
-                        addMessage(response, 'bot');
-                    }, 500);
-                }
-            });
-            
-            // Send message on Enter
-            chatInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    const message = chatInput.value.trim();
-                    if (message) {
-                        addMessage(message, 'user');
-                        chatInput.value = '';
-                        
-                        setTimeout(() => {
-                            const response = getBotResponse(message);
-                            addMessage(response, 'bot');
-                        }, 1000);
-                    }
-                }
-            });
-            
-            // Add message to chat
-            function addMessage(text, sender) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${sender}-message`;
-                
-                const time = new Date().toLocaleTimeString('es-AR', { 
-                    hour: '2-digit', 
-                    minute: '2-digit',
-                    hour12: false 
-                });
-                
-                messageDiv.innerHTML = `
-                    <div class="message-time">${time}</div>
-                    ${text}
-                `;
-                
-                chatMessages.appendChild(messageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-            
-            // Quick option responses
-            function getQuickOptionResponse(option) {
-                switch(option) {
-                    case 'Kodyan Operations':
-                        return '🚀 <strong>Kodyan Operations</strong><br>Transformamos tus datos en decisiones claras. Automatización de reportes, dashboards interactivos y alertas inteligentes para equipos que dependen de datos.';
-                    
-                    case 'Kodyan Commerce':
-                        return '🛒 <strong>Kodyan Commerce</strong><br>Activamos tu potencial de crecimiento. Estrategia comercial, diseño de bundles y planes de marketing para emprendedores y pymes.';
-                    
-                    case 'Kodyan Web':
-                        return '🌐 <strong>Kodyan Web</strong><br>Diseño y desarrollo web que convierte visitantes en clientes. Desde sitios corporativos hasta e-commerce, con diseño responsive y SEO.';
-                    
-                    case 'Kodyan Jury':
-                        return '⚖️ <strong>Kodyan Jury</strong><br>Estudios virtuales para abogados. Gestión de clientes, fichero de expedientes, finanzas, agenda diaria. <em>(Próximamente)</em>';
-                    
-                    case 'Kodyan Med':
-                        return '🏥 <strong>Kodyan Med</strong><br>Consultorios virtuales para profesionales de la salud. Historia clínica digital, agenda online, facturación, alertas de turnos. <em>(Próximamente)</em>';
-                    
-                    case 'Kodyan Eco':
-                        return '🌱 <strong>Kodyan Eco</strong><br>Calculadora de huella de carbono y herramientas educativas ambientales. Recursos gratuitos para concientización.';
-                    
-                    case 'Kodyan Care':
-                        return '💙 <strong>Kodyan Care</strong><br>Primeros auxilios emocionales y herramientas de salud mental gratuitas. Tu puerto seguro para tormentas emocionales.';
-                    
-                    case 'Portafolio':
-                        return '📊 <strong>Portafolio</strong><br>Probá nuestras calculadoras interactivas para ver ejemplos de lo que podemos crear:<br>• Calculadora ROI Automatización<br>• Calculadora Rotación Personal<br>• El Decididor<br>¡Son demostraciones reales de nuestro trabajo!';
-                    
-                    default:
-                        return '¿Te interesa conocer más sobre ' + option + '? Te recomiendo visitar nuestra sección correspondiente en el sitio web.';
-                }
-            }
-            
-            // General bot responses
-            function getBotResponse(userMessage) {
-                const lowerMessage = userMessage.toLowerCase();
-                
-                if (lowerMessage.includes('ayuda')) {
-                    return 'Puedo ayudarte con información sobre:<br><br>' +
-                           '🚀 <strong>Kodyan Operations</strong> - Automatización<br>' +
-                           '🛒 <strong>Kodyan Commerce</strong> - Estrategia comercial<br>' +
-                           '🌐 <strong>Kodyan Web</strong> - Desarrollo web<br>' +
-                           '⚖️ <strong>Kodyan Jury</strong> - Estudios jurídicos (Próximamente)<br>' +
-                           '🏥 <strong>Kodyan Med</strong> - Consultorios médicos (Próximamente)<br>' +
-                           '🌱 <strong>Kodyan Eco</strong> - Calculadora ambiental<br>' +
-                           '💙 <strong>Kodyan Care</strong> - Salud mental<br>' +
-                           '📊 <strong>Portafolio</strong> - Demostraciones<br><br>' +
-                           '¿Sobre cuál te gustaría saber más?';
-                }
-                
-                if (lowerMessage.includes('hola') || lowerMessage.includes('hi')) {
-                    return '¡Hola! ¿En qué puedo ayudarte hoy? Puedes hacer clic en las opciones rápidas o escribir tu pregunta.';
-                }
-                
-                if (lowerMessage.includes('contacto') || lowerMessage.includes('email')) {
-                    return '📧 <strong>Email:</strong> contacto@kodyanhq.com<br>' +
-                           '📱 <strong>WhatsApp:</strong> +54 9 266 468 7313<br>' +
-                           '💼 <strong>LinkedIn:</strong> Kodyan HQ<br><br>' +
-                           '¡Estamos para ayudarte!';
-                }
-                
-                if (lowerMessage.includes('precio') || lowerMessage.includes('cuesta')) {
-                    return 'Los precios varían según el proyecto. Te recomiendo contactarnos para una consulta gratuita y te armamos una propuesta personalizada.';
-                }
-
-                if (lowerMessage.includes('med') || lowerMessage.includes('jury')) {
-                    return '¡Las plataformas especializadas están en desarrollo! 🚧<br><br>Podés ver las vistas previas y solicitar que te notifiquemos cuando estén disponibles.';
-                }
-                
-                return '¡Gracias por tu mensaje! ¿Te gustaría saber sobre alguno de nuestros servicios? Puedes usar las opciones rápidas o escribir "ayuda" para ver todas las opciones.';
             }
         });
     </script>
