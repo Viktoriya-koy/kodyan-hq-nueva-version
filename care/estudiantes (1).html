@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kit de Supervivencia Estudiantil | Kodyan Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .herramienta-detalle {
+            padding: 8rem 0 4rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff5f5 0%, #f0f9ff 100%);
+        }
+
+        .estudiantes-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        /* BANNER ESTUDIANTES */
+        .banner-estudiantes {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .banner-estudiantes h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .banner-estudiantes p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* SISTEMA DE ACORDEÓN */
+        .acordeon-estudiantes {
+            margin-bottom: 2rem;
+        }
+
+        .acordeon-item {
+            background: var(--color-surface);
+            margin-bottom: 1rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: var(--transition);
+            border-left: 4px solid;
+        }
+
+        .acordeon-item.carrera { border-left-color: #06D6A0; }
+        .acordeon-item.impostor { border-left-color: #073B4C; }
+        .acordeon-item.conexion { border-left-color: #118AB2; }
+        .acordeon-item.procrastinacion { border-left-color: #FFD166; }
+        .acordeon-item.tecnicas { border-left-color: #8A85FF; }
+        .acordeon-item.agotamiento { border-left-color: #4ECDC4; }
+        .acordeon-item.ansiedad { border-left-color: #FF6B6B; }
+        .acordeon-item.pre-examen { border-left-color: #667eea; }
+        .acordeon-item.planes { border-left-color: #FF9E64; }
+
+        .acordeon-header {
+            padding: 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .acordeon-header:hover {
+            background: var(--color-secondary);
+        }
+
+        .acordeon-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .acordeon-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeon-content {
+            padding: 0 2rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .acordeon-item.active .acordeon-content {
+            padding: 0 2rem 2rem 2rem;
+            max-height: 5000px;
+        }
+
+        .acordeon-item.active .acordeon-icon {
+            transform: rotate(180deg);
+        }
+
+        /* CONTENIDO */
+        .contexto-problema {
+            background: var(--color-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            border-left: 3px solid currentColor;
+        }
+
+        .pasos-estudiante {
+            background: var(--color-secondary);
+            padding: 1.8rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+        }
+
+        .pasos-estudiante h4 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .pasos-estudiante ol, .pasos-estudiante ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .pasos-estudiante li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            color: var(--color-text);
+        }
+
+        .tip-estudiante {
+            background: #f0f9ff;
+            border-left: 4px solid var(--color-guide);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .no-funciona {
+            background: #fffaf0;
+            border-left: 4px solid #FFD166;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .plan-semanal {
+            background: var(--color-surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border: 2px dashed var(--color-primary);
+        }
+
+        .plan-dia {
+            background: var(--color-secondary);
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .btn-estudiante {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            margin-top: 1rem;
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .btn-estudiante:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Números de pasos */
+        .pasos-estudiante ol {
+            counter-reset: step-counter;
+        }
+
+        .pasos-estudiante ol li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .pasos-estudiante ol li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: -0.2rem;
+            background: var(--color-primary);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .estudiantes-container {
+                padding: 0.5rem;
+            }
+            
+            .banner-estudiantes {
+                padding: 2rem 1.5rem;
+                margin: 0 1rem 2rem;
+            }
+            
+            .banner-estudiantes h2 {
+                font-size: 1.8rem;
+            }
+            
+            .acordeon-header {
+                padding: 1.5rem;
+            }
+            
+            .acordeon-header h3 {
+                font-size: 1.2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="resources/pulpo-logo.png" alt="Kodyan Care" class="logo-pulpo">
+                Kodyan Care
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#herramientas">Herramientas</a></li>
+                    <li><a href="index.html#regulacion">Regulación</a></li>
+                    <li><a href="index.html#como-ayudar">Cómo Ayudar</a></li>
+                    <li><a href="emergencias.html" class="btn-emergencia">🚨 Emergencia</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="herramienta-detalle">
+        <div class="container">
+            <h1>🎓 Kit de Supervivencia Estudiantil</h1>
+            <p class="subtitulo">Herramientas para cuando el estudio se siente abrumador</p>
+<br>
+  <br>          
+          <!-- BANNER MEJORADO -->
+<div class="banner-estudiantes">
+    <div class="banner-content">
+        <h2>No estás sol@ en esto</h2>
+        <p class="banner-subtitle">Si el estudio te abruma, es normal. La ansiedad académica afecta a más estudiantes de lo que crees:</p>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">74%</span>
+                <span class="stat-label">siente pánico antes de exámenes</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">62%</span>
+                <span class="stat-label">cree que no merece estar aquí</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">58%</span>
+                <span class="stat-label">llegó al agotamiento total</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">45%</span>
+                <span class="stat-label">duda si eligió bien su carrera</span>
+            </div>
+        </div>
+        <br>
+        <br>
+        <p class="banner-cta">🌱 <strong>Respirá hondo</strong> - Encontrá herramientas que realmente funcionen</p>
+    </div>
+</div>
+                <!-- ===== FASE 1: FUNDAMENTOS EMOCIONALES ===== -->
+                
+                <!-- 1. CRISIS EXISTENCIAL -->
+                <div class="acordeon-estudiantes">
+                    <div class="acordeon-item carrera">
+                        <div class="acordeon-header">
+                            <h3><span>🎯</span> ¿Y ahora qué estudio? - Crisis Existencial</h3>
+                            <span class="acordeon-icon">▼</span>
+                        </div>
+                        <div class="acordeon-content">
+                            <div class="contexto-problema">
+                                <p>Cuando todo pierde sentido, se duda de la elección de carrera y se siente que se está perdiendo el tiempo.</p>
+                            </div>
+                            
+                            <div class="pasos-estudiante">
+                                <h4>🧭 Ejercicio de Re-conexión con Valores:</h4>
+                                <ol>
+                                    <li><strong>Separar presión externa:</strong> "¿Esto lo elijo YO o me lo impusieron?"</li>
+                                    <li><strong>Valores vs. títulos:</strong> "¿Quiero ayudar gente? ¿Crear? ¿Resolver problemas?"</li>
+                                    <li><strong>Exploración sin compromiso:</strong> Charlar con profesionales, hacer materias optativas</li>
+                                    <li><strong>Redefinir "éxito":</strong> ¿Felicidad? ¿Estabilidad? ¿Impacto?</li>
+                                    <li><strong>Permiso para cambiar:</strong> Nadie tiene la vida resuelta, siempre se puede encontrar una nueva pasión</li>
+                                </ol>
+                            </div>
+
+                            <div class="tip-estudiante">
+                                <p>💡 <strong>Recordá:</strong> La mayoría de las personas cambia de carrera al menos una vez. No se está "fallando", se está creciendo.</p>
+                            </div>
+
+                            <button class="btn-estudiante" onclick="iniciarTecnica('crisis-carrera')">
+                                🧭 Guía de Exploración
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. SÍNDROME DEL IMPOSTOR -->
+                <div class="acordeon-estudiantes">
+                    <div class="acordeon-item impostor">
+                        <div class="acordeon-header">
+                            <h3><span>🎭</span> Desenmascarar al Impostor Académico</h3>
+                            <span class="acordeon-icon">▼</span>
+                        </div>
+                        <div class="acordeon-content">
+                            <div class="contexto-problema">
+                                <p>Cuando se siente que no se merece estar donde se está, que fue suerte y que pronto te van a "descubrir".</p>
+                            </div>
+                            
+                            <div class="pasos-estudiante">
+                                <h4>🔍 Ejercicio "Evidencia vs. Sentimiento":</h4>
+                                <ol>
+                                    <li><strong>Listar logros concretos:</strong> "Aprobé X materias", "Gané Y beca"</li>
+                                    <li><strong>Registrar el esfuerzo:</strong> "Estudié Z horas", "Hice W trabajos"</li>
+                                    <li><strong>Preguntar:</strong> "¿La suerte dura 3 años de carrera?"</li>
+                                    <li><strong>Comparar justamente:</strong> Mirar tu camino y compararse con quien eras hace un mes, cada persona tiene su historia</li>
+                                    <li><strong>Reconocer el sesigo:</strong> Recordar que se subestiman los logros</li>
+                                </ol>
+                            </div>
+
+                            <div class="no-funciona">
+                                <h4>🚫 Lo que alimenta al impostor:</h4>
+                                <ul>
+                                    <li>Autodescalificarse cuando te felicitan</li>
+                                    <li>Atribuir éxitos a "suerte" o "facilidad"</li>
+                                    <li>Compararse solo con los "mejores"</li>
+                                    <li>No registrar los progresos</li>
+                                </ul>
+                            </div>
+
+                            <button class="btn-estudiante" onclick="iniciarTecnica('impostor')">
+                                🎭 Ejercicio de 10 minutos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. CONEXIÓN SOCIAL -->
+                <div class="acordeon-estudiantes">
+                    <div class="acordeon-item conexion">
+                        <div class="acordeon-header">
+                            <h3><span>👥</span> Conectando en la Soledad Académica</h3>
+                            <span class="acordeon-icon">▼</span>
+                        </div>
+                        <div class="acordeon-content">
+                            <div class="contexto-problema">
+                                <p>Cuando el estudio aísla, se siente que todos tienen su grupo y uno se quedó afuera.</p>
+                            </div>
+                            
+                            <div class="pasos-estudiante">
+                                <h4>🤝 Conexiones de Bajo Esfuerzo:</h4>
+                                <ol>
+                                    <li><strong>Grupos de estudio virtual:</strong> Discord, Zoom con cámaras apagadas</li>
+                                    <li><strong>Comunidades online:</strong> Reddit, grupos de Facebook de tu carrera</li>
+                                    <li><strong>Actividades paralelas:</strong> Deportes, talleres, voluntariado</li>
+                                    <li><strong>Conexión con profes:</strong> Consultas, ayudantías, proyectos</li>
+                                    <li><strong>Amistades "de contexto":</strong> No forzar, dejar fluir</li>
+                                </ol>
+                            </div>
+
+                            <div class="tip-estudiante">
+                                <p>💡 <strong>Para introvertidos/autistas:</strong> La calidad importa más que la cantidad. Un amigo verdadero vale más que 10 conocidos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== FASE 2: PROBLEMAS PRÁCTICOS AL ESTUDIAR ===== -->
+
+                <!-- 4. PROCRASTINACIÓN -->
+                <div class="acordeon-estudiantes">
+                    <div class="acordeon-item procrastinacion">
+                        <div class="acordeon-header">
+                            <h3><span>⏰</span> Motor de Arranque para la Procrastinación</h3>
+                            <span class="acordeon-icon">▼</span>
+                        </div>
+                        <div class="acordeon-content">
+                            <div class="contexto-problema">
+                                <p>Cuando cuesta empezar y se pasa más tiempo preocupándose por estudiar que estudiando.</p>
+                            </div>
+                            
+                            <div class="pasos-estudiante">
+                                <h4>🚀 Protocolo de Activación (5 minutos):</h4>
+                                <ol>
+                                    <li><strong>Tarea microscópica:</strong> "Solo abrir el Word" o "solo leer el título"</li>
+                                    <li><strong>Body doubling virtual:</strong> Poner video de "study with me" en YouTube</li>
+                                    <li><strong>Premio inmediato:</strong> "Después de 15 minutos, un pequeño premio"</li>
+                                    <li><strong>Cambio de formato:</strong> ¿Se puede estudiar caminando? ¿Grabando audio?</li>
+                                    <li><strong>Tiempo definido:</strong> "Solo 25 minutos, luego PARO"</li>
+                                </ol>
+                            </div>
+
+                            <div class="no-funciona">
+                                <h4>🚫 Lo que NO funciona con procrastinación:</h4>
+                                <ul>
+                                    <li>"Esforzate más" o "poné voluntad"</li>
+                                    <li>Castigarse o regañarse</li>
+                                    <li>Intentar horas de estudio continuo</li>
+                                    <li>Estudiar en silencio absoluto</li>
+                                </ul>
+                            </div>
+
+                            <button class="btn-estudiante" onclick="iniciarTecnica('motor-arranque')">
+                                ⚡ Activar Motor de Arranque
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. TÉCNICAS ESPECÍFICAS -->
+                <div class="acordeon-estudiantes">
+                    <div class="acordeon-item tecnicas">
+                        <div class="acordeon-header">
+                            <h3><span>⚡</span> Técnicas Específicas para Momentos Difíciles</h3>
+                            <span class="acordeon-icon">▼</span>
+                        </div>
+                        <div class="acordeon-content">
+                            <!-- DESGLOSE EXTREMO -->
+                            <div class="pasos-estudiante">
+                                <h4>📋 Desglose Extremo: Cuando Todo Parece Demasiado</h4>
+                                <p><strong>¿Cuándo usarlo?</strong> Cuando una tarea genera tanto pánico que no se sabe por dónde empezar.</p>
+                                
+                                <div class="plan-dia">
+                                    <strong>Ejemplo PRÁCTICO:</strong><br>
+                                    <em>Tarea original:</em> "Estudiar para el final de Historia"<br>
+                                    <em>Desglose extremo:</em><br>
+                                    • Abrir carpeta de Historia (2 segundos)<br>
+                                    • Leer título del primer tema (5 segundos)<br>
+                                    • Subrayar una oración (10 segundos)<br>
+                                    • Escribir una palabra clave (3 segundos)<br>
+                                    • Respirar y decidir si seguir 30 segundos más
+                                </div>
+                                
+                                <p><strong>La clave:</strong> El primer paso debe ser tan pequeño que sea imposible decir "no puedo".</p>
+                            </div>
+
+                            <!-- CARRERA CONTRA EL TIEMPO -->
+                            <div class="pasos-estudiante">
+                                <h4>⏱️ Carrera Contra el Tiempo: Jugar con el Reloj</h4>
+                                <p><strong>¿Cómo funciona?</strong> Convertir el estudio en un juego contra el tiempo, no contra la capacidad personal.</p>
+                                
+                                <div class="plan-dia">
+                                    <strong>Ejemplo PRÁCTICO:</strong><br>
+                                    "Voy a leer ESTA página en 3 minutos"<br>
+                                    • Poner timer de 3 minutos<br>
+                                    • Leer lo que se pueda en ese tiempo<br>
+                                    • Cuando suena, PARAR aunque no se termine<br>
+                                    • Decidir: ¿otros 3 minutos o descanso?
+                                </div>
+                                
+                                <p><strong>La clave:</strong> No es "tengo que entender todo", es "voy a dedicar X tiempo a intentar".</p>
+                            </div>
+
+                            <!-- PERMISO PARA RETIRARSE -->
+                            <div class="pasos-estudiante">
+                                <h4>🚪 Permiso para Retirarse: La Salida de Emergencia</h4>
+                                <p><strong>¿De qué se trata?</strong> Dar permiso formalmente de abandonar una sesión de estudio cuando realmente no da más.</p>
+                                
+                                <div class="plan-dia">
+                                    <strong>Ejemplo PRÁCTICO:</strong><br>
+                                    • Después de 15 minutos intentando: "Si en 5 minutos sigo sin poder concentrarme, tengo permiso de parar"<br>
+                                    • Parar NO es fracasar, es estrategia<br>
+                                    • Anotar dónde se quedó y qué dificultad se encontró<br>
+                                    • Programar nuevo intento para otro momento del día
+                                </div>
+                                
+                                <p><strong>La clave:</strong> Mejor 15 minutos productivos que 2 horas de tortura improductiva.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. AGOTAMIENTO -->
+                <div class="acordeon-estudiantes">
+                    <div class="acordeon-item agotamiento">
+                        <div class="acordeon-header">
+                            <h3><span>🔥</span> Reset por Agotamiento Extremo</h3>
+                            <span class="acordeon-icon">▼</span>
+                        </div>
+                        <div class="acordeon-content">
+                            <div class="contexto-problema">
+                                <p>Para cuando ya no se puede ver un libro más y se siente que el cerebro no da para más.</p>
+                            </div>
+                            
+                            <div class="pasos-estudiante">
+                                <h4>🔄 Protocolo de Reset (30 minutos):</h4>
+                                <ol>
+                                    <li><strong>Alarma de descanso:</strong> Parar inmediatamente, aunque "falte poco"</li>
+                                    <li><strong>Cambio de ambiente:</strong> Salir de la habitación de estudio</li>
+                                    <li><strong>Hidratación con intención:</strong> Beber agua lentamente, conscientemente</li>
+                                    <li><strong>Estiramiento de liberación:</strong> 5 minutos de movimientos suaves</li>
+                                    <li><strong>Descanso activo:</strong> No mirar pantallas - mejor mirar por la ventana</li>
+                                </ol>
+                            </div>
+
+                            <div class="tip-estudiante">
+                                <p>💡 <strong>Recordá:</strong> El agotamiento estudiantil suele ser sobrecarga sensorial + cognitiva. Probar estudiar con ruido marrón o en espacios con menos estímulos visuales.</p>
+                            </div>
+
+                            <button class="btn-estudiante" onclick="iniciarTecnica('reset-agotamiento')">
+                                🔄 Iniciar Reset Guiado
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== FASE 3: ANSIEDAD Y PLANIFICACIÓN ===== -->
+
+                <!-- 7. ANSIEDAD POR EXÁMENES -->
+                <div class="acordeon-estudiantes">
+                    <div class="acordeon-item ansiedad">
+                        <div class="acordeon-header">
+                            <h3><span>💓</span> Manejo de Ansiedad por Exámenes</h3>
+                            <span class="acordeon-icon">▼</span>
+                        </div>
+                        <div class="acordeon-content">
+                            <div class="pasos-estudiante">
+                                <h4>🆘 Protocolo para Crisis de Ansiedad Pre-Examen</h4>
+                                <ol>
+                                    <li><strong>Reconocer las señales físicas:</strong> "Esto es ansiedad, no incapacidad"</li>
+                                    <li><strong>Técnica de grounding 5-4-3-2-1:</strong> 5 cosas que se ven, 4 que se tocan, 3 que se oyen, 2 que se huelen, 1 que se saborea</li>
+                                    <li><strong>Respiración cuadrada:</strong> Inhalar 4 segundos, mantener 4, exhalar 4, pausa 4</li>
+                                    <li><strong>Anclaje en logros pasados:</strong> "Ya se aprobaron materias antes"</li>
+                                    <li><strong>Permiso para sentir:</strong> "Es normal tener miedo, no me define"</li>
+                                </ol>
+                            </div>
+
+                            <button class="btn-estudiante" onclick="iniciarEjercicioAnsiedad()">
+                                🌀 Ejercicio de Respiración para Ansiedad
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. ANSIEDAD PRE-EXAMEN -->
+                <div class="acordeon-estudiantes">
+                    <div class="acordeon-item pre-examen">
+                        <div class="acordeon-header">
+                            <h3><span>📝</span> Descomprimir Ansiedad Pre-Examen</h3>
+                            <span class="acordeon-icon">▼</span>
+                        </div>
+                        <div class="acordeon-content">
+                            <div class="contexto-problema">
+                                <p>Cuando el "y si fallo" se vuelve un loop en la cabeza y el pánico paraliza antes del examen.</p>
+                            </div>
+                            
+                            <div class="pasos-estudiante">
+                                <h4>🆘 Protocolo Rápido:</h4>
+                                <ol>
+                                    <li><strong>Reconocer el patrón:</strong> "Esto es ansiedad de rendimiento, no realidad"</li>
+                                    <li><strong>Técnica del peor caso:</strong> "¿Y si desapruebo? Sobreviviría. Hay recursadas."</li>
+                                    <li><strong>Grounding académico:</strong> "Sé [concepto clave]. Aprobé [materia anterior]."</li>
+                                    <li><strong>Respiración táctica:</strong> 4-7-8 (inhalar 4, mantener 7, exhalar 8)</li>
+                                    <li><strong>Anclaje físico:</strong> Presionar pulgar e índice mientras se respira</li>
+                                </ol>
+                            </div>
+
+                            <div class="no-funciona">
+                                <h4>🚫 Lo que NO sirve para ansiedad de examen:</h4>
+                                <ul>
+                                    <li>Repasar compulsivamente 5 minutos antes</li>
+                                    <li>Compararse con compañeros que "sí saben"</li>
+                                    <li>Tomar estimulantes en exceso</li>
+                                    <li>Castigarse por "no haber estudiado más"</li>
+                                    <li>Privarse de dormir</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. PLANES DE ESTUDIO -->
+                <div class="acordeon-estudiantes">
+                    <div class="acordeon-item planes">
+                        <div class="acordeon-header">
+                            <h3><span>📅</span> Planes de Estudio para Parciales y Finales</h3>
+                            <span class="acordeon-icon">▼</span>
+                        </div>
+                        <div class="acordeon-content">
+                            <!-- PLAN 7 DÍAS -->
+                            <div class="plan-semanal">
+                                <h4>🗓️ Plan de 7 Días para un Parcial</h4>
+                                
+                                <div class="plan-dia">
+                                    <strong>Día 1 - Reconocimiento:</strong><br>
+                                    • Revisar todo el material (15 min)<br>
+                                    • Identificar temas fáciles/difíciles<br>
+                                    • Hacer resumen de una página<br>
+                                    • <em>Tiempo total: 2 horas</em>
+                                </div>
+
+                                <div class="plan-dia">
+                                    <strong>Día 2-3 - Estudio Focalizado:</strong><br>
+                                    • Estudiar tema más difícil primero<br>
+                                    • Hacer ejercicios prácticos<br>
+                                    • Crear fichas de repaso<br>
+                                    • <em>Tiempo diario: 3 horas (con descansos)</em>
+                                </div>
+
+                                <div class="plan-dia">
+                                    <strong>Día 4-5 - Consolidación:</strong><br>
+                                    • Repasar todos los temas<br>
+                                    • Hacer simulacros de examen<br>
+                                    • Identificar puntos débiles<br>
+                                    • <em>Tiempo diario: 2.5 horas</em>
+                                </div>
+
+                                <div class="plan-dia">
+                                    <strong>Día 6 - Repaso Final:</strong><br>
+                                    • Solo revisar fichas y resúmenes<br>
+                                    • No aprender contenido nuevo<br>
+                                    • Practicar respiración para ansiedad<br>
+                                    • <em>Tiempo: 1.5 horas</em>
+                                </div>
+
+                                <div class="plan-dia">
+                                    <strong>Día 7 - Examen:</strong><br>
+                                    • Desayuno nutritivo<br>
+                                    • Llegar 15 minutos antes<br>
+                                    • Recordar: "Preparé lo que pude"<br>
+                                    • <em>Sin estudio el día del examen</em>
+                                </div>
+                            </div>
+                            <!-- DENTRO DEL ACORDEÓN DE PLANES DE ESTUDIO, después del plan de 7 días -->
+
+<!-- PLAN 14 DÍAS PARA FINALES -->
+<div class="plan-semanal">
+    <h4>📚 Plan de 14 Días para un Final</h4>
+    
+    <div class="plan-dia">
+        <strong>Semana 1 - Fundamentos (Día 1-7):</strong><br>
+        • <strong>Día 1-2:</strong> Revisar programa completo, identificar temas clave<br>
+        • <strong>Día 3-5:</strong> Estudiar 2-3 temas principales por día<br>
+        • <strong>Día 6-7:</strong> Hacer resúmenes y fichas por tema<br>
+        • <em>Tiempo diario: 2-3 horas (con descansos)</em>
+    </div>
+
+    <div class="plan-dia">
+        <strong>Semana 2 - Profundización (Día 8-14):</strong><br>
+        • <strong>Día 8-10:</strong> Repasar temas más difíciles<br>
+        • <strong>Día 11-12:</strong> Hacer ejercicios integradores y prácticos<br>
+        • <strong>Día 13:</strong> Simulacro de examen completo<br>
+        • <strong>Día 14:</strong> Solo repaso ligero, sin contenido nuevo<br>
+        • <em>Tiempo diario: 3-4 horas (con pausas largas)</em>
+    </div>
+
+    <div class="plan-dia">
+        <strong>Día del Final:</strong><br>
+        • Desayuno balanceado (proteína + carbohidratos)<br>
+        • Revisar solo fichas rápidas (15 min máximo)<br>
+        • Llegar 20 minutos antes para acomodarse<br>
+        • Recordar: "Estudié durante 2 semanas, estoy preparado"<br>
+        • <em>Sin estudio intenso el día del examen</em>
+    </div>
+</div>
+
+<div class="tip-estudiante">
+    <p>💡 <strong>Para finales:</strong> Espaciar el estudio en 2 semanas permite mejor consolidación de la memoria. Mejor 2 horas diarias consistentes que 8 horas el último día.</p>
+</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">Kodyan Care</a>
+                    <p>Tu puerto seguro para tormentas emocionales.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Herramientas</h4>
+                    <ul>
+                        <li><a href="anclaje.html">Técnicas de Anclaje</a></li>
+                        <li><a href="descarga.html">Descarga Rápida</a></li>
+                        <li><a href="estudiantes.html">Kit Estudiantil</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="emergencias.html">Líneas de Crisis</a></li>
+                        <li><a href="guias.html">Guías Completas</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:care@koyhq.com">care@koyhq.com</a></li>
+                        <li><a href="https://instagram.com/kodyan.care" target="_blank">Instagram</a></li>
+                        <li><a href="https://koyhq.com" target="_blank">Koy HQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p><strong>💡 Importante:</strong> Esto no es un substituto de terapia profesional. Si estás en crisis, contactá a <a href="emergencias.html">recursos de emergencia</a>.</p>
+                <p>&copy; 2025 Kodyan Care. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="js/script.js"></script>
+    <script>
+        // Sistema de acordeón
+        document.querySelectorAll('.acordeon-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Funciones específicas
+        function iniciarTecnica(tipo) {
+            switch(tipo) {
+                case 'crisis-carrera':
+                    alert('🎯 Guía de exploración vocacional: Tomemos 15 minutos para reconectar con tus valores...');
+                    break;
+                case 'impostor':
+                    alert('🎭 Ejercicio contra el síndrome del impostor: Vamos a trabajar con evidencia concreta...');
+                    break;
+                case 'motor-arranque':
+                    alert('⏰ Activando motor de arranque: Empecemos con una microtarea...');
+                    break;
+                case 'reset-agotamiento':
+                    alert('🔥 Iniciando protocolo de reset: Pará todo, vamos a descansar conscientemente...');
+                    break;
+            }
+        }
+
+        function iniciarEjercicioAnsiedad() {
+            alert('💓 Ejercicio de respiración para ansiedad:\n\nVamos a practicar respiración cuadrada:\n• Inhalar 4 segundos\n• Mantener 4 segundos\n• Exhalar 4 segundos\n• Pausa 4 segundos\n\nRepetir 5 veces. ¡Vamos!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kit de Supervivencia | Kodyan Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+ <style>
+    .herramienta-detalle {
+        padding: 6rem 0 3rem;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #fef7ff 0%, #f0f9ff 50%, #fff5f5 100%);
+        position: relative;
+    }
+
+    .herramienta-detalle::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #FF6B6B, #06D6A0, #4ECDC4, #FFD166);
+    }
+
+    .supervivencia-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    /* BANNER INICIAL MEJORADO */
+    .banner-supervivencia {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+        background-size: 200% 200%;
+        color: white;
+        padding: 4rem 3rem;
+        border-radius: 24px;
+        margin: 3rem 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        animation: gradientShift 8s ease infinite;
+    }
+
+    .banner-supervivencia::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        pointer-events: none;
+    }
+
+    @keyframes gradientShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    .banner-supervivencia h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .banner-supervivencia p {
+        font-size: 1.3rem;
+        opacity: 0.95;
+        margin-bottom: 2.5rem;
+        font-weight: 500;
+    }
+
+   .pilares-supervivencia {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-top: 2.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.pilar {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.pilar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s;
+}
+
+.pilar:hover::before {
+    left: 100%;
+}
+
+.pilar:hover {
+    transform: translateY(-8px) scale(1.02);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.pilar .emoji {
+    font-size: 2.8rem;
+    display: block;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.pilar h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.pilar p {
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.pilar small {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+/* RESPONSIVE - Se adapta según el tamaño */
+@media (max-width: 1200px) {
+    .pilares-supervivencia {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .pilares-supervivencia {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .pilares-supervivencia {
+        grid-template-columns: 1fr;
+    }
+    
+    .pilar {
+        padding: 1.5rem 1rem;
+    }
+    
+    .pilar .emoji {
+        font-size: 2.5rem;
+    }
+}
+    /* SECCIONES DESPLEGABLES MEJORADAS */
+    .seccion-desplegable {
+        background: var(--color-surface);
+        margin-bottom: 2rem;
+        border-radius: 24px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border-left: 6px solid;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .seccion-desplegable:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .seccion-desplegable.tribus { border-left-color: #FF6B6B; }
+    .seccion-desplegable.acompanantes { border-left-color: #06D6A0; }
+    .seccion-desplegable.trabajo { border-left-color: #4ECDC4; }
+    .seccion-desplegable.economico { border-left-color: #FFD166; }
+.seccion-desplegable.desempleo { border-left-color: #FF9E64; }
+    .encabezado-desplegable {
+        padding: 2.5rem 3rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-secondary) 100%);
+    }
+
+    .encabezado-desplegable:hover {
+        background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-surface) 100%);
+    }
+
+    .encabezado-desplegable h2 {
+        color: var(--color-text);
+        margin: 0;
+        font-size: 1.9rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-weight: 600;
+    }
+
+    .icono-desplegable {
+        font-size: 1.6rem;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        color: var(--color-primary);
+    }
+
+    .seccion-desplegable.abierta .icono-desplegable {
+        transform: rotate(180deg) scale(1.1);
+    }
+
+    .contenido-desplegable {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        background: var(--color-surface);
+    }
+
+    .seccion-desplegable.abierta .contenido-desplegable {
+        max-height: 8000px;
+    }
+
+    .contenido-interno {
+        padding: 0 3rem 3.5rem 3rem;
+    }
+
+    /* CONTENIDO MEJORADO */
+    .intro-seccion {
+        background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-surface) 100%);
+        padding: 2.5rem;
+        border-radius: 18px;
+        margin-bottom: 3rem;
+        font-size: 1.15rem;
+        line-height: 1.7;
+        border-left: 5px solid;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .subseccion {
+        margin-bottom: 3.5rem;
+    }
+
+    .subseccion h3 {
+        color: var(--color-primary);
+        margin-bottom: 2rem;
+        font-size: 1.6rem;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--color-secondary);
+    }
+
+    .herramientas-lista {
+        background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-surface) 100%);
+        padding: 3rem;
+        border-radius: 18px;
+        margin: 2.5rem 0;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .herramientas-lista h4 {
+        color: var(--color-primary);
+        margin-bottom: 2rem;
+        font-size: 1.4rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .herramientas-lista ol, .herramientas-lista ul {
+        margin-left: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .herramientas-lista li {
+        margin-bottom: 1.2rem;
+        line-height: 1.7;
+        color: var(--color-text);
+        font-size: 1.15rem;
+        position: relative;
+    }
+
+    .tip-supervivencia {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e3f2fd 100%);
+        border-left: 5px solid var(--color-guide);
+        padding: 2.2rem;
+        margin: 2.5rem 0;
+        border-radius: 16px;
+        font-size: 1.15rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .alerta-practica {
+        background: linear-gradient(135deg, #fffaf0 0%, #fff3e0 100%);
+        border-left: 5px solid #FFD166;
+        padding: 2.2rem;
+        margin: 2.5rem 0;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .ejemplo-concreto {
+        background: linear-gradient(135deg, #f8f5ff 0%, #f3f0ff 100%);
+        border-left: 5px solid #8A85FF;
+        padding: 2.2rem;
+        margin: 2.5rem 0;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .frase-sanadora {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e8f4f8 100%);
+        border-left: 5px solid #667eea;
+        padding: 2rem;
+        margin: 2.5rem 0;
+        font-style: italic;
+        border-radius: 16px;
+        text-align: center;
+        font-size: 1.3rem;
+        font-weight: 500;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+    }
+
+    /* NÚMEROS DE PASOS MEJORADOS */
+    .herramientas-lista ol {
+        counter-reset: step-counter;
+    }
+
+    .herramientas-lista ol li {
+        counter-increment: step-counter;
+        position: relative;
+        padding-left: 4rem;
+        padding-top: 0.5rem;
+    }
+
+    .herramientas-lista ol li:before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+        color: white;
+        width: 2.8rem;
+        height: 2.8rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* RESPONSIVE MEJORADO */
+    @media (max-width: 1024px) {
+        .supervivencia-container {
+            padding: 0 1.5rem;
+        }
+        
+        .banner-supervivencia {
+            padding: 3rem 2rem;
+        }
+        
+        .banner-supervivencia h2 {
+            font-size: 2.2rem;
+        }
+        
+        .pilares-supervivencia {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .herramienta-detalle {
+            padding: 5rem 0 2rem;
+        }
+        
+        .supervivencia-container {
+            padding: 0 1rem;
+        }
+        
+        .banner-supervivencia {
+            padding: 2.5rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 20px;
+        }
+        
+        .banner-supervivencia h2 {
+            font-size: 1.9rem;
+        }
+        
+        .banner-supervivencia p {
+            font-size: 1.15rem;
+        }
+        
+        .encabezado-desplegable {
+            padding: 2rem 1.5rem;
+        }
+        
+        .encabezado-desplegable h2 {
+            font-size: 1.5rem;
+            gap: 0.8rem;
+        }
+        
+        .contenido-interno {
+            padding: 0 1.5rem 2.5rem 1.5rem;
+        }
+        
+        .herramientas-lista {
+            padding: 2rem 1.5rem;
+        }
+        
+        .intro-seccion,
+        .tip-supervivencia,
+        .alerta-practica,
+        .ejemplo-concreto {
+            padding: 1.8rem;
+        }
+        
+        .herramientas-lista ol li {
+            padding-left: 3.5rem;
+        }
+        
+        .herramientas-lista ol li:before {
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .banner-supervivencia h2 {
+            font-size: 1.7rem;
+        }
+        
+        .encabezado-desplegable h2 {
+            font-size: 1.3rem;
+        }
+        
+        .subseccion h3 {
+            font-size: 1.4rem;
+        }
+        
+        .pilar {
+            padding: 2rem 1.5rem;
+        }
+        
+        .pilar .emoji {
+            font-size: 3rem;
+        }
+    }
+</style>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="resources/pulpo-logo.png" alt="Kodyan Care" class="logo-pulpo">
+                Kodyan Care
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#herramientas">Herramientas</a></li>
+                    <li><a href="index.html#regulacion">Regulación</a></li>
+                    <li><a href="index.html#como-ayudar">Cómo Ayudar</a></li>
+                    <li><a href="emergencias.html" class="btn-emergencia">🚨 Emergencia</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+<main class="herramienta-detalle">
+    <div class="container">
+        <h1>🎒 Apoyo para Resistir el Temporal</h1>
+        <p class="subtitulo">Porque algún día va a escampar. </p>
+
+           <div class="banner-supervivencia">
+    <h2>Supervivencia con Conexión y Dignidad</h2>
+    <p>Hacé click en lo que necesitás ahora - no tenés que leer todo</p>
+    
+    <div class="pilares-supervivencia">
+        <div class="pilar" onclick="abrirSeccion('tribus')">
+            <span class="emoji">💝</span>
+            <h3>Tribus</h3>
+            <p>Humanos que entienden tus códigos</p>
+            <small>Click para abrir</small>
+        </div>
+        <div class="pilar" onclick="abrirSeccion('acompanantes')">
+            <span class="emoji">🐾</span>
+            <h3>Acompañantes</h3>
+            <p>Mascotas que sanan sin palabras</p>
+            <small>Click para abrir</small>
+        </div>
+        <div class="pilar" onclick="abrirSeccion('trabajo')">
+            <span class="emoji">💼</span>
+            <h3>Trabajo</h3>
+            <p>Sobrevivir al mundo laboral</p>
+            <small>Click para abrir</small>
+        </div>
+        <div class="pilar" onclick="abrirSeccion('economico')">
+            <span class="emoji">💸</span>
+            <h3>Agotamiento Económico</h3>
+            <p>Cuando trabajás y no alcanza</p>
+            <small>Click para abrir</small>
+        </div>
+        <div class="pilar" onclick="abrirSeccion('desempleo')">
+            <span class="emoji">🔍</span>
+            <h3>Desempleo</h3>
+            <p>Encontrar esperanza en la búsqueda</p>
+            <small>Click para abrir</small>
+        </div>
+    </div>
+</div>
+
+            <!-- SECCIÓN 1: TRIBUS -->
+            <div class="seccion-desplegable tribus" id="seccion-tribus">
+                <div class="encabezado-desplegable" onclick="toggleSeccion('tribus')">
+                    <h2><span>💝</span> Tribus: Humanos que Entienden Tus Códigos</h2>
+                    <div class="icono-desplegable">▼</div>
+                </div>
+                <div class="contenido-desplegable">
+                    <div class="contenido-interno">
+                        <div class="intro-seccion">
+                            <p>Tu tribu no siempre es la que te tocó, sino la que elegís. Gente que entiende tus memes sin contexto, celebra tus logros pequeños y te abraza en tus días grises. Presencial o virtual, lo que importa es la conexión real.</p>
+                        </div>
+
+                        <div class="subseccion">
+                            <h3>🌐 Tribus Digitales: Encontrar Tu Gente en el Espacio Virtual</h3>
+                            
+                            <div class="herramientas-lista">
+                                <h4>🔍 Cómo Identificar Comunidades Seguras</h4>
+                                <ol>
+                                    <li><strong>Buscar por intereses auténticos:</strong> No lo que "deberías" gustar, sino lo que realmente te apasiona</li>
+                                    <li><strong>Señales de espacios saludables:</strong> Moderación activa, reglas claras, respeto en las discusiones</li>
+                                    <li><strong>Grupos pequeños vs grandes:</strong> Los grupos más chicos suelen tener mayor conexión real</li>
+                                    <li><strong>Comunidades de apoyo mutuo:</strong> Donde el trueque es emocional, no transaccional</li>
+                                </ol>
+                            </div>
+
+                            <div class="herramientas-lista">
+                                <h4>💬 Códigos Compartidos y Rituales Digitales</h4>
+                                <ul>
+                                    <li><strong>El poder terapéutico del meme:</strong> Esos que solo tu tribu entiende sin explicación</li>
+                                    <li><strong>Reels que son abrazos digitales:</strong> Contenido que te hace sentir menos solo/a</li>
+                                    <li><strong>Glosarios emocionales compartidos:</strong> Palabras y frases que solo ustedes entienden</li>
+                                    <li><strong>Rituales digitales:</strong> Buenos días en el grupo, check-ins emocionales, despedidas</li>
+                                </ul>
+                            </div>
+
+                            <div class="ejemplo-concreto">
+                                <h4>📱 Ejemplo Práctico: Construir Tu Tribu desde Cero</h4>
+                                <p><strong>Paso 1:</strong> Identificá 2-3 intereses REALES tuyos (no los "presentables")<br>
+                                <strong>Paso 2:</strong> Buscá grupos pequeños en Facebook/Telegram de eso<br>
+                                <strong>Paso 3:</strong> Participá durante una semana sin presión<br>
+                                <strong>Paso 4:</strong> Identificá a 1-2 personas con quien resonás<br>
+                                <strong>Paso 5:</strong> Proponé un grupo más chico o chat individual</p>
+                            </div>
+                        </div>
+
+                        <div class="subseccion">
+                            <h3>👥 Tribus Presenciales: Conexión en el Mundo Real</h3>
+                            
+                            <div class="herramientas-lista">
+                                <h4>🏘️ Encontrar Comunidades Locales</h4>
+                                <ul>
+                                    <li><strong>Centros comunitarios:</strong> Talleres, actividades, espacios de encuentro</li>
+                                    <li><strong>Bibliotecas públicas:</strong> No solo libros, también actividades y grupos</li>
+                                    <li><strong>Deportes o hobbies grupales:</strong> Desde yoga hasta juegos de mesa</li>
+                                    <li><strong>Voluntariado:</strong> Conectar haciendo el bien</li>
+                                </ul>
+                            </div>
+
+                            <div class="tip-supervivencia">
+                                <p>💡 <strong>Para introvertidos/autistas:</strong> La calidad importa más que la cantidad. Un amigo verdadero vale más que 10 conocidos. No tenés que ser "social" para encontrar tu tribu, solo auténtico.</p>
+                            </div>
+                        </div>
+
+                        <div class="alerta-practica">
+                            <h4>🤝 Mantenimiento de Tribus en Días Bajos</h4>
+                            <p><strong>Cuando no tenés energía para socializar:</strong><br>
+                            • Mensaje pre-armado: "Hoy estoy con poca energía pero quería saber cómo estás"<br>
+                            • Compartir un meme sin esperar respuesta<br>
+                            • Decir "hoy no puedo, pero te aviso cuando sí"<br>
+                            • Tu tribu real entiende que a veces desaparecés</p>
+                        </div>
+
+                        <div class="frase-sanadora">
+                            <p>"Encontrar tu tribu es como volver a casa después de un día muy largo. No tenés que explicar nada, solo ser."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: ACOMPAÑANTES -->
+            <div class="seccion-desplegable acompanantes" id="seccion-acompanantes">
+                <div class="encabezado-desplegable" onclick="toggleSeccion('acompanantes')">
+                    <h2><span>🐾</span> Acompañantes Emocionales: Mascotas que Sanan</h2>
+                    <div class="icono-desplegable">▼</div>
+                </div>
+                <div class="contenido-desplegable">
+                    <div class="contenido-interno">
+                        <div class="intro-seccion">
+                            <p>Terapeutas de 4 patas, aletas, alas o patitas. Seres que no piden explicaciones, no juzgan tus días malos y te reciben siempre con el mismo amor. El vínculo humano-animal como ancla en tormentas emocionales.</p>
+                        </div>
+
+                        <div class="subseccion">
+                            <h3>❤️ El Poder Terapéutico de las Mascotas</h3>
+                            
+                            <div class="herramientas-lista">
+                                <h4>🎯 Beneficios Científicamente Comprobados</h4>
+                                <ul>
+                                    <li><strong>Reducción de cortisol:</strong> Acariciar animales baja hormonas del estrés</li>
+                                    <li><strong>Aumento de oxitocina:</strong> La "hormona del amor" que genera bienestar</li>
+                                    <li><strong>Presión arterial:</strong> Dueños de mascotas tienen valores más saludables</li>
+                                    <li><strong>Ansiedad y depresión:</strong> Síntomas reducidos significativamente</li>
+                                    <li><strong>Sentido de propósito:</strong> Los cuidados dan estructura y significado</li>
+                                </ul>
+                            </div>
+
+                            <div class="herramientas-lista">
+                                <h4>🐕🦜🐠 Para Diferentes Tipos de Mascotas</h4>
+                                <ul>
+                                    <li><strong>Perros/Gatos:</strong> Contacto físico, paseos que obligan a salir, juego</li>
+                                    <li><strong>Peces/Acuarios:</strong> Observación meditativa, reduce ansiedad como la meditación</li>
+                                    <li><strong>Aves:</strong> Sonidos relajantes, interacción vocal, observación</li>
+                                    <li><strong>Roedores/Reptiles:</strong> Cuidados metódicos, observación tranquila</li>
+                                    <li><strong>Plantas:</strong> Cuidado como ritual, observación del crecimiento</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="subseccion">
+                            <h3>🏠 Ejercicios de Conexión con Tu Mascota</h3>
+                            
+                            <div class="herramientas-lista">
+                                <h4>🐾 Si Tenés Mascota</h4>
+                                <ol>
+                                    <li><strong>Meditación conjunta:</strong> Sentate cerca, cerra los ojos y sincronizá tu respiración con la suya</li>
+                                    <li><strong>Masaje consciente:</strong> Acariciala prestando atención a cada sensación</li>
+                                    <li><strong>Observación sin juicios:</strong> Mirala por 5 minutos como si fuera la primera vez</li>
+                                    <li><strong>Paseo mindfulness:</strong> Caminá concentrado en los sonidos, olores, sensaciones</li>
+                                    <li><strong>Ritual de agradecimiento:</strong> Agradecé mentalmente su compañía</li>
+                                </ol>
+                            </div>
+
+                            <div class="herramientas-lista">
+                                <h4>🌿 Si No Tenés Mascota</h4>
+                                <ul>
+                                    <li><strong>Voluntariado en refugios:</strong> Dales amor aunque sea temporal</li>
+                                    <li><strong>Observación urbana:</strong> Pájaros, ardillas, insectos - conexión con lo salvaje cercano</li>
+                                    <li><strong>Videos terapéuticos:</strong> Acuarios, pájaros cantando, animales jugando</li>
+                                    <li><strong>Cuidar plantas:</strong> Empezá con una suculenta o planta resistente</li>
+                                    <li><strong>Ofrecete a pasear mascotas:</strong> De vecinos, amigos, familiares</li>
+                                </ul>
+                            </div>
+
+                            <div class="ejemplo-concreto">
+                                <h4>🐕 Ejercicio: "Sincronización con Tu Mascota"</h4>
+                                <p><strong>Duración:</strong> 10 minutos<br>
+                                <strong>Materiales:</strong> Tu mascota (o video de animales)<br>
+                                <strong>Pasos:</strong><br>
+                                1. Sentate en un lugar tranquilo con tu mascota cerca<br>
+                                2. Cerra los ojos y concentrate en su respiración<br>
+                                3. Intentá sincronizar tu respiración con la suya<br>
+                                4. Después de 2 minutos, abrí los ojos y acariciala suavemente<br>
+                                5. Seguí respirando juntos por 5 minutos más<br>
+                                6. Agradecé mentalmente su presencia</p>
+                            </div>
+                        </div>
+
+                        <div class="alerta-practica">
+                            <h4>🚨 Para Crisis Emocionales Intensas</h4>
+                            <p><strong>Si tenés mascota:</strong> Abrazala fuerte, sentí su calor, su respiración, su latido. Concentrate en ese ser que te quiere incondicionalmente.<br>
+                            <strong>Si no tenés:</strong> Buscá videos de animales en YouTube - el efecto calmante es real. Acuarios, gatitos ronroneando, perros jugando.</p>
+                        </div>
+
+                        <div class="tip-supervivencia">
+                            <p>💡 <strong>Dato científico:</strong> 15 minutos acariciando un perro o gato puede bajar tu presión arterial y ansiedad tanto como algunos medicamentos. El ronroneo de los gatos tiene frecuencias terapéuticas para la curación ósea y reducción del estrés.</p>
+                        </div>
+
+                        <div class="frase-sanadora">
+                            <p>"Los animales no aman porque les des de comer. Aman porque existís. Esa es la medicina más pura."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: TRABAJO -->
+            <div class="seccion-desplegable trabajo" id="seccion-trabajo">
+                <div class="encabezado-desplegable" onclick="toggleSeccion('trabajo')">
+                    <h2><span>💼</span> Trabajo: Sobrevivir al Mundo Laboral</h2>
+                    <div class="icono-desplegable">▼</div>
+                </div>
+                <div class="contenido-desplegable">
+                    <div class="contenido-interno">
+                        <div class="intro-seccion">
+                            <p>Cuando el trabajo consume más de lo que da. Estrategias para poner límites, preservar tu energía y recordar que tu valor como persona no está determinado por tu productividad.</p>
+                        </div>
+
+                        <div class="subseccion">
+                            <h3>🛡️ Límites Laborales Sanos</h3>
+                            
+                            <div class="herramientas-lista">
+                                <h4>🎯 Cómo Establecer Límites sin Culpa</h4>
+                                <ol>
+                                    <li><strong>Horarios claros:</strong> Definir hora de entrada y salida REAL (aunque trabajes desde casa)</li>
+                                    <li><strong>Comunicación asertiva:</strong> "Mi horario laboral termina a las X, lo retomamos mañana"</li>
+                                    <li><strong>Descansos obligatorios:</strong> 5-10 minutos cada 2 horas, lejos de pantallas</li>
+                                    <li><strong>Derecho a la desconexión:</strong> No revisar emails/mensajes fuera de horario</li>
+                                    <li><strong>Vacaciones reales:</strong> Desconexión total, sin "chequeos rápidos"</li>
+                                </ol>
+                            </div>
+
+                            <div class="herramientas-lista">
+                                <h4>⚡ Manejo de Energía Durante la Jornada</h4>
+                                <ul>
+                                    <li><strong>Pomodoro emocional:</strong> 25 min trabajo - 5 min descanso REAL (sin pantallas)</li>
+                                    <li><strong>Tareas por energía:</strong> Trabajo creativo con energía alta, tareas mecánicas con baja</li>
+                                    <li><strong>Micro-descansos estratégicos:</strong> Estiramientos, respiraciones, mirar por la ventana</li>
+                                    <li><strong>Hidratación consciente:</strong> Beber agua como pausa, no como afterthought</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="subseccion">
+                            <h3>🔥 Prevención y Manejo del Burnout Laboral</h3>
+                            
+                            <div class="herramientas-lista">
+                                <h4>🔍 Señales Tempranas de Burnout</h4>
+                                <ul>
+                                    <li><strong>Cansancio crónico:</strong> Que no se va con el descanso</li>
+                                    <li><strong>Cinismo e irritabilidad:</strong> Hacia el trabajo, compañeros, tareas</li>
+                                    <li><strong>Disminución del rendimiento:</strong> Aunque trabajés más horas</li>
+                                    <li><strong>Problemas de salud:</strong> Dolores de cabeza, espalda, problemas digestivos</li>
+                                    <li><strong>Aislamiento:</strong> Evitar contacto con compañeros</li>
+                                </ul>
+                            </div>
+
+                            <div class="herramientas-lista">
+                                <h4>🔄 Protocolo de Recuperación</h4>
+                                <ol>
+                                    <li><strong>Reconocimiento inmediato:</strong> "Estoy en burnout, necesito parar"</li>
+                                    <li><strong>Reducción de expectativas:</strong> Bajar estándares temporalmente</li>
+                                    <li><strong>Descanso real:</strong> No "vacaciones trabajando"</li>
+                                    <li><strong>Reevaluación de prioridades:</strong> ¿Qué es realmente urgente?</li>
+                                    <li><strong>Búsqueda de apoyo:</strong> Terapia, grupos de apoyo, hablar con RRHH</li>
+                                </ol>
+                            </div>
+
+                            <div class="ejemplo-concreto">
+                                <h4>💼 Ritmo de Día por Niveles de Energía</h4>
+                                <p><strong>CUANDO TENÉS MÁS ENERGÍA:</strong><br>
+                                • Hacé lo que más concentración necesita<br>
+                                • Lo que te resulta más difícil o complejo<br>
+                                • Lo que más te importa</p>
+                                
+                                <p><strong>DESPUÉS DE UN BLOQUE INTENSO:</strong><br>
+                                • Pará aunque sientas que "podés seguir"<br>
+                                • Descanso corto lejos de lo que estabas haciendo<br>
+                                • Movete, hidratate, cambiá de ambiente</p>
+                                
+                                <p><strong>CUANDO LA ENERGÍA BAJA:</strong><br>
+                                • Tareas más automáticas o simples<br>
+                                • Lo que menos esfuerzo mental requiera<br>
+                                • Organización o planificación</p>
+                                
+                                <p><strong>PAUSA LARGA OBLIGATORIA:</strong><br>
+                                • Comida o descanso prolongado<br>
+                                • Sin multitasking - una cosa a la vez<br>
+                                • Desconexión real de obligaciones</p>
+                                
+                                <p><strong>PARA TERMINAR EL DÍA:</strong><br>
+                                • Actividad de transición hacia el descanso<br>
+                                • Revisión breve de lo hecho (sin juicios)<br>
+                                • Ritual de cierre consciente</p>
+                                
+                                <p><strong>SEÑAL DE QUE TERMINÓ:</strong><br>
+                                • Un gesto, palabra o acción que marque el final<br>
+                                • Cambio de espacio o actividad claramente diferente<br>
+                                • Permiso mental para dejar lo pendiente para después</p>
+                            </div>
+                        </div>
+
+                        <div class="tip-supervivencia">
+                            <p>💡 <strong>Recordá:</strong> Tu trabajo es lo que hacés, no quién sos. Merecés descansar, enfermarte, tener vida personal y cometer errores. Sos humano, no un recurso.</p>
+                        </div>
+
+                        <div class="frase-sanadora">
+                            <p>"Descansar no es un lujo que te tenés que ganar. Es un derecho humano que ya tenés."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 4: CRISIS ECONÓMICA -->
+            <div class="seccion-desplegable economico" id="seccion-economico">
+                <div class="encabezado-desplegable" onclick="toggleSeccion('economico')">
+                    <h2><span>💸</span> Agotamiento Económico: Cuando la mente y el cuerpo se ven afectados por el bolsillo</h2>
+                    <div class="icono-desplegable">▼</div>
+                </div>
+                <div class="contenido-desplegable">
+                    <div class="contenido-interno">
+                        <div class="intro-seccion">
+                            <p>Esa sensación de correr en una cinta infinita: trabajás cada vez más, pero alcanzás cada vez menos. El estrés económico no es solo números, es desgaste emocional, es sentir que tu esfuerzo no vale nada.</p>
+                        </div>
+
+                        <div class="subseccion">
+                            <h3>😮‍💨 Reconocer el Agotamiento Económico</h3>
+                            
+                            <div class="herramientas-lista">
+                                <h4>🔍 Señales de que es MÁS que Estrés Financiero</h4>
+                                <ul>
+                                    <li><strong>Desesperanza aprendida:</strong> "No importa lo que haga, nunca va a alcanzar"</li>
+                                    <li><strong>Culpa por descansar:</strong> Sentir que cada minuto de ocio es tiempo perdido para producir</li>
+                                    <li><strong>Insomnio productivo:</strong> Despertarte de noche pensando en qué más podrías hacer para ganar</li>
+                                    <li><strong>Despersonalización laboral:</strong> Sentir que solo sos una máquina de generar ingresos</li>
+                                    <li><strong>Vergüenza social:</strong> Aislarte porque no podés pagar salidas básicas</li>
+                                </ul>
+                            </div>
+
+                            <div class="tip-supervivencia">
+                                <p>💡 <strong>No es pereza:</strong> El agotamiento económico es real. Tu cerebro está sobrecargado de calcular, planificar y sobrevivir. No es falta de esfuerzo, es exceso de presión.</p>
+                            </div>
+                        </div>
+
+                        <div class="subseccion">
+                            <h3>🛡️ Estrategias Emocionales (Porque a veces no hay soluciones mágicas)</h3>
+                            
+                            <div class="herramientas-lista">
+                                <h4>💝 Autocompasión en Tiempos Difíciles</h4>
+                                <ol>
+                                    <li><strong>Separar tu valor de tu salario:</strong> "Mi valor como persona no está determinado por mi cuenta bancaria"</li>
+                                    <li><strong>Validar tu cansancio:</strong> "Es lógico que esté agotado/a, estoy cargando un peso muy pesado"</li>
+                                    <li><strong>Reconocer el esfuerzo invisible:</strong> "Hoy gestioné 20 crisis mentales antes de las 9 AM"</li>
+                                    <li><strong>Permitir el enojo:</strong> "Tengo derecho a enojarme, esta situación es injusta"</li>
+                                    <li><strong>Celebrar microsupervivencias:</strong> "Hoy comí, respiré y resistí. Eso cuenta"</li>
+                                </ol>
+                            </div>
+
+                            <div class="herramientas-lista">
+                                <h4>🌱 Dignidad en la Precariedad</h4>
+                                <ul>
+                                    <li><strong>Placeres que no cuestan:</strong> Sol en la piel, una taza de té mirando por la ventana, una respiración profunda</li>
+                                    <li><strong>Rituales de humanidad:</strong> Bañarse con atención, tender la cama como acto de autocuidado, mirarse al espejo con cariño</li>
+                                    <li><strong>Comunidad clandestina:</strong> Esos grupos donde se comparten memes de la pobreza con humor negro que sana</li>
+                                    <li><strong>Rebeldía pequeña:</strong> Descansar aunque haya cosas por hacer. Tomar una siesta como acto político</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="subseccion">
+                            <h3>🤝 Cómo Ayudar a Alguien en Agotamiento Económico</h3>
+                            
+                            <div class="herramientas-lista">
+                                <h4>❤️ Apoyo que Realmente Sirve</h4>
+                                <ul>
+                                    <li><strong>Ofrecer ayuda concreta y discreta:</strong> "Te compré las verduras, las dejé en la puerta"</li>
+                                    <li><strong>Encuentros que no cuesten:</strong> "Voy con mate a tu casa y charlamos" en vez de "Salgamos a comer"</li>
+                                    <li><strong>Validar sin solucionar:</strong> "Es una mierda, tenés razón en sentirte así"</li>
+                                    <li><strong>Recordarles su humanidad:</strong> "Más allá de la plata, vos como persona importás"</li>
+                                    <li><strong>Respetar la dignidad:</strong> Ayudar sin hacer sentir que es caridad</li>
+                                </ul>
+                            </div>
+
+                            <div class="alerta-practica">
+                                <h4>🚨 Lo que NO decir a alguien agotado económicamente</h4>
+                                <p>❌ "Ponete a estudiar otra cosa" (como si fuera fácil)<br>
+                                ❌ "Todos pasamos por eso" (invalidando lo específico de su dolor)<br>
+                                ❌ "Al menos tenés trabajo" (minimizando el sufrimiento)<br>
+                                ❌ "Hacé freelancing" (como si no estuviera ya exhausto)<br>
+                                ❌ "Yo empecé desde abajo" (historias de éxito que no ayudan ahora)</p>
+                            </div>
+                        </div>
+
+                        <div class="ejemplo-concreto">
+                            <h4>🔄 Ejercicio: "Reconectar con Mi Humanidad"</h4>
+                            <p><strong>Cuando sentís que solo sos una máquina de trabajar:</strong><br>
+                            1. Pará 5 minutos aunque haya mil cosas por hacer<br>
+                            2. Tocá una textura que te guste (una tela suave, una planta, agua)<br>
+                            3. Recordá: "Soy un ser humano, no un recurso humano"<br>
+                            4. Respirá y sentí: "Mi valor existe más allá de lo que produzco"<br>
+                            5. Agradecé a tu cuerpo por aguantar tanto</p>
+                        </div>
+
+                        <div class="tip-supervivencia">
+                            <p>🌻 <strong>Recordá:</strong> Merecés existir sin tener que ganarte el derecho a existir. La paz no es un lujo, es un derecho humano. El descanso no es un extra, es medicina.</p>
+                        </div>
+
+                        <div class="frase-sanadora">
+                            <p>"Tu valor como persona no se mide en pesos. Se mide en abrazos dados, en risas compartidas, en momentos de paz robados al caos."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SECCIÓN 5: DESEMPLEO Y BÚSQUEDA LABORAL - NUEVA -->
+<div class="seccion-desplegable desempleo" id="seccion-desempleo">
+    <div class="encabezado-desplegable" onclick="toggleSeccion('desempleo')">
+        <h2><span>🔍</span> Desempleo: Encontrar Esperanza en la Búsqueda</h2>
+        <div class="icono-desplegable">▼</div>
+    </div>
+    <div class="contenido-desplegable">
+        <div class="contenido-interno">
+            <div class="intro-seccion">
+                <p>Cuando el CV se convierte en un grito al vacío y cada "no" duele como un rechazo personal. Buscar trabajo ES un trabajo, y merecés reconocimiento por esa lucha diaria que nadie ve.</p>
+            </div>
+
+            <div class="subseccion">
+                <h3>💔 El Duelo Laboral: Cuando el Rechazo Duele</h3>
+                
+                <div class="herramientas-lista">
+                    <h4>🛡️ Cómo Proteger Tu Autoestima</h4>
+                    <ol>
+                        <li><strong>Separar rechazo laboral de rechazo personal:</strong> "No me eligieron para el puesto, no me rechazaron a mí como ser humano"</li>
+                        <li><strong>Ritual de cierre después de cada no:</strong> Anotar la postulación, agradecer tu esfuerzo y soltar</li>
+                        <li><strong>Recordar tus logros pasados:</strong> Hacer una lista de todo lo que superaste antes</li>
+                        <li><strong>El "no" como redirección:</strong> "Este no me acerca a un sí que sí me conviene"</li>
+                        <li><strong>Permitirte el enojo:</strong> "Tengo derecho a enojarme, el sistema está roto"</li>
+                    </ol>
+                </div>
+
+                <div class="tip-supervivencia">
+                    <p>💡 <strong>El rechazo duele biológicamente:</strong> Los estudios muestran que el rechazo social activa las mismas zonas cerebrales que el dolor físico. No estás "exagerando".</p>
+                </div>
+            </div>
+
+            <div class="subseccion">
+                <h3>📅 Estructura que Sana: Rutinas en la Incertidumbre</h3>
+                
+                <div class="herramientas-lista">
+                    <h4>🏗️ Construir Días con Propósito</h4>
+                    <ul>
+                        <li><strong>Horarios realistas:</strong> 4-5 horas productivas por día, no 8 de tortura</li>
+                        <li><strong>Bloques variados:</strong> Búsqueda + Formación + Networking + Autocuidado</li>
+                        <li><strong>Metas semanales, no diarias:</strong> "Esta semana: 10 CV + 1 curso + 3 contactos"</li>
+                        <li><strong>Días de desconexión:</strong> 1-2 días sin abrir portales laborales</li>
+                        <li><strong>Rituales de inicio y cierre:</strong> Como si tuvieras una oficina</li>
+                    </ul>
+                </div>
+
+                <div class="ejemplo-concreto">
+                    <h4>🕒 Ejemplo: Día de Búsqueda Saludable</h4>
+                    <p><strong>9:00-9:30:</strong> Desayuno consciente + plan del día<br>
+                    <strong>9:30-11:30:</strong> Búsqueda activa (CV, portales)<br>
+                    <strong>11:30-12:00:</strong> Pausa obligatoria (caminata, estiramientos)<br>
+                    <strong>14:00-15:30:</strong> Formación (curso online, tutorial)<br>
+                    <strong>15:30-16:30:</strong> Networking (LinkedIn, contactos)<br>
+                    <strong>16:30-17:00:</strong> Revisión del día (sin juicios)<br>
+                    <strong>17:00:</strong> Cierre laboral - cambio de mentalidad</p>
+                </div>
+            </div>
+
+            <div class="subseccion">
+                <h3>🎯 Mantener la Identidad Más Allá del Trabajo</h3>
+                
+                <div class="herramientas-lista">
+                    <h4>🌱 Quién Sos Sin el "¿A Qué Te Dedicas?"</h4>
+                    <ul>
+                        <li><strong>Redefinir tu valor:</strong> "Soy alguien que persevera, aprende, resiste"</li>
+                        <li><strong>Hobbies como anclas:</strong> Lo que hacés por placer, no por productividad</li>
+                        <li><strong>Voluntariado estratégico:</strong> Ganar experiencia + ayudar + conectar</li>
+                        <li><strong>Aprender algo nuevo:</strong> No solo para el CV, sino para tu alma</li>
+                        <li><strong>Proyectos personales:</strong> Crear aunque no genere ingresos (yet)</li>
+                    </ul>
+                </div>
+
+                <div class="alerta-practica">
+                    <h4>💬 Cómo Responder "¿Y En Qué Estás?"</h4>
+                    <p><strong>Opción 1 (honesta):</strong> "Estoy en búsqueda laboral activa, mientras tanto me estoy capacitando en..."<br>
+                    <strong>Opción 2 (creativa):</strong> "Estoy explorando nuevas oportunidades, y vos?"<br>
+                    <strong>Opción 3 (directa):</strong> "Estoy en transición laboral, ¿conocés de algo en tu rubro?"<br>
+                    <strong>Recordá:</strong> No debés vergüenza. La situación laboral no define tu valor.</p>
+                </div>
+            </div>
+
+            <div class="subseccion">
+                <h3>🤝 Cómo Pedir Ayuda Sin Vergüenza</h3>
+                
+                <div class="herramientas-lista">
+                    <h4>❤️ El Arte de Recibir Apoyo</h4>
+                    <ol>
+                        <li><strong>Pedir recomendaciones concretas:</strong> "¿Podrías pasarme el contacto de RRHH?"</li>
+                        <li><strong>Aceptar ayuda práctica:</strong> "Si ven una búsqueda en tu trabajo, ¿me avisás?"</li>
+                        <li><strong>Permitir el apoyo emocional:</strong> "Hoy fue duro, ¿podemos hablar?"</li>
+                        <li><strong>Trueque de habilidades:</strong> "Te ayudo con X a cambio de que me des feedback en mi CV"</li>
+                        <li><strong>Grupos de apoyo:</strong> Buscar comunidades de personas en la misma situación</li>
+                    </ol>
+                </div>
+
+                <div class="tip-supervivencia">
+                    <p>🌟 <strong>Pedir ayuda es un superpoder:</strong> La gente quiere ayudar pero no sabe cómo. Cuando pedís específico, les das la oportunidad de sentirse útiles.</p>
+                </div>
+            </div>
+
+            <div class="subseccion">
+                <h3>⚡ Ejercicios para Días Difíciles</h3>
+                
+                <div class="ejemplo-concreto">
+                    <h4>📝 "Mi Muro de Logros Invisibles"</h4>
+                    <p><strong>Materiales:</strong> Papel, post-its o documento digital<br>
+                    <strong>Pasos:</strong><br>
+                    1. Anotá CADA esfuerzo de búsqueda (CV enviado, contacto, curso)<br>
+                    2. Agregá logros personales (cocinar sano, ejercicio, autocuidado)<br>
+                    3. Incluí momentos de belleza (atardecer, música, risa)<br>
+                    4. Mirá el muro al final del día: "Hoy no fue improductivo"</p>
+                </div>
+
+                <div class="ejemplo-concreto">
+                    <h4>🎭 "El Personaje del Entrevistador"</h4>
+                    <p><strong>Cuando el rechazo duele mucho:</strong><br>
+                    1. Cerra los ojos y imaginá al entrevistador como personaje de película<br>
+                    2. Dale una voz graciosa, un traje ridículo, un poder absurdo<br>
+                    3. Reíte de la situación - desarma el poder que tiene sobre vos<br>
+                    4. Recordá: Su decisión no define tu valía, solo su criterio limitado</p>
+                </div>
+            </div>
+
+            <div class="tip-supervivencia">
+                <p>🌱 <strong>Recordá:</strong> Estás en un río, no en un charco. El desempleo es una etapa, no tu identidad. Cada CV enviado es una semilla, cada "no" es poda, cada aprendizaje es abono. Tu momento va a llegar.</p>
+            </div>
+
+            <div class="frase-sanadora">
+                <p>"Buscar trabajo en un mundo que te trata como número requiere una fortaleza que no aparece en el CV. Cada día que seguís intentando, estás demostrando un coraje que ningún empleador podrá jamás medir."</p>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">Kodyan Care</a>
+                    <p>Tu puerto seguro para tormentas emocionales.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Herramientas</h4>
+                    <ul>
+                        <li><a href="anclaje.html">Técnicas de Anclaje</a></li>
+                        <li><a href="supervivencia.html">Kit de Supervivencia</a></li>
+                        <li><a href="estudiantes.html">Kit Estudiantil</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="emergencias.html">Líneas de Crisis</a></li>
+                        <li><a href="guias.html">Guías Completas</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:care@koyhq.com">care@koyhq.com</a></li>
+                        <li><a href="https://instagram.com/kodyan.care" target="_blank">Instagram</a></li>
+                        <li><a href="https://koyhq.com" target="_blank">Kodyan HQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p><strong>💡 Importante:</strong> Esto no es un substituto de terapia profesional. Si estás en crisis, contactá a <a href="emergencias.html">recursos de emergencia</a>.</p>
+                <p>&copy; 2025 Kodyan Care. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS PARA DESPLEGABLES ===== -->
+    <script>
+        function toggleSeccion(seccionId) {
+            const seccion = document.getElementById(`seccion-${seccionId}`);
+            seccion.classList.toggle('abierta');
+        }
+
+        function abrirSeccion(seccionId) {
+            // Cerrar todas las secciones primero
+            document.querySelectorAll('.seccion-desplegable').forEach(seccion => {
+                seccion.classList.remove('abierta');
+            });
+            
+            // Abrir la sección solicitada
+            const seccion = document.getElementById(`seccion-${seccionId}`);
+            seccion.classList.add('abierta');
+            
+            // Scroll suave a la sección
+            seccion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Efectos visuales al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            const pilares = document.querySelectorAll('.pilar');
+            pilares.forEach((pilar, index) => {
+                setTimeout(() => {
+                    pilar.style.opacity = '1';
+                    pilar.style.transform = 'translateY(0)';
+                }, index * 200 + 600);
+            });
+        });
+
+        // Smooth scroll para navegación interna
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
