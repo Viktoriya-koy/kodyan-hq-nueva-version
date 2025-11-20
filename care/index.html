@@ -183,7 +183,7 @@
                     <li><a href="#herramientas">Herramientas</a></li>
                     <li><a href="#regulacion">Regulación</a></li>
                     <li><a href="#como-ayudar">Cómo Ayudar</a></li>
-                    <li><a href="#donaciones" class="btn-donar">☕ Donar</a></li>
+<li><a href="#conectar-apoyar" class="btn-donar">☕ Donar</a></li>
                     <li><a href="emergencias.html" class="btn-emergencia">🚨 Emergencia</a></li>
                 </ul>
             </nav>
@@ -425,25 +425,103 @@
         </div>
     </section>
 
-    <!-- ===== BANNER INSTAGRAM ===== -->
-    <section class="instagram-cta">
-        <div class="container">
-            <div class="ig-banner">
-                <div class="ig-icon">
-                    <i class="fab fa-instagram"></i>
+   <!-- ===== SECCIÓN TRIPLE - CONTACTO, INSTAGRAM Y APOYO ===== -->
+<section class="seccion-triple" id="conectar-apoyar" style="padding: 4rem 0; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+    <div class="container">
+        <div class="section-title" style="text-align: center; margin-bottom: 3rem;">
+            <h2>💝 Conectemos y Crezcamos Juntos</h2>
+            <p>Tu voz, nuestra comunidad y el apoyo mutuo hacen posible este proyecto</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; align-items: start;">
+            
+            <!-- COLUMNA 1: CONTACTO -->
+            <div class="columna" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border-left: 4px solid #667eea;">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📬</div>
+                    <h3 style="color: #2d3748; margin-bottom: 0.5rem;">Escribinos Directo</h3>
+                    <p style="color: #718096; font-size: 0.9rem;">Tu mensaje llega a nuestro equipo</p>
                 </div>
-                <div class="ig-content">
-                    <h3>¿Te ayudaron nuestras herramientas?</h3>
-                    <p>Seguinos en Instagram <strong>@kodyan.care</strong> para más contenido diario sobre salud mental, tips y comunidad.</p>
-                    <a href="https://www.instagram.com/kodyan.care/" target="_blank" class="btn btn-ig">
-                        <i class="fab fa-instagram"></i>
-                        Seguinos en Instagram
+                
+                <form id="formularioContactoCompacto" action="https://formspree.io/f/xeonpzdk" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <input type="text" name="nombre" required 
+                           placeholder="Tu nombre"
+                           style="padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; transition: border-color 0.3s;">
+                    
+                    <input type="email" name="email" required
+                           placeholder="tu@email.com"
+                           style="padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; transition: border-color 0.3s;">
+                    
+                    <textarea name="mensaje" rows="3" required
+                              placeholder="Tu mensaje..."
+                              style="padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; resize: vertical; min-height: 80px; font-family: inherit;"></textarea>
+                    
+                    <button type="submit" 
+                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform 0.2s;">
+                        📨 Enviar mensaje
+                    </button>
+                </form>
+                
+                <div id="mensajeExitoCompacto" style="display: none; background: #d4edda; color: #155724; padding: 0.8rem; border-radius: 8px; margin-top: 1rem; text-align: center; font-size: 0.9rem;">
+                    ✅ ¡Mensaje enviado!
+                </div>
+            </div>
+            
+            <!-- COLUMNA 2: INSTAGRAM -->
+            <div class="columna" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border-left: 4px solid #E4405F; text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
+                <h3 style="color: #2d3748; margin-bottom: 1rem;">Seguinos en Instagram</h3>
+                <p style="color: #718096; margin-bottom: 1.5rem; line-height: 1.5;">
+                    Contenido diario sobre salud mental, tips neurodivergentes y comunidad en vivo.
+                </p>
+                
+                <a href="https://www.instagram.com/kodyan.care/" target="_blank" 
+                   style="display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #E4405F 0%, #C13584 100%); color: white; padding: 12px 24px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: transform 0.2s;">
+                    <i class="fab fa-instagram"></i>
+                    @kodyan.care
+                </a>
+                
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                    <p style="font-size: 0.9rem; color: #4a5568; margin-bottom: 0.5rem;">
+                        <strong>✨ Lo nuevo en Instagram:</strong>
+                    </p>
+                    <p style="font-size: 0.85rem; color: #718096;">
+                        Tips diarios • Lives • Comunidad activa • Contenido exclusivo
+                    </p>
+                </div>
+            </div>
+            
+            <!-- COLUMNA 3: DONACIONES -->
+            <div class="columna" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border-left: 4px solid #27ae60; text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">💝</div>
+                <h3 style="color: #2d3748; margin-bottom: 1rem;">Apoyá este Proyecto</h3>
+                <p style="color: #718096; margin-bottom: 1.5rem; line-height: 1.5;">
+                    Tu apoyo ayuda a que Kodyan Care siga siendo gratuito y accesible para toda la comunidad.
+                </p>
+                
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
+                    <a href="https://cafecito.app/kodyancare" target="_blank" 
+                       style="display: flex; align-items: center; gap: 0.8rem; background: #FF813F; color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s; justify-content: center;">
+                        <span>☕</span>
+                        Cafecito
                     </a>
+                    
+                    <a href="https://ko-fi.com/kodyancare" target="_blank" 
+                       style="display: flex; align-items: center; gap: 0.8rem; background: #29ABE0; color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s; justify-content: center;">
+                        <span>🎨</span>
+                        Ko-fi
+                    </a>
+                </div>
+                
+                <div style="background: #f0f9ff; padding: 1rem; border-radius: 10px; border-left: 3px solid #667eea;">
+                    <p style="font-size: 0.8rem; color: #4a5568; margin: 0;">
+                        <strong>💡 Tu aporte permite:</strong> Nuevas herramientas + Mantenimiento + Crecimiento comunitario
+                    </p>
                 </div>
             </div>
         </div>
-    </section>
-
+    </div>
+</section>
     <!-- ===== FOOTER ===== -->
     <footer id="contacto">
         <div class="container">
@@ -488,22 +566,7 @@
     </ul>
 </div>
             </div>
-          <!-- SECCIÓN DONACIONES -->
-<div class="donaciones-footer" id="donaciones">
-    <h3>💝 Apoyá este proyecto</h3>
-    <p>Si estas herramientas te sirvieron y querés colaborar para que sigan siendo gratuitas y accesibles, tu apoyo hace la diferencia:</p>
-    <div class="plataformas-donacion">
-        <a href="https://cafecito.app/kodyancare" class="btn-donacion" target="_blank">
-            <span>☕</span> Cafecito
-        </a>
-        <a href="https://ko-fi.com/kodyancare" class="btn-donacion" target="_blank">
-            <span>🎨</span> Ko-fi
-        </a>
-    </div>
-    <p><small>Tu contribución ayuda a mantener y mejorar este recurso para toda la comunidad</small></p>
-</div>
-
-            <div class="copyright">
+                   <div class="copyright">
                 <p><strong>💡 Importante:</strong> Esto no es un substituto de terapia profesional. Si estás en crisis, contactá a <a href="emergencias.html">recursos de emergencia</a>.</p>
                 <p>&copy; 2025 Kodyan Care. Todos los derechos reservados.</p>
             </div>
@@ -512,8 +575,61 @@
 
     <!-- ===== SCRIPTS ===== -->
     <script src="js/script.js"></script>
+  <script>
+// Formulario compacto
+document.getElementById('formularioContactoCompacto').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const formData = new FormData(form);
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            document.getElementById('mensajeExitoCompacto').style.display = 'block';
+            form.reset();
+            
+            setTimeout(() => {
+                document.getElementById('mensajeExitoCompacto').style.display = 'none';
+            }, 5000);
+        } else {
+            alert('Hubo un error. Podés escribirnos a care@koyhq.com');
+        }
+    })
+    .catch(error => {
+        alert('Error de conexión. Podés escribirnos a care@koyhq.com');
+    });
+});
+
+// Efectos hover en las columnas
+document.querySelectorAll('.columna').forEach(columna => {
+    columna.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+    
+    columna.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-5px)';
+        this.style.boxShadow = '0 10px 30px rgba(0,0,0,0.12)';
+    });
+    
+    columna.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = '0 5px 20px rgba(0,0,0,0.08)';
+    });
+});
+</script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
